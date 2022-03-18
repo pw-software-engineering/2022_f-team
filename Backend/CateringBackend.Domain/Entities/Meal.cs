@@ -23,7 +23,6 @@ namespace CateringBackend.Domain.Entities
         {
             return new Meal()
             {
-                Id = Guid.NewGuid(),
                 Name = name,
                 Ingredients = ingredients,
                 Allergens = allergens,

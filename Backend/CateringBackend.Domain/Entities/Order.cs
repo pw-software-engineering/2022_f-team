@@ -28,7 +28,6 @@ namespace CateringBackend.Domain.Entities
         {
             return new Order()
             {
-                Id = Guid.NewGuid(),
                 Status = OrderStatus.Created,
                 ClientId = clientId,
                 CommentForDeliverer = commentForDeliverer,

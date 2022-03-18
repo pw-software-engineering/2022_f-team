@@ -11,7 +11,6 @@ namespace CateringBackend.Domain.Entities
         {
             return new Producer()
             {
-                Id = Guid.NewGuid(),
                 Email = email,
                 Password = password,
             };

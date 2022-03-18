@@ -12,7 +12,6 @@ namespace CateringBackend.Domain.Entities
         {
             return new Deliverer()
             {
-                Id = Guid.NewGuid(),
                 Email = email,
                 Password = password,
             };

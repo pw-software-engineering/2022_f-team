@@ -16,7 +16,6 @@ namespace CateringBackend.Domain.Entities
         {
             return new Complaint()
             {
-                Id = Guid.NewGuid(),
                 OrderId = orderId,
                 Description = description,
                 CreatedDate = createdDate,

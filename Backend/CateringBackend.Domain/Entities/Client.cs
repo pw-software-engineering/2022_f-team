@@ -17,7 +17,6 @@ namespace CateringBackend.Domain.Entities
         {
             return new Client()
             {
-                Id = Guid.NewGuid(),
                 Email = email,
                 Password = encryptedPassword,
                 FirstName = firstName,

@@ -21,7 +21,6 @@ namespace CateringBackend.Domain.Entities
         {
             var diet = new Diet()
             {
-                Id = Guid.NewGuid(),
                 Title = title,
                 Description = description,
                 Price = price,
