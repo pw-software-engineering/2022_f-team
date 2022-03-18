@@ -23,6 +23,9 @@ namespace CateringBackend.Domain.Data.Configuration
                 .HasForeignKey(x => x.DeliveryAddressId)
                 .OnDelete(DeleteBehavior.NoAction);
             builder
+                .HasMany(x => x.Diets)
+                .WithMany(x => x.Orders);
+            builder
                 .Property(x => x.Status)
                 .HasConversion(new EnumToStringConverter<OrderStatus>());
         }

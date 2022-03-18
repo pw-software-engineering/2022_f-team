@@ -13,6 +13,9 @@ namespace CateringBackend.Domain.Data.Configuration
             builder
                 .HasMany(x => x.Meals)
                 .WithMany(x => x.Diets);
+            builder
+                .HasMany(x => x.Orders)
+                .WithMany(x => x.Diets);
         }
     }
 }

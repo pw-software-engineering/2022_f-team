@@ -240,6 +240,21 @@ namespace CateringBackend.Domain.Migrations
                     b.ToTable("DietMeal");
                 });
 
+            modelBuilder.Entity("DietOrder", b =>
+                {
+                    b.Property<Guid>("DietsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrdersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DietsId", "OrdersId");
+
+                    b.HasIndex("OrdersId");
+
+                    b.ToTable("DietOrder");
+                });
+
             modelBuilder.Entity("CateringBackend.Domain.Entities.Client", b =>
                 {
                     b.HasOne("CateringBackend.Domain.Entities.Address", "Address")
@@ -292,6 +307,21 @@ namespace CateringBackend.Domain.Migrations
                     b.HasOne("CateringBackend.Domain.Entities.Meal", null)
                         .WithMany()
                         .HasForeignKey("MealsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DietOrder", b =>
+                {
+                    b.HasOne("CateringBackend.Domain.Entities.Diet", null)
+                        .WithMany()
+                        .HasForeignKey("DietsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CateringBackend.Domain.Entities.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

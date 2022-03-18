@@ -17,10 +17,12 @@ namespace CateringBackend.Domain.Entities
         public DateTime EndDate { get; set; }
         public decimal Price { get; set; }
         public HashSet<Complaint> Complaints { get; set; }
+        public HashSet<Diet> Diets { get; set; }
 
         protected Order()
         {
             Complaints = new HashSet<Complaint>();
+            Diets = new HashSet<Diet>();
         }
 
         public static Order Create(Guid clientId, string commentForDeliverer, Guid deliveryAddressId, DateTime startDate,

@@ -176,6 +176,30 @@ namespace CateringBackend.Domain.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "DietOrder",
+                columns: table => new
+                {
+                    DietsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrdersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DietOrder", x => new { x.DietsId, x.OrdersId });
+                    table.ForeignKey(
+                        name: "FK_DietOrder_Diets_DietsId",
+                        column: x => x.DietsId,
+                        principalTable: "Diets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DietOrder_Orders_OrdersId",
+                        column: x => x.OrdersId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Clients_AddressId",
                 table: "Clients",
@@ -190,6 +214,11 @@ namespace CateringBackend.Domain.Migrations
                 name: "IX_DietMeal_MealsId",
                 table: "DietMeal",
                 column: "MealsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DietOrder_OrdersId",
+                table: "DietOrder",
+                column: "OrdersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ClientId",
@@ -214,16 +243,19 @@ namespace CateringBackend.Domain.Migrations
                 name: "DietMeal");
 
             migrationBuilder.DropTable(
+                name: "DietOrder");
+
+            migrationBuilder.DropTable(
                 name: "Producers");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Meals");
 
             migrationBuilder.DropTable(
                 name: "Diets");
 
             migrationBuilder.DropTable(
-                name: "Meals");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Clients");

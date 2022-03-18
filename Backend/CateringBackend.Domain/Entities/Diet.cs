@@ -11,10 +11,12 @@ namespace CateringBackend.Domain.Entities
         public decimal Price { get; set; }
         public bool IsAvailable { get; set; }
         public HashSet<Meal> Meals { get; set; }
+        public HashSet<Order> Orders { get; set; }
 
         protected Diet()
         {
             Meals = new HashSet<Meal>();
+            Orders = new HashSet<Order>();
         }
 
         public static Diet Create(string title, string description, decimal price, IEnumerable<Meal> meals = null)
