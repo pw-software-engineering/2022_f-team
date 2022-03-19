@@ -1,10 +1,5 @@
 ﻿using CateringBackend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CateringBackend.Domain.Data
 {
@@ -22,27 +17,15 @@ namespace CateringBackend.Domain.Data
 
         public CateringDbContext(DbContextOptions<CateringDbContext> options) : base(options)
         {
-            ConfigureSqlDatabase();
-        }
-
-        protected void ConfigureSqlDatabase()
-        {
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower() == "development")
-                Database.Migrate();
             Database.OpenConnection();
         }
 
-        protected void DisposeSqlDatabase()
+        public override void Dispose()
         {
             if (!_disposed)
             {
                 Database.CloseConnection();
             }
-        }
-
-        public override void Dispose()
-        {
-            DisposeSqlDatabase();
             _disposed = true;
             base.Dispose();
         }
@@ -57,10 +40,6 @@ namespace CateringBackend.Domain.Data
             builder.ApplyConfiguration(new Configuration.MealsConfiguration());
             builder.ApplyConfiguration(new Configuration.OrdersConfiguration());
             builder.ApplyConfiguration(new Configuration.ProducersConfiguration());
-        }
-        public override int SaveChanges()
-        {
-            return base.SaveChanges();
         }
     }
 }
