@@ -21,7 +21,7 @@ namespace CateringBackend.Domain.Entities
 
         public static Meal Create(string name, string ingredients, string allergens, double calories, bool isVegan)
         {
-            return new Meal()
+            return new()
             {
                 Name = name,
                 Ingredients = ingredients,

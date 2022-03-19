@@ -15,7 +15,7 @@ namespace CateringBackend.Domain.Entities
 
         public static Client Create(string email, string encryptedPassword, string firstName, string lastName, string phoneNumber, Guid addressId)
         {
-            return new Client()
+            return new()
             {
                 Email = email,
                 Password = encryptedPassword,

@@ -13,7 +13,7 @@ namespace CateringBackend.Domain.Entities
 
         public static Address Create(string street, string buildingNumber, string apartmentNumber, string postCode, string city)
         {
-            return new Address()
+            return new()
             {
                 Street = street,
                 BuildingNumber = buildingNumber,

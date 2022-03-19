@@ -10,7 +10,7 @@ namespace CateringBackend.Domain.Entities
 
         public static Deliverer Create(string email, string password)
         {
-            return new Deliverer()
+            return new()
             {
                 Email = email,
                 Password = password,

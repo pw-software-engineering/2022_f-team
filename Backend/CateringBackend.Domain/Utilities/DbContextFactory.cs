@@ -7,6 +7,7 @@ namespace CateringBackend.Domain.Utilities
     {
         CateringDbContext GetDbContext();
     }
+
     public class DbContextFactory : IDbContextFactory
     {
         protected readonly DbContextOptions<CateringDbContext> _options;

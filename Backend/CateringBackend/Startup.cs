@@ -1,21 +1,13 @@
 using CateringBackend.Domain.Data;
-using CateringBackend.Services;
-using CateringBackend.Utilities;
+using CateringBackend.Domain.Utilities;
 using CateringBackend.Utilities.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CateringBackEnd
 {
@@ -41,7 +33,6 @@ namespace CateringBackEnd
                 .UseSqlServer(Configuration.GetConnectionString("CateringDatabase")).Options;
 
             services.AddTransient<IConfigDataSeeder, ConfigDataSeeder>();
-            services.AddTransient<IPasswordManagerService, PasswordManagerService>();
             services.AddTransient(x => dbContextOptions);
             services.AddDbContext<CateringDbContext>();
         }

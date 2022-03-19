@@ -28,7 +28,7 @@ namespace CateringBackend.Domain.Entities
         public static Order Create(Guid clientId, string commentForDeliverer, Guid deliveryAddressId, DateTime startDate,
             DateTime endDate, decimal price)
         {
-            return new Order()
+            return new()
             {
                 Status = OrderStatus.Created,
                 ClientId = clientId,

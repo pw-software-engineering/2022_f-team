@@ -5,7 +5,6 @@ namespace CateringBackend.Domain.Data
 {
     public class CateringDbContext : DbContext
     {
-        private bool _disposed = false;
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Complaint> Complaints { get; set; }
@@ -14,6 +13,9 @@ namespace CateringBackend.Domain.Data
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Producer> Producers { get; set; }
+
+        private bool _disposed = false;
+
 
         public CateringDbContext(DbContextOptions<CateringDbContext> options) : base(options)
         {

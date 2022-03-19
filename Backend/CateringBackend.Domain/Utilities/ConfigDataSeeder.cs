@@ -1,12 +1,10 @@
 ﻿using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
-using CateringBackend.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace CateringBackend.Utilities
+namespace CateringBackend.Domain.Utilities
 {
     public interface IConfigDataSeeder
     {
@@ -16,12 +14,10 @@ namespace CateringBackend.Utilities
     public class ConfigDataSeeder : IConfigDataSeeder
     {
         private readonly CateringDbContext _context;
-        private readonly IPasswordManagerService _passwordManager;
 
-        public ConfigDataSeeder(CateringDbContext context, IPasswordManagerService passwordManager)
+        public ConfigDataSeeder(CateringDbContext context)
         {
             _context = context;
-            _passwordManager = passwordManager;
         }
 
         public void SeedConfigData()
@@ -72,7 +68,7 @@ namespace CateringBackend.Utilities
 
         private IEnumerable<Producer> GetProducers()
         {
-            yield return Producer.Create("producer@gmail.com", _passwordManager.Encrypt("producer123"));
+            yield return Producer.Create("producer@gmail.com", PasswordManager.Encrypt("producer123"));
         }
 
         private IEnumerable<Diet> GetDiets(IEnumerable<Meal> meals)
@@ -91,12 +87,12 @@ namespace CateringBackend.Utilities
 
         private IEnumerable<Deliverer> GetDeliverers()
         {
-            yield return Deliverer.Create("deliverer@gmail.com", _passwordManager.Encrypt("deliverer123"));
+            yield return Deliverer.Create("deliverer@gmail.com", PasswordManager.Encrypt("deliverer123"));
         }
 
         private IEnumerable<Client> GetClients(IEnumerable<Address> addresses)
         {
-            yield return Client.Create("client@gmail.com", _passwordManager.Encrypt("client123"), "Mr.", "Client", "123456789", addresses.First().Id);
+            yield return Client.Create("client@gmail.com", PasswordManager.Encrypt("client123"), "Mr.", "Client", "123456789", addresses.First().Id);
         }
 
         private IEnumerable<Address> GetAddresses()
@@ -104,7 +100,5 @@ namespace CateringBackend.Utilities
             yield return Address.Create("Koszykowa", "98", "2a", "01-556", "Warszawa");
             yield return Address.Create("Hoża", "5", "1", "01-666", "Szczecin");
         }
-
-        
     }
 }

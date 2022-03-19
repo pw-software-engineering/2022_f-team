@@ -14,7 +14,7 @@ namespace CateringBackend.Domain.Entities
 
         public static Complaint Create(Guid orderId, string description, DateTime createdDate)
         {
-            return new Complaint()
+            return new()
             {
                 OrderId = orderId,
                 Description = description,

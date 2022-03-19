@@ -1,26 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
-using Microsoft.Extensions.Options;
 
-namespace CateringBackend.Services
+namespace CateringBackend.Domain.Utilities
 {
-    public interface IPasswordManagerService
+    public static class PasswordManager 
     {
-        string Encrypt(string plainText);
-        string Decrypt(string cipherText);
-    }
+        private static readonly string _secretKey = "batSsxJg8NsNZykrgJVY7PjjMEtUYYqF";
+        private static readonly string _IV = "8Jkq94mnUlf/Pw7kFqeit5==";
 
-    public class PasswordManagerService : IPasswordManagerService
-    {
-        private readonly string _secretKey = "batSsxJg8NsNZykrgJVY7PjjMEtUYYqF";
-        private readonly string _IV = "8Jkq94mnUlf/Pw7kFqeit5==";
-
-        public PasswordManagerService()
-        {
-        }
-
-        public string Encrypt(string plainText)
+        public static string Encrypt(string plainText)
         {
             byte[] encrypted;
 
@@ -42,7 +31,7 @@ namespace CateringBackend.Services
             return Convert.ToBase64String(encrypted);
         }
 
-        public string Decrypt(string cipherText)
+        public static string Decrypt(string cipherText)
         {
             string plaintext = null;
 
