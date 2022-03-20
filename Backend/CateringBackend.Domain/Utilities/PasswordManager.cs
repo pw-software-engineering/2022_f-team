@@ -18,7 +18,7 @@ namespace CateringBackend.Domain.Utilities
                 aes.Key = Convert.FromBase64String(_secretKey);
                 aes.IV = Convert.FromBase64String(_IV);
 
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+                var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
                 using MemoryStream msEncrypt = new();
                 using CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write);
@@ -40,7 +40,7 @@ namespace CateringBackend.Domain.Utilities
                 aes.Key = Convert.FromBase64String(_secretKey);
                 aes.IV = Convert.FromBase64String(_IV);
 
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
                 using MemoryStream msDecrypt = new(Convert.FromBase64String(cipherText));
                 using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);

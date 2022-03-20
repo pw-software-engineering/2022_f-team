@@ -32,7 +32,6 @@ namespace CateringBackEnd
             var dbContextOptions = new DbContextOptionsBuilder<CateringDbContext>()
                 .UseSqlServer(Configuration.GetConnectionString("CateringDatabase")).Options;
 
-            services.AddTransient<IConfigDataSeeder, ConfigDataSeeder>();
             services.AddTransient(x => dbContextOptions);
             services.AddDbContext<CateringDbContext>();
         }

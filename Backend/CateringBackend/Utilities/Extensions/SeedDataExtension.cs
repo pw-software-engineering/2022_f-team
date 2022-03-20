@@ -12,8 +12,8 @@ namespace CateringBackend.Utilities.Extensions
         {
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             using var context = serviceScope.ServiceProvider.GetRequiredService<CateringDbContext>();
-            var configDataSeeder = serviceScope.ServiceProvider.GetRequiredService<IConfigDataSeeder>();
-            configDataSeeder.SeedConfigData();
+            var dataSeeder = new ConfigDataSeeder(context);
+            dataSeeder.SeedConfigData();
         }
     }
 }

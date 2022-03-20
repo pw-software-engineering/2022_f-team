@@ -1,17 +1,13 @@
 ﻿using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CateringBackend.Domain.Utilities
 {
-    public interface IConfigDataSeeder
-    {
-        void SeedConfigData();
-    }
-
-    public class ConfigDataSeeder : IConfigDataSeeder
+    public class ConfigDataSeeder
     {
         private readonly CateringDbContext _context;
 
@@ -22,48 +18,22 @@ namespace CateringBackend.Domain.Utilities
 
         public void SeedConfigData()
         {
-            var updatedData = false;
-
-            if (!_context.Addresses.Any())
-            {
-                _context.Addresses.AddRange(GetAddresses());
-                updatedData = true;
-            }
-            if (!_context.Meals.Any())
-            {
-                _context.Meals.AddRange(GetMeals());
-                updatedData = true;
-            }
-
+            SeedData(_context.Addresses, GetAddresses());
+            SeedData(_context.Meals, GetMeals());
             _context.SaveChanges();
 
-            if (!_context.Clients.Any())
-            {
-                _context.Clients.AddRange(GetClients(_context.Addresses));
-                updatedData = true;
-            }
-
-            if (!_context.Deliverers.Any())
-            {
-                _context.Deliverers.AddRange(GetDeliverers());
-                updatedData = true;
-            }
-
-            if (!_context.Diets.Any())
-            {
-                _context.Diets.AddRange(GetDiets(_context.Meals));
-                updatedData = true;
-            }
-
-            if (!_context.Producers.Any())
-            {
-                _context.Producers.AddRange(GetProducers());
-                updatedData = true;
-            }
-
-            if (!updatedData) return;
-
+            SeedData(_context.Clients, GetClients(_context.Addresses));
+            SeedData(_context.Deliverers, GetDeliverers());
+            SeedData(_context.Diets, GetDiets(_context.Meals));
+            SeedData(_context.Producers, GetProducers());
             _context.SaveChanges();
+        }
+
+        private void SeedData<T>(DbSet<T> set, IEnumerable<T> data)
+            where T : class
+        {
+            if (!set.Any())
+                set.AddRange(data);
         }
 
         private IEnumerable<Producer> GetProducers()

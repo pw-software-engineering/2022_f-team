@@ -10,7 +10,7 @@ namespace CateringBackend.Utilities.Extensions
         public static void UpdateDatabase(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            using var context = serviceScope.ServiceProvider.GetService<CateringDbContext>();
+            using var context = serviceScope.ServiceProvider.GetRequiredService<CateringDbContext>();
             context.Database.Migrate();
         }
     }
