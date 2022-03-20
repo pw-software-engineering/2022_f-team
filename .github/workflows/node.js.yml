@@ -24,12 +24,6 @@ jobs:
       with:
         node-version: 12.x
         cache-dependency-path: './Frontend/deliverer-catering-app/package-lock.json' 
-    - name: Clean_Cache
-      working-directory: ./Frontend/deliverer-catering-app
-      run: npm cache clean -f
-    - name: RemoveNodeModules
-      working-directory: ./Frontend/deliverer-catering-app
-      run: rm -rf node_modules
     - name: install
       working-directory: ./Frontend/deliverer-catering-app
       run: npm i 
