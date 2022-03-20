@@ -24,9 +24,9 @@ jobs:
       with:
         node-version: 12.x
         cache-dependency-path: './Frontend/deliverer-catering-app/package-lock.json' 
-#     - name: Resolve
-#       working-directory: ./Frontend/deliverer-catering-app
-#       run: npm ci 
+    - name: Resolve
+      working-directory: ./Frontend/deliverer-catering-app
+      run: npm ci 
 #     - name: Resolve
 #       working-directory: ./Frontend/deliverer-catering-app
 #       run: npm run build --if-present --prefix ./Frontend/deliverer-catering-app
