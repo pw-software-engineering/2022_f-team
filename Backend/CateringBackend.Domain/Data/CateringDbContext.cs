@@ -1,5 +1,6 @@
 ﻿using CateringBackend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace CateringBackend.Domain.Data
 {
@@ -19,6 +20,8 @@ namespace CateringBackend.Domain.Data
 
         public CateringDbContext(DbContextOptions<CateringDbContext> options) : base(options)
         {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower() == "development")
+                Database.Migrate();
             Database.OpenConnection();
         }
 
