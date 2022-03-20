@@ -17,10 +17,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with: 
+        path: ./Frontend/deliverer-catering-app
     - name: Use Node.js 12.x
       uses: actions/setup-node@v2
       with:
-        path: ./Frontend/deliverer-catering-app
         node-version: 12.x
         cache: 'npm'
 #     - name: Resolve
