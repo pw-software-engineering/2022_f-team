@@ -19,17 +19,23 @@ jobs:
     - uses: actions/checkout@v2
       with: 
         path: ./Frontend/deliverer-catering-app
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v2
-      with:
-        node-version: 12.x
-        cache-dependency-path: './Frontend/deliverer-catering-app/package-lock.json' 
-    - name: install
-      working-directory: ./Frontend/deliverer-catering-app
-      run: npm i 
-    - name: tests
-      working-directory: ./Frontend/deliverer-catering-app
-      run: npm test
+    - name: list directory
+      shell: pwsh
+      run: DIR
+    - name: list FE directory
+      shell: pwsh
+      run: DIR .\Frontend
+#    - name: Use Node.js 12.x
+#      uses: actions/setup-node@v2
+#      with:
+#        node-version: 12.x
+#        cache-dependency-path: './Frontend/deliverer-catering-app/package-lock.json' 
+#    - name: install
+#      working-directory: ./Frontend/deliverer-catering-app
+#      run: npm i 
+#    - name: tests
+#      working-directory: ./Frontend/deliverer-catering-app
+#      run: npm test
 #     - name: Resolve
 #       working-directory: ./Frontend/deliverer-catering-app
 #       run: npm run build --if-present --prefix ./Frontend/deliverer-catering-app
