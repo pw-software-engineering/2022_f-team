@@ -13,6 +13,3 @@ jobs:
       - name: list directory
         shell: pwsh
         run: DIR
-      - name: list FE directory
-        shell: pwsh
-        run: DIR .\Frontend
