@@ -11,7 +11,7 @@ on:
 
 jobs:
   client-app-Ci:
-    uses: ./react-app-CI-template.yml
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml
     with:
       projectPath: ./Frontend/deliverer-catering-app
 
