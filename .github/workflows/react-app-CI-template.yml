@@ -1,0 +1,29 @@
+name: react-CI-template
+
+on:
+  workflow_call:
+    inputs:
+      projectPath:
+        required: true
+        type: string
+
+jobs:
+  react-app-CI-job:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          cache-dependency-path: ${{inputs.projectPath}}/package-lock.json
+      - name: npm install
+        working-directory: ${{inputs.projectPath}}
+        run: npm ci
+      - name: npm test
+        working-directory: ${{inputs.projectPath}}
+        run: npm test
+      - name: npm run build
+        working-directory: ${{inputs.projectPath}}
+        run: npm run build
