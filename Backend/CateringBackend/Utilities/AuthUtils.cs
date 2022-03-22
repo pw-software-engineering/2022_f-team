@@ -12,7 +12,7 @@ namespace CateringBackend.Utilities
 {
     public static class AuthUtils
     {
-        public static string GetAuthenticationToken(Guid userID, string userEmail, Role userRole, string securityKey)
+        public static string GetAuthenticationToken(Guid userID, string userEmail, Role userRole)
         {
             var claims = new List<Claim>()
             {
@@ -21,7 +21,7 @@ namespace CateringBackend.Utilities
                 new Claim(ClaimTypes.Role, userRole.ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey));
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.JwtSigningKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
