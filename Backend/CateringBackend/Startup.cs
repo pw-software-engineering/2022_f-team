@@ -1,13 +1,17 @@
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Utilities;
+using CateringBackend.Utilities;
 using CateringBackend.Utilities.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace CateringBackEnd
 {
@@ -27,6 +31,34 @@ namespace CateringBackEnd
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CateringBackEnd", Version = "v1" });
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            })
+            .AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+
+                cfg.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    // key
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey =
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.JwtSigningKey)),
+
+                    // audience 
+                    ValidateAudience = true,
+                    ValidAudience = "audience",
+
+                    // issuer
+                    ValidateIssuer = true,
+                    ValidIssuer = "issuer"
+                };
             });
 
             var dbContextOptions = new DbContextOptionsBuilder<CateringDbContext>()
@@ -52,7 +84,11 @@ namespace CateringBackEnd
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            app.UseStatusCodePages();
 
             app.UseEndpoints(endpoints =>
             {
