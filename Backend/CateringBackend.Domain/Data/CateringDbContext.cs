@@ -6,14 +6,14 @@ namespace CateringBackend.Domain.Data
 {
     public class CateringDbContext : DbContext
     {
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Complaint> Complaints { get; set; }
-        public DbSet<Deliverer> Deliverers { get; set; }
-        public DbSet<Diet> Diets { get; set; }
-        public DbSet<Meal> Meals { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Producer> Producers { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Complaint> Complaints { get; set; }
+        public virtual DbSet<Deliverer> Deliverers { get; set; }
+        public virtual DbSet<Diet> Diets { get; set; }
+        public virtual DbSet<Meal> Meals { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Producer> Producers { get; set; }
 
         private bool _disposed = false;
 
@@ -22,7 +22,10 @@ namespace CateringBackend.Domain.Data
         {
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower() == "development")
                 Database.Migrate();
-            Database.OpenConnection();
+            if (Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+            {
+                Database.OpenConnection();
+            }
         }
 
         public override void Dispose()

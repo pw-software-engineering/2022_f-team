@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace CateringBackEnd.Controllers
+namespace CateringBackend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -21,7 +21,7 @@ namespace CateringBackEnd.Controllers
         public async Task<IActionResult> LoginUser([FromBody] ClientLoginQuery loginQuerry)
         {
             var result = await _mediator.Send(loginQuerry);
-            return result == default ? BadRequest("Incorrect login or password.") : Ok(result);
+            return result == default ? BadRequest("Niepowodzenie logowania") : Ok(result);
         }
     }
 }

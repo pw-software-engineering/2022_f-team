@@ -19,7 +19,7 @@ namespace CateringBackend.Clients.Queries
     {
         private readonly CateringDbContext _dbContext;
 
-        public ClientLoginQueryHandler(CateringDbContext dbContext, IConfiguration configuration)
+        public ClientLoginQueryHandler(CateringDbContext dbContext)
         {
             _dbContext = dbContext;
         }
