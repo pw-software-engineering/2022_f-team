@@ -10,12 +10,12 @@ using Xunit;
 
 namespace CateringBackEndUnitTests
 {
-    public class ClientControllerUnitTests
+    public class ClientControllerClientLoginUnitTests
     {
         private readonly CateringDbContext _dbContext;
         private readonly ClientLoginQueryHandler _loginQueryHandler;
 
-        public ClientControllerUnitTests()
+        public ClientControllerClientLoginUnitTests()
         {
             var options = new DbContextOptionsBuilder<CateringDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
@@ -35,7 +35,22 @@ namespace CateringBackEndUnitTests
 
             Assert.NotNull(res.Result);
         }
+        
+        [Theory]
+        [InlineData(null, null)]                            
+        [InlineData("client@gmail.com", null)]
+        [InlineData(null, "client123")]
+        [InlineData("notclient@gmail.com", "notclinet123")]
+        [InlineData("notclient@gmail.com", "clinet123")]
+        [InlineData("client@gmail.com", "notclinet123")]
+        public void WhenProvidingInCorrectCredentials_ThenReturnNull(string email, string password)
+        {
+            var res = _loginQueryHandler.Handle(new ClientLoginQuery()
+            { Email = email, Password = password }, default);
+            res.Wait();
 
+            Assert.Null(res.Result);
+        }
 
     }
 }
