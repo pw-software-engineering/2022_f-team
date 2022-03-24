@@ -11,6 +11,7 @@ namespace CateringBackend.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IMediator _mediator;
+
         public ClientController(IMediator mediator)
         {
             _mediator = mediator;
@@ -18,10 +19,10 @@ namespace CateringBackend.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginUser([FromBody] ClientLoginQuery loginQuerry)
+        public async Task<IActionResult> LoginUser([FromBody] ClientLoginQuery loginQuery)
         {
-            var result = await _mediator.Send(loginQuerry);
-            return result == default ? BadRequest("Niepowodzenie logowania") : Ok(result);
+            var result = await _mediator.Send(loginQuery);
+            return string.IsNullOrWhiteSpace(result) ? BadRequest("Niepowodzenie logowania") : Ok(result);
         }
     }
 }

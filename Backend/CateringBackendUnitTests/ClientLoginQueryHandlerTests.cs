@@ -10,18 +10,19 @@ using Xunit;
 
 namespace CateringBackEndUnitTests
 {
-    public class ClientControllerClientLoginUnitTests
+    public class ClientLoginQueryHandlerTests
     {
         private readonly CateringDbContext _dbContext;
         private readonly ClientLoginQueryHandler _loginQueryHandler;
 
-        public ClientControllerClientLoginUnitTests()
+        public ClientLoginQueryHandlerTests()
         {
             var options = new DbContextOptionsBuilder<CateringDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
             _dbContext = Create.MockedDbContextFor<CateringDbContext>(options);
             var seeder = new ConfigDataSeeder(_dbContext);
             seeder.SeedConfigData();
+
             _loginQueryHandler = new ClientLoginQueryHandler(_dbContext);
         }
 
@@ -29,6 +30,8 @@ namespace CateringBackEndUnitTests
         [InlineData("client@gmail.com", "client123")]
         public void WhenProvidingCorrectCredentials_ThenReturnJwtToken(string email, string password)
         {
+            // seed
+
             var res = _loginQueryHandler.Handle(new ClientLoginQuery() 
             { Email = email, Password = password }, default);
             res.Wait();
