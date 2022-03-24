@@ -1,11 +1,5 @@
 using CateringBackend.Controllers;
-using CateringBackend.Domain.Data;
-using CateringBackend.Domain.Utilities;
 using CateringBackend.Clients.Queries;
-using EntityFrameworkCore.Testing.Moq;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -65,6 +59,7 @@ namespace CateringBackEndUnitTests
             var result = await _clientController.LoginUser(new ClientLoginQuery());
             var okResult = result as ObjectResult;
 
+            // Assert
             Assert.NotNull(okResult);
             Assert.Equal(expectedStatusCode, okResult.StatusCode);
         }

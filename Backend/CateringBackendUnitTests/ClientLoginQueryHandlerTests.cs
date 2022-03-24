@@ -1,41 +1,49 @@
-using CateringBackend.Controllers;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Utilities;
 using CateringBackend.Clients.Queries;
 using EntityFrameworkCore.Testing.Moq;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using Xunit;
+using CateringBackend.Domain.Entities;
 
 namespace CateringBackEndUnitTests
 {
     public class ClientLoginQueryHandlerTests
     {
         private readonly CateringDbContext _dbContext;
-        private readonly ClientLoginQueryHandler _loginQueryHandler;
 
         public ClientLoginQueryHandlerTests()
         {
             var options = new DbContextOptionsBuilder<CateringDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
             _dbContext = Create.MockedDbContextFor<CateringDbContext>(options);
-            var seeder = new ConfigDataSeeder(_dbContext);
-            seeder.SeedConfigData();
-
-            _loginQueryHandler = new ClientLoginQueryHandler(_dbContext);
         }
 
         [Theory]
         [InlineData("client@gmail.com", "client123")]
         public void WhenProvidingCorrectCredentials_ThenReturnJwtToken(string email, string password)
         {
-            // seed
+            // Assign
+            _dbContext.Clients.Add(new Client
+            {
+                Id = new Guid(),
+                Email = email,
+                Password = PasswordManager.Encrypt(password),
+                FirstName = "testFirstName",
+                LastName = "testLastName",
+                PhoneNumber = "testPhoneNumber",
+                AddressId = new Guid()
+            });
+            _dbContext.SaveChanges();
+            var queryHandler = new ClientLoginQueryHandler(_dbContext);
 
-            var res = _loginQueryHandler.Handle(new ClientLoginQuery() 
+            // Act
+            var res = queryHandler.Handle(new ClientLoginQuery
             { Email = email, Password = password }, default);
             res.Wait();
 
+            // Assert
             Assert.NotNull(res.Result);
         }
         
@@ -43,15 +51,31 @@ namespace CateringBackEndUnitTests
         [InlineData(null, null)]                            
         [InlineData("client@gmail.com", null)]
         [InlineData(null, "client123")]
-        [InlineData("notclient@gmail.com", "notclinet123")]
-        [InlineData("notclient@gmail.com", "clinet123")]
-        [InlineData("client@gmail.com", "notclinet123")]
+        [InlineData("notclient@gmail.com", "notclient123")]
+        [InlineData("notclient@gmail.com", "client123")]
+        [InlineData("client@gmail.com", "notclient123")]
         public void WhenProvidingInCorrectCredentials_ThenReturnNull(string email, string password)
         {
-            var res = _loginQueryHandler.Handle(new ClientLoginQuery()
+            // Assign 
+            _dbContext.Clients.Add(new Client
+            {
+                Id = new Guid(),
+                Email = "client@gmail.com",
+                Password = PasswordManager.Encrypt("client123"),
+                FirstName = "testFirstName",
+                LastName = "testLastName",
+                PhoneNumber = "testPhoneNumber",
+                AddressId = new Guid()
+            });
+            _dbContext.SaveChanges();
+            var queryHandler = new ClientLoginQueryHandler(_dbContext);
+
+            // Act
+            var res = queryHandler.Handle(new ClientLoginQuery
             { Email = email, Password = password }, default);
             res.Wait();
 
+            // Assert
             Assert.Null(res.Result);
         }
 
