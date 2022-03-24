@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace CateringBackend.Clients.Queries
 {
-    public class ClientLoginQuery: IRequest<string>
+    public class ClientLoginQuery : IRequest<string>
     {
         public string Email { get; set; }
         public string Password { get; set; }
     }
+
     public class ClientLoginQueryHandler : IRequestHandler<ClientLoginQuery, string>
     {
         private readonly CateringDbContext _dbContext;
@@ -33,8 +34,7 @@ namespace CateringBackend.Clients.Queries
             if (client == default)
                 return null;
 
-            var token = AuthUtils.GetAuthenticationToken(client.Id, client.Email, Role.client);
-            return token;
+            return AuthUtils.GetAuthenticationToken(client.Id, client.Email, Role.client);
         }
     }
 }

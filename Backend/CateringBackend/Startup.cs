@@ -67,16 +67,13 @@ namespace CateringBackEnd
 
                 cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    // key
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey =
                     new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.JwtSigningKey)),
 
-                    // audience 
                     ValidateAudience = true,
                     ValidAudience = "audience",
 
-                    // issuer
                     ValidateIssuer = true,
                     ValidIssuer = "issuer"
                 };

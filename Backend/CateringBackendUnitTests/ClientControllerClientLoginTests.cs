@@ -47,7 +47,7 @@ namespace CateringBackEndUnitTests
         [InlineData("", (int)HttpStatusCode.BadRequest)]
         [InlineData("   ", (int)HttpStatusCode.BadRequest)]
         [InlineData(null, (int)HttpStatusCode.BadRequest)]
-        public async void WhenProperLoginUserQueryIsPassed_ShouldSendItWithMediator_(string mediatorResult, int expectedStatusCode)
+        public async void WhenLoginUser_ThenBasedOnMediatorResult_ShouldReturnProperStatusCode(string mediatorResult, int expectedStatusCode)
         {
             // Arrange
             _mockedMediator
@@ -63,6 +63,5 @@ namespace CateringBackEndUnitTests
             Assert.NotNull(okResult);
             Assert.Equal(expectedStatusCode, okResult.StatusCode);
         }
-
     }
 }

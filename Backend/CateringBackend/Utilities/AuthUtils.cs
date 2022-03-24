@@ -5,8 +5,6 @@ using System.Security.Claims;
 using System.Text;
 using CateringBackend.Utilities.Enums;
 using Microsoft.IdentityModel.Tokens;
-using static System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
-
 
 namespace CateringBackend.Utilities
 {

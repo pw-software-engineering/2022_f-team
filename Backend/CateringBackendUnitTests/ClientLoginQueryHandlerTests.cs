@@ -24,7 +24,7 @@ namespace CateringBackEndUnitTests
         [InlineData("client@gmail.com", "client123")]
         public void WhenProvidingCorrectCredentials_ThenReturnJwtToken(string email, string password)
         {
-            // Assign
+            // Arrange
             _dbContext.Clients.Add(new Client
             {
                 Id = new Guid(),
@@ -51,12 +51,18 @@ namespace CateringBackEndUnitTests
         [InlineData(null, null)]                            
         [InlineData("client@gmail.com", null)]
         [InlineData(null, "client123")]
+        [InlineData("", "")]
+        [InlineData("client@gmail.com", "")]
+        [InlineData("", "client123")]
+        [InlineData("    ", " ")]
+        [InlineData("client@gmail.com", "  ")]
+        [InlineData("    ", "client123")]
         [InlineData("notclient@gmail.com", "notclient123")]
         [InlineData("notclient@gmail.com", "client123")]
         [InlineData("client@gmail.com", "notclient123")]
         public void WhenProvidingInCorrectCredentials_ThenReturnNull(string email, string password)
         {
-            // Assign 
+            // Arrange 
             _dbContext.Clients.Add(new Client
             {
                 Id = new Guid(),
