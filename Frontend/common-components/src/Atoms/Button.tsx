@@ -1,13 +1,13 @@
 import React from "react";
 
 interface Props {
-  label: string;
-  onClick: () => void;
+  onClick?: () => void;
+  children?: React.ReactNode;
 }
 
 const Button: React.FC<Props> = ({ 
-    label,
     onClick, 
+    children,
   }) => { 
   return (
     <button 
@@ -16,7 +16,7 @@ const Button: React.FC<Props> = ({
          backgroundColor: '#333'
       }}
     >
-    {label}
+    {children}
     </button>
   );
 }
