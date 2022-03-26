@@ -1,4 +1,4 @@
-import {Button} from "common-components/dist/index";
+import {Button} from "common-components";
 
 
 const App = () => {
