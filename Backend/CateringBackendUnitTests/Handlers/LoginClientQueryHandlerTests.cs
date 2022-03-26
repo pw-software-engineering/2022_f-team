@@ -1,19 +1,20 @@
-using CateringBackend.Domain.Data;
-using CateringBackend.Domain.Utilities;
+using System;
+using System.Linq;
 using CateringBackend.Clients.Queries;
+using CateringBackend.Domain.Data;
+using CateringBackend.Domain.Entities;
+using CateringBackend.Domain.Utilities;
 using EntityFrameworkCore.Testing.Moq;
 using Microsoft.EntityFrameworkCore;
-using System;
 using Xunit;
-using CateringBackend.Domain.Entities;
 
-namespace CateringBackEndUnitTests
+namespace CateringBackendUnitTests.Handlers
 {
-    public class ClientLoginQueryHandlerTests
+    public class LoginClientQueryHandlerTests
     {
         private readonly CateringDbContext _dbContext;
 
-        public ClientLoginQueryHandlerTests()
+        public LoginClientQueryHandlerTests()
         {
             var options = new DbContextOptionsBuilder<CateringDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
@@ -27,21 +28,18 @@ namespace CateringBackEndUnitTests
             // Arrange
             _dbContext.Clients.Add(new Client
             {
-                Id = new Guid(),
                 Email = email,
                 Password = PasswordManager.Encrypt(password),
-                FirstName = "testFirstName",
-                LastName = "testLastName",
-                PhoneNumber = "testPhoneNumber",
-                AddressId = new Guid()
             });
             _dbContext.SaveChanges();
-            var queryHandler = new ClientLoginQueryHandler(_dbContext);
+            var queryHandler = new LoginClientQueryHandler(_dbContext);
 
             // Act
-            var res = queryHandler.Handle(new ClientLoginQuery
+            var res = queryHandler.Handle(new LoginClientQuery
             { Email = email, Password = password }, default);
             res.Wait();
+
+            var clients = _dbContext.Clients.ToList();
 
             // Assert
             Assert.NotNull(res.Result);
@@ -65,19 +63,14 @@ namespace CateringBackEndUnitTests
             // Arrange 
             _dbContext.Clients.Add(new Client
             {
-                Id = new Guid(),
                 Email = "client@gmail.com",
                 Password = PasswordManager.Encrypt("client123"),
-                FirstName = "testFirstName",
-                LastName = "testLastName",
-                PhoneNumber = "testPhoneNumber",
-                AddressId = new Guid()
             });
             _dbContext.SaveChanges();
-            var queryHandler = new ClientLoginQueryHandler(_dbContext);
+            var queryHandler = new LoginClientQueryHandler(_dbContext);
 
             // Act
-            var res = queryHandler.Handle(new ClientLoginQuery
+            var res = queryHandler.Handle(new LoginClientQuery
             { Email = email, Password = password }, default);
             res.Wait();
 

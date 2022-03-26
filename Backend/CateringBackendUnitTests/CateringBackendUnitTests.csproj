@@ -25,4 +25,8 @@
     <ProjectReference Include="..\CateringBackEnd\CateringBackEnd.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataGenerators\" />
+  </ItemGroup>
+
 </Project>

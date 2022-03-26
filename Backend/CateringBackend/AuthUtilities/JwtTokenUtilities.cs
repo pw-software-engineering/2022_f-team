@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using CateringBackend.Utilities.Enums;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CateringBackend.Utilities
+namespace CateringBackend.AuthUtilities
 {
-    public static class AuthUtils
+    public static class JwtTokenUtilities
     {
-        public static string GetAuthenticationToken(Guid userID, string userEmail, Role userRole)
+        public static string GetAuthenticationToken(Guid userID, string userEmail, UserRole userUserRole)
         {
             var claims = new List<Claim>()
             {
-                new Claim("userID", userID.ToString()),
-                new Claim("userEmail", userEmail),
-                new Claim(ClaimTypes.Role, userRole.ToString())
+                new Claim(AuthConstants.UserIdClaimType, userID.ToString()),
+                new Claim(AuthConstants.UserEmailClaimType, userEmail),
+                new Claim(ClaimTypes.Role, userUserRole.ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.JwtSigningKey));
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthConstants.JwtSigningKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(

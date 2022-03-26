@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using CateringBackend.AuthUtilities;
+using FluentValidation.AspNetCore;
 
 namespace CateringBackEnd
 {
@@ -69,7 +71,7 @@ namespace CateringBackEnd
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey =
-                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.JwtSigningKey)),
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthConstants.JwtSigningKey)),
 
                     ValidateAudience = true,
                     ValidAudience = "audience",
@@ -83,8 +85,10 @@ namespace CateringBackEnd
                 .UseSqlServer(Configuration.GetConnectionString("CateringDatabase")).Options;
 
             services.AddTransient(x => dbContextOptions);
+            services.AddSingleton<IUserIdFromTokenProvider, UserIdFromTokenProvider>();
             services.AddDbContext<CateringDbContext>();
             services.AddMediatR(typeof(Startup));
+            services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
