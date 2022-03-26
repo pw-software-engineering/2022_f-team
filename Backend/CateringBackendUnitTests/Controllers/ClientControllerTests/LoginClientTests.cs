@@ -1,6 +1,7 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using CateringBackend.AuthUtilities;
 using CateringBackend.Clients.Queries;
 using CateringBackend.Controllers;
 using MediatR;
@@ -14,11 +15,13 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
     {
         private readonly ClientController _clientController;
         private readonly Mock<IMediator> _mockedMediator;
+        private readonly Mock<IUserIdFromTokenProvider> _mockedUserIdFromTokenProvider;
 
         public LoginClientTests()
         {
+            _mockedUserIdFromTokenProvider = new Mock<IUserIdFromTokenProvider>();
             _mockedMediator = new Mock<IMediator>();
-            _clientController = new ClientController(_mockedMediator.Object);
+            _clientController = new ClientController(_mockedMediator.Object, _mockedUserIdFromTokenProvider.Object);
         }
 
         [Fact]
