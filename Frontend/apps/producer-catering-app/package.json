@@ -22,12 +22,6 @@
     "test": "set CI=true && set PORT=3002 && react-scripts test",
     "eject": "set CI=true && set PORT=3002 && react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",

@@ -4,7 +4,7 @@ const App = () => {
   return (
     <div>
       <h1>Client App</h1>
-      <ExampleComponent text="Example component"></ExampleComponent>
+      <ExampleComponent text="Example component in Client"></ExampleComponent>
     </div>
   );
 };
