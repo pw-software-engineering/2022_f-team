@@ -21,9 +21,9 @@ jobs:
       - name: yarn install
         working-directory: ./Frontend/
         run: yarn install
-      # - name: npm test
-      #   working-directory: ${{inputs.projectPath}}
-      #   run: npm test
-      # - name: npm run build
-      #   working-directory: ${{inputs.projectPath}}
-      #   run: npm run build
+      - name: yarn test
+        working-directory: ${{inputs.projectPath}}
+        run: yarn test
+      - name: yarn build
+        working-directory: ${{inputs.projectPath}}
+        run: yarn build
