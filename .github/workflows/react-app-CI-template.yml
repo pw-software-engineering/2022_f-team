@@ -13,17 +13,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 12.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v2
         with:
-          node-version: 12.x
-          cache-dependency-path: ${{inputs.projectPath}}/package-lock.json
-      - name: npm install
-        working-directory: ${{inputs.projectPath}}
-        run: npm ci
-      - name: npm test
-        working-directory: ${{inputs.projectPath}}
-        run: npm test
-      - name: npm run build
-        working-directory: ${{inputs.projectPath}}
-        run: npm run build
+          node-version: 16.x
+          cache-dependency-path: ./Frontend/package-lock.json
+      - name: yarn install
+        working-directory: ./Frontend/
+        run: yarn install
+      # - name: npm test
+      #   working-directory: ${{inputs.projectPath}}
+      #   run: npm test
+      # - name: npm run build
+      #   working-directory: ${{inputs.projectPath}}
+      #   run: npm run build
