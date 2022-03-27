@@ -1,10 +1,10 @@
-import { Button } from "common-components";
+import { ExampleComponent } from 'common-components'
 
 const App = () => {
   return (
     <div>
       <h1>Client App</h1>
-      <Button>Log in</Button>
+      <ExampleComponent text="Example component"></ExampleComponent>
     </div>
   );
 };
