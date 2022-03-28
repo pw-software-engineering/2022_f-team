@@ -1,5 +1,5 @@
 {
-  "name": "deliverer-catering-app",
+  "name": "client-catering-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,16 +17,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "set CI=true && set PORT=3001 && react-scripts start",
-    "build": "set CI=true && set CI=true && set PORT=3001 && react-scripts build",
-    "test": "set CI=true && set PORT=3001 && react-scripts test",
-    "eject": "set CI=true && set PORT=3001 && react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "start": "set CI=true && react-scripts start",
+    "build": "set CI=true && react-scripts build",
+    "test": "set CI=true && react-scripts test",
+    "eject": "set CI=true && react-scripts eject"
   },
   "browserslist": {
     "production": [
@@ -39,5 +33,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-react-app": "^7.0.0"
   }
 }

@@ -11,14 +11,14 @@ on:
 
 jobs:
   client-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@main
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@feature/27-add-common-components-react-app
     with:
-      projectPath: ./Frontend/client-catering-app
+      projectPath: ./Frontend/apps/client-catering-app
   producer-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@main
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@feature/27-add-common-components-react-app
     with:
-      projectPath: ./Frontend/producer-catering-app
+      projectPath: ./Frontend/apps/producer-catering-app
   deliverer-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@main
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@feature/27-add-common-components-react-app
     with:
-      projectPath: ./Frontend/deliverer-catering-app
+      projectPath: ./Frontend/apps/deliverer-catering-app
