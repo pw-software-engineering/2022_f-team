@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CateringBackend.Clients.Commands
 {
-    public class EditClientCommand : IRequest<(bool, string)>
+    public class EditClientCommand : IRequest<bool>
     {
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -50,7 +50,7 @@ namespace CateringBackend.Clients.Commands
         }
     }
 
-    public class EditClientWithIdCommandHandler : IRequestHandler<EditClientWithIdCommand, (bool, string)>
+    public class EditClientWithIdCommandHandler : IRequestHandler<EditClientWithIdCommand, bool>
     {
         private readonly CateringDbContext _dbContext;
 
@@ -59,19 +59,19 @@ namespace CateringBackend.Clients.Commands
             _dbContext = dbContext;
         }
 
-        public async Task<(bool, string)> Handle(EditClientWithIdCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(EditClientWithIdCommand request, CancellationToken cancellationToken)
         {
             var client = _dbContext.Clients.FirstOrDefault(c => c.Id == request.ClientId);
             if (client == default)
             {
-                return (false, "Client does not exist");
+                return false;
             }
 
             await EditClient(request, client);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return (true, null);
+            return true;
         }
 
         private async Task EditClient(EditClientWithIdCommand editCommand, Client client)

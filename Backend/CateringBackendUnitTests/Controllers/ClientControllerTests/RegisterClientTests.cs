@@ -5,7 +5,7 @@ using CateringBackend.AuthUtilities;
 using CateringBackend.Clients.Commands;
 using CateringBackend.Controllers;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
 using Xunit;
 
@@ -56,11 +56,11 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
 
             // Act 
             var result = await _clientController.RegisterClient(new RegisterClientCommand());
-            var objectResult = result as ObjectResult;
+            var statusCodeActionResult = result as IStatusCodeActionResult;
 
             // Assert
-            Assert.NotNull(objectResult);
-            Assert.Equal((int)expectedStatusCode, objectResult.StatusCode);
+            Assert.NotNull(statusCodeActionResult);
+            Assert.Equal((int)expectedStatusCode, statusCodeActionResult.StatusCode);
         }
     }
 }

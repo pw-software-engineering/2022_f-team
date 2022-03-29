@@ -8,6 +8,7 @@ using CateringBackend.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
 using Xunit;
 
@@ -78,10 +79,10 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
 
             // Act
             var result = await _clientController.GetClientDetails();
-            var objectResult = result as ObjectResult;
+            var statusCodeActionResult = result as IStatusCodeActionResult;
 
             // Assert
-            Assert.Equal((int)HttpStatusCode.NotFound, objectResult?.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, statusCodeActionResult?.StatusCode);
         }
 
         [Fact]
@@ -96,10 +97,10 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
 
             // Act
             var result = await _clientController.GetClientDetails();
-            var objectResult = result as ObjectResult;
+            var statusCodeActionResult = result as IStatusCodeActionResult;
 
             // Assert
-            Assert.Equal((int)HttpStatusCode.OK, objectResult?.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, statusCodeActionResult?.StatusCode);
         }
     }
 }

@@ -6,7 +6,6 @@ namespace CateringBackendUnitTests.Handlers
 {
     public static class GetClientDetailsQueryHandlerTestsData
     {
-
         public static IEnumerable<object[]> GetValidClients()
         {
             var firstClientAddress = new Guid("f07190b2-9cce-4df7-b22f-2e5be14a7066");
