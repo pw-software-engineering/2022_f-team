@@ -39,8 +39,7 @@ Another way is to execute `yarn start` inside selected app directory. Here is an
 ```
 ---
 There is also an option to run all of three frontend apps parallelly. To do this you have to execute this command inside of `./Frontend` directory:
-```
-...\Frontend\client-catering-app>yarn install
+
 ```
 ...\Frontend>yarn all
 ```
