@@ -9,7 +9,9 @@
     "client": "yarn --cwd apps/client-catering-app run start",
     "producer": "yarn --cwd apps/producer-catering-app run start",
     "deliverer": "yarn --cwd apps/deliverer-catering-app run start",
-    "all": "yarn npm-run-all --parallel client deliverer producer"
+    "all": "yarn npm-run-all --parallel client deliverer producer",
+    "cc": "yarn --cwd apps/common-components run start",
+    "dev": "yarn npm-run-all --parallel cc "
   },
   "dependencies": {
     "npm-run-all": "^4.1.5"
