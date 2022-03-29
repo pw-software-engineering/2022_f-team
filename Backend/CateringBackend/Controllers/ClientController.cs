@@ -1,5 +1,4 @@
-﻿using System;
-using CateringBackend.Clients.Queries;
+﻿using CateringBackend.Clients.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +45,15 @@ namespace CateringBackend.Controllers
             var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
             var result = await _mediator.Send(new GetClientDetailsQuery(userId));
             return result == default ? NotFound("Pobranie danych nie powiodło się") : Ok(result);
+        }
+
+        [HttpPut("account")]
+        [Authorize(Roles = "client")]
+        public async Task<IActionResult> EditClient([FromBody] EditClientCommand editClientCommand)
+        {
+            var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var result = await _mediator.Send(new EditClientWithIdCommand(editClientCommand, userId));
+            return result == default ? BadRequest("") : Ok();
         }
     }
 }

@@ -1,11 +1,11 @@
 using System;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CateringBackend.AuthUtilities;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
 using CateringBackend.Domain.Utilities;
+using CateringBackend.Utilities;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +28,8 @@ namespace CateringBackend.Clients.Commands
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.LastName).NotEmpty();
-            RuleFor(x => x.Password).MinimumLength(8);
-            RuleFor(x => x.PhoneNumber).Matches(new Regex(@"^\+48[0-9]{9}$"));
+            RuleFor(x => x.Password).MinimumLength(ValidationConstants.MinimumPasswordLength);
+            RuleFor(x => x.PhoneNumber).Matches(ValidationConstants.PhoneNumberRegex);
             RuleFor(x => x.Email).NotEmpty();
             RuleFor(x => x.Email).EmailAddress();
             RuleFor(x => x.Address).NotEmpty();
