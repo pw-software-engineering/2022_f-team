@@ -65,4 +65,3 @@ export { default as FormInputComponent } from './FormInputComponents'
 import { FormInputComponent } from "common-components";
 ```
 You can style it in your page's css file.
-
