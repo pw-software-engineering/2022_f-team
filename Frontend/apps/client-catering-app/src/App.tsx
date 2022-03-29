@@ -1,11 +1,16 @@
-import { ExampleComponent } from 'common-components'
+import { ExampleComponent } from "common-components";
+import RegisterPage from "./pages/RegisterPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainPage from "./pages/MainPage";
 
 const App = () => {
   return (
-    <div>
-      <h1>Client App</h1>
-      <ExampleComponent text="Example component in Client"></ExampleComponent>
-    </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage/>} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </BrowserRouter>
   );
 };
 
