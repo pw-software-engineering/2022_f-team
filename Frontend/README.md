@@ -2,6 +2,8 @@
 
 ## How to run? (development version)
 
+Frontend projects require Node.js installed. Project is developed and tested on Windows 10/11 operating systems. It is highly suggested to use powershell to run and develop the project (VS Code integrated terminal is perfect for that purpose).
+
 ### 1. Install yarn
 If you do not have yarn installed yet, run install command in cmd:
 ```
@@ -17,8 +19,26 @@ Run in Frontend directory:
 ```
 ...\Frontend>yarn install
 ```
-### 3. Run selected app
-Run in app directory, for example:
+### 3. Run apps
+There are several ways to run desired frontend apps. 
+
+---
+
+The easiest way is to execute corresponding `yarn` script inside of `./Frontend` directory:
+```
+yarn [client | deliverer | producer]
+```
+For example to run the client app you just have to execute:
+```
+...\Frontend>yarn client
+```
+---
+Another way is to execute `yarn start` inside selected app directory. Here is an example of running the client app this away:
 ```
 ...\Frontend\apps\client-catering-app>yarn start
+```
+---
+There is also an option to run all of three frontend apps parallelly. To do this you have to execute this command inside of `./Frontend` directory:
+```
+...\Frontend>yarn all
 ```
