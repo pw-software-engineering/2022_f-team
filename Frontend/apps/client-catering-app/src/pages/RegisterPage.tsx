@@ -1,10 +1,20 @@
-import { ExampleComponent } from 'common-components'
+import { FormInputComponent } from 'common-components'
+import {Link} from "react-router-dom";
+import "../style/RegisterFormStyle.css";
 
 const RegisterPage = () => {
     return (
       <div>
-        <h1>Client App-register</h1>
-        <ExampleComponent text="Example component in Client"></ExampleComponent>
+        <form>
+            <h1>Register</h1>
+            <div className="button-div">
+        <button>Register</button>
+        <p className="role">
+          Do you already have an account? 
+          <Link to="/login" style={{color:"#539091"}}>Log in!</Link>
+        </p>
+        </div>
+         </form>   
       </div>
     );
   };
