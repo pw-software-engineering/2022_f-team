@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using CateringBackend.AuthUtilities;
@@ -70,9 +69,7 @@ namespace CateringBackend.Clients.Commands
         {
             if (await UserWithGivenEmailExistsAsync(request.Email)) return null;
 
-            var createdAddress = await AddAddressToDatabaseAsync(request.Address, cancellationToken);
-
-            var createdClient = await AddClientToDatabaseAsync(request, createdAddress.Id, cancellationToken);
+            var createdClient = await AddClientToDatabaseAsync(request, cancellationToken);
 
             return JwtTokenUtilities.GetAuthenticationToken(createdClient.Id, createdClient.Email, UserRole.client);
         }
@@ -80,32 +77,26 @@ namespace CateringBackend.Clients.Commands
         private async Task<bool> UserWithGivenEmailExistsAsync(string email) => 
             await _dbContext.Clients.FirstOrDefaultAsync(client => client.Email == email) != default;
 
-        private async Task<Address> AddAddressToDatabaseAsync(RegisterClientAddress clientAddress, CancellationToken cancellationToken)
-        {
-            var clientAddressToAdd = Address.Create(
-                street: clientAddress.Street,
-                buildingNumber: clientAddress.BuildingNumber,
-                apartmentNumber: clientAddress.ApartmentNumber,
-                postCode: clientAddress.PostCode,
-                city: clientAddress.City);
-
-            var createdAddress = await _dbContext.Addresses.AddAsync(clientAddressToAdd, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return createdAddress.Entity;
-        }
-
         private async Task<Client> AddClientToDatabaseAsync(
             RegisterClientCommand registerClientCommand,
-            Guid addressId,
             CancellationToken cancellationToken)
         {
-            var clientToAdd = Client.Create(
-                email: registerClientCommand.Email,
-                encryptedPassword: PasswordManager.Encrypt(registerClientCommand.Password),
-                firstName: registerClientCommand.Name,
-                lastName: registerClientCommand.LastName,
-                phoneNumber: registerClientCommand.PhoneNumber,
-                addressId);
+            var clientToAdd = new Client
+            {
+                Address = new Address
+                {
+                    ApartmentNumber = registerClientCommand.Address.ApartmentNumber,
+                    BuildingNumber = registerClientCommand.Address.BuildingNumber,
+                    City = registerClientCommand.Address.City,
+                    PostCode = registerClientCommand.Address.PostCode,
+                    Street = registerClientCommand.Address.Street,
+                },
+                Email = registerClientCommand.Email,
+                FirstName = registerClientCommand.Name,
+                LastName = registerClientCommand.LastName,
+                Password = PasswordManager.Encrypt(registerClientCommand.Password),
+                PhoneNumber = registerClientCommand.PhoneNumber,
+            };
 
             var createdClient = await _dbContext.Clients.AddAsync(clientToAdd, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
