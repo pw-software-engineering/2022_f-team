@@ -17,8 +17,26 @@ Run in Frontend directory:
 ```
 ...\Frontend>yarn install
 ```
-### 3. Run selected app
-Run in app directory, for example:
+### 3. Run apps
+There are several ways to run desired frontend apps. 
+
+---
+
+The easiest way is to execute corresponding `yarn` script inside of `./Frontend` directory:
+```
+yarn [client | deliverer | producer]
+```
+For example to run the client app you just have to execute:
+```
+...\Frontend>yarn client
+```
+---
+Another way is to execute `yarn start` inside selected app directory. Here is an example of running the client app this away:
 ```
 ...\Frontend\apps\client-catering-app>yarn start
+```
+---
+There is also an option to run all of three frontend apps parallelly. To do this you have to execute this command inside of `./Frontend` directory:
+```
+...\Frontend>yarn all
 ```
