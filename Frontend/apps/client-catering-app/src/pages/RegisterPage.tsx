@@ -1,22 +1,133 @@
-import { FormInputComponent } from 'common-components'
-import {Link} from "react-router-dom";
+import { FormInputComponent } from "common-components";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import "../style/RegisterFormStyle.css";
 
 const RegisterPage = () => {
-    return (
-      <div>
-        <form>
-            <h1>Register</h1>
-            <div className="button-div">
-        <button>Register</button>
-        <p className="role">
-          Do you already have an account? 
-          <Link to="/login" style={{color:"#539091"}}>Log in!</Link>
-        </p>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [phone, setPhone] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [number, setNumber] = useState("");
+  const [flat, setFlat] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+
+  return (
+    <div className="page-wrapper">
+      <form>
+        <h1>Register</h1>
+        <div className="normal-input-wrapper">
+          <FormInputComponent
+            label="Email"
+            onValueChange={setEmail}
+            type="email"
+            validationText="Provide valid email format."
+            validationFunc={(x: string) => x.length >= 3}
+          />
+          <FormInputComponent
+            label="Name"
+            onValueChange={setName}
+            type="text"
+            validationText="This field is required."
+            validationFunc={(x: string) => x.length >= 0}
+          />
+          <FormInputComponent
+            label="Surname"
+            onValueChange={setSurname}
+            type="text"
+            validationText="This field is required."
+            validationFunc={(x: string) => x.length >= 0}
+          />
+          <FormInputComponent
+            label="Phone"
+            onValueChange={setPhone}
+            type="phone"
+            validationText="Provide a valid phone number."
+            validationFunc={(x: string) => x.length >= 0}
+          />
         </div>
-         </form>   
-      </div>
-    );
-  };
-  
-  export default RegisterPage;
+
+        <div className="address-div">
+          <h3>Address</h3>
+          <div className="address-input-wrapper">
+            <FormInputComponent
+              label="Street"
+              onValueChange={setStreet}
+              type="text"
+              validationText="This field is required."
+              validationFunc={(x: string) => x.length >= 0}
+            />
+          </div>
+          <div className="address-input-wrapper">
+            <FormInputComponent
+              label="Number"
+              onValueChange={setNumber}
+              type="text"
+              validationText="This field is required."
+              validationFunc={(x: string) => x.length >= 0}
+            />
+          </div>
+          <div className="address-input-wrapper">
+            <FormInputComponent
+              label="Flat"
+              onValueChange={setFlat}
+              type="text"
+              optional={true}
+              validationText=""
+              validationFunc={(x: string) => true}
+            />
+          </div>
+          <div className="address-input-wrapper">
+            <FormInputComponent
+              label="City"
+              onValueChange={setCity}
+              type="text"
+              validationText="This field is required."
+              validationFunc={(x: string) => x.length >= 0}
+            />
+          </div>
+          <div className="address-input-wrapper">
+            <FormInputComponent
+              label="Postal code"
+              onValueChange={setPostalCode}
+              type="text"
+              validationText="This field is required."
+              validationFunc={(x: string) => x.length >= 0}
+            />
+          </div>
+        </div>
+        <div className="normal-input-wrapper">
+          <FormInputComponent
+            label="Password"
+            onValueChange={setPassword}
+            type="password"
+            validationText="Your password has to be at least 8 characters long."
+            validationFunc={(x: string) => x.length >= 8}
+          />
+          <FormInputComponent
+            label="Confirm password"
+            onValueChange={setConfirmPassword}
+            type="password"
+            validationText="Your passwords have to match."
+            validationFunc={(x: string) => x === password}
+          />
+        </div>
+        <div className="button-div">
+          <button>Register</button>
+          <p>
+            Do you already have an account?
+            <Link to="/login" style={{ color: "#539091" }}>
+              Log in!
+            </Link>
+          </p>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default RegisterPage;

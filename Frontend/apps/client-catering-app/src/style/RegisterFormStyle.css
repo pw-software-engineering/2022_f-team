@@ -5,15 +5,26 @@
     font-family: 'Lato';
 }
 
+.page-wrapper{
+    background-color: #eff8f8;
+    min-height: 100vh;
+    min-width: 100vw;
+    padding-top: 10vh;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    -moz-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+}
+
 form{
     border: solid 3px #539091;
     border-radius: 5px;
     border-radius: 15px;
     width: 50%;
-    margin: auto;
     background-color: white;
-    padding: 6vh 2vw;
+    padding: 6vh 4vw;
     box-sizing: border-box;
+    margin: auto;
 }
 
 form h1{
@@ -30,10 +41,7 @@ form button{
     background-color: #539091;
     color: white;
     font-weight: 600;
-}
-input{
-    margin-top: -0.2vw;
-    margin-bottom: -0.7vw;
+    margin-bottom: 2vh;
 }
 
 form .button-div{
@@ -50,8 +58,33 @@ form .address-div{
 form .address-div h3{
     font-size: 1vw;
     font-weight: 500;
-    color: lightgray;
+    color: rgb(179, 179, 179);
     margin-top: -1.5vh;
     background-color: white;
     width:min-content;
 } 
+.address-input-wrapper{
+    display: inline-block;
+    width: 18vw;
+    padding-right: 1vw;
+}
+.address-input-wrapper label{
+    width: 7vw;
+    grid-column: 1;
+}
+.requiredInput{
+    color:red;
+    display: inline;
+}
+.formInputWrapper{
+    display: grid;
+    padding: 1vh 0;
+    grid-template-columns: 1fr,1fr;
+}
+.normal-input-wrapper label{
+    grid-column: 1;
+    width: 20vw;
+}
+.formInputWrapper input{
+    grid-column: 2;
+}
