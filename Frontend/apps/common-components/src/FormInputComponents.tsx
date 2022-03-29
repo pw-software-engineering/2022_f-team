@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+//import { useState } from "react";
 
 interface FormInputComponentProps {
   label: string
@@ -10,34 +10,30 @@ interface FormInputComponentProps {
   onValueChange: (x: string) => void
 }
 
-export const FormInputComponent = (props: FormInputComponentProps) => {
-  const [value, setValue] = useState<string>('')
-  const [isValid, setIsValid] = useState<boolean>(true)
-
-  const Validate = () => {
-    const isCorrect = props.validationFunc(value)
-    setIsValid(isCorrect)
-    return isCorrect
-  }
+const FormInputComponent = (props: FormInputComponentProps) => {
+  //const [isValid, setIsValid] = useState<boolean>(true)
 
   const handleValueChange = (insertedValue: string) => {
-    setValue(insertedValue)
-    Validate()
+    //const result = props.validationFunc(insertedValue)
+    //setIsValid(false)
+    // setIsValid(props.validationFunc(insertedValue))
+    //if (isValid) props.onValueChange(insertedValue)
     props.onValueChange(insertedValue)
   }
+
   return (
-    <div>
+    <div className='formInputWrapper'>
       <label>
         {props.label}:{' '}
         {props.optional === undefined && <p className='requiredInput'>*</p>}
       </label>
-      <input
+      <input 
         type={props.type}
-        value={value}
         onChange={(e) => handleValueChange(e.target.value)}
       />
-      {!isValid && <p className='validationMessage'>{props.validationText}</p>}
+      {/* {!isValid && <p className='validationMessage'>{props.validationText}</p>} */}
     </div>
   )
 }
 
+export default FormInputComponent;
