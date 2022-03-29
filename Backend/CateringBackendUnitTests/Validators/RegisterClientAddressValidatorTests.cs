@@ -1,5 +1,4 @@
-﻿using System;
-using CateringBackend.Clients.Commands;
+﻿using CateringBackend.Clients.Commands;
 using FluentValidation.TestHelper;
 using Xunit;
 

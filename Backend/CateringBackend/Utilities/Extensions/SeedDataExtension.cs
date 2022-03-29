@@ -2,7 +2,6 @@
 using CateringBackend.Domain.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace CateringBackend.Utilities.Extensions
 {

@@ -1,5 +1,4 @@
 using CateringBackend.Domain.Data;
-using CateringBackend.Utilities;
 using CateringBackend.Utilities.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

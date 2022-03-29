@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System;
 using CateringBackend.Clients.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

@@ -14,12 +14,11 @@ namespace CateringBackend.AuthUtilities
     {
         public Guid GetUserIdFromContextOrThrow(HttpContext httpContext)
         {
-            var userIdClaim = httpContext.User.Claims.FirstOrDefault(claim => claim.Type == AuthConstants.UserIdClaimType);
+            var userIdClaim = httpContext?.User?.Claims.FirstOrDefault(claim => claim.Type == AuthConstants.UserIdClaimType);
             if (userIdClaim == default)
             {
                 throw new JwtTokenDoesNotHaveUserIdClaimException();
             }
-
             return Guid.Parse(userIdClaim.Value);
         }
     }

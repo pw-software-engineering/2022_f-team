@@ -1,6 +1,5 @@
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Utilities;
-using CateringBackend.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;

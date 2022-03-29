@@ -46,11 +46,11 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         }
 
         [Theory]
-        [InlineData("not empty string as token", (int)HttpStatusCode.OK)]
-        [InlineData("", (int)HttpStatusCode.BadRequest)]
-        [InlineData("   ", (int)HttpStatusCode.BadRequest)]
-        [InlineData(null, (int)HttpStatusCode.BadRequest)]
-        public async void WhenLoginUser_ThenBasedOnMediatorResult_ShouldReturnProperStatusCode(string mediatorResult, int expectedStatusCode)
+        [InlineData("not empty string as token", HttpStatusCode.OK)]
+        [InlineData("", HttpStatusCode.BadRequest)]
+        [InlineData("   ", HttpStatusCode.BadRequest)]
+        [InlineData(null, HttpStatusCode.BadRequest)]
+        public async void WhenLoginUser_ThenBasedOnMediatorResult_ShouldReturnProperStatusCode(string mediatorResult, HttpStatusCode expectedStatusCode)
         {
             // Arrange
             _mockedMediator
@@ -60,11 +60,11 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
 
             // Act 
             var result = await _clientController.LoginClient(new LoginClientQuery());
-            var okResult = result as ObjectResult;
+            var objectResult = result as ObjectResult;
 
             // Assert
-            Assert.NotNull(okResult);
-            Assert.Equal(expectedStatusCode, okResult.StatusCode);
+            Assert.NotNull(objectResult);
+            Assert.Equal((int)expectedStatusCode, objectResult.StatusCode);
         }
     }
 }
