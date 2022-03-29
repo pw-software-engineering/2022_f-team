@@ -7,7 +7,7 @@ If you do not have yarn installed yet, run install command in cmd:
 ```
 npm install -g yarn
 ```
-Add yarn path to environmental variables, for example:
+If yarn is not recognised in your terminal add yarn path to environmental variables manually, for example:
 ```
 C:\Users\<username>\AppData\Roaming\npm\node_modules\yarn\bin
 ```
@@ -20,5 +20,5 @@ Run in Frontend directory:
 ### 3. Run selected app
 Run in app directory, for example:
 ```
-...\Frontend\client-catering-app>yarn install
+...\Frontend\apps\client-catering-app>yarn start
 ```
