@@ -1,20 +1,23 @@
-import { createElement } from 'react';
+import React__default, { useState, createElement } from 'react';
 
 var styles = {"test":"_styles-module__test__3ybTi"};
 
 const FormInputComponent = props => {
+  const [isValid, setIsValid] = useState(true);
+
   const handleValueChange = insertedValue => {
+    setIsValid(false);
     props.onValueChange(insertedValue);
   };
 
-  return createElement("div", {
+  return React__default.createElement("div", {
     className: 'formInputWrapper'
-  }, createElement("label", null, props.label, ":", ' ', props.optional === undefined && createElement("p", {
+  }, React__default.createElement("label", null, props.label, ":", ' ', props.optional === undefined && React__default.createElement("p", {
     className: 'requiredInput'
-  }, "*")), createElement("input", {
+  }, "*")), React__default.createElement("input", {
     type: props.type,
     onChange: e => handleValueChange(e.target.value)
-  }));
+  }), React__default.createElement("p", null, isValid));
 };
 
 const EmailValidator = value => {

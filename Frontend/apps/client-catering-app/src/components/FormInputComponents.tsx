@@ -1,5 +1,4 @@
-import * as React from 'react'
-//import { useState } from "react";
+import React, { useState } from 'react'
 
 interface FormInputComponentProps {
   label: string
@@ -11,13 +10,10 @@ interface FormInputComponentProps {
 }
 
 const FormInputComponent = (props: FormInputComponentProps) => {
-  //const [isValid, setIsValid] = useState<boolean>(true)
+  const [isValid, setIsValid] = useState<boolean>(true)
 
   const handleValueChange = (insertedValue: string) => {
-    //const result = props.validationFunc(insertedValue)
-    //setIsValid(false)
-    // setIsValid(props.validationFunc(insertedValue))
-    //if (isValid) props.onValueChange(insertedValue)
+    setIsValid(props.validationFunc(insertedValue));
     props.onValueChange(insertedValue)
   }
 
@@ -31,7 +27,7 @@ const FormInputComponent = (props: FormInputComponentProps) => {
         type={props.type}
         onChange={(e) => handleValueChange(e.target.value)}
       />
-      {/* {!isValid && <p className='validationMessage'>{props.validationText}</p>} */}
+      {!isValid && <p className='validationMessage'>{props.validationText}</p>}
     </div>
   )
 }

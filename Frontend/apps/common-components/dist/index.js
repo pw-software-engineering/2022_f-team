@@ -1,22 +1,30 @@
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
 var React = require('react');
+var React__default = _interopDefault(React);
 
 var styles = {"test":"_styles-module__test__3ybTi"};
 
 var FormInputComponent = function FormInputComponent(props) {
+  var _useState = React.useState(true),
+      isValid = _useState[0],
+      setIsValid = _useState[1];
+
   var handleValueChange = function handleValueChange(insertedValue) {
+    setIsValid(false);
     props.onValueChange(insertedValue);
   };
 
-  return React.createElement("div", {
+  return React__default.createElement("div", {
     className: 'formInputWrapper'
-  }, React.createElement("label", null, props.label, ":", ' ', props.optional === undefined && React.createElement("p", {
+  }, React__default.createElement("label", null, props.label, ":", ' ', props.optional === undefined && React__default.createElement("p", {
     className: 'requiredInput'
-  }, "*")), React.createElement("input", {
+  }, "*")), React__default.createElement("input", {
     type: props.type,
     onChange: function onChange(e) {
       return handleValueChange(e.target.value);
     }
-  }));
+  }), React__default.createElement("p", null, isValid));
 };
 
 var EmailValidator = function EmailValidator(value) {
