@@ -1,4 +1,4 @@
-import { FormInputComponent } from "common-components";
+import { FormInputComponent, EmailValidator, PhoneValidator } from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/RegisterFormStyle.css";
@@ -26,7 +26,7 @@ const RegisterPage = () => {
             onValueChange={setEmail}
             type="email"
             validationText="Provide valid email format."
-            validationFunc={(x: string) => x.length >= 3}
+            validationFunc={(x: string) => EmailValidator(x)}
           />
           <FormInputComponent
             label="Name"
@@ -47,7 +47,7 @@ const RegisterPage = () => {
             onValueChange={setPhone}
             type="phone"
             validationText="Provide a valid phone number."
-            validationFunc={(x: string) => x.length >= 0}
+            validationFunc={(x: string) => PhoneValidator(x)}
           />
         </div>
 

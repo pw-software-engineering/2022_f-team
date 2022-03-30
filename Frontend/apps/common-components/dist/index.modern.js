@@ -17,6 +17,15 @@ const FormInputComponent = props => {
   }));
 };
 
+const EmailValidator = value => {
+  const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  return value.length > 0 && regex.test(value);
+};
+const PhoneValidator = value => {
+  const regex = /^\+?[0-9]{9,12}$/i;
+  return value.replaceAll(' ', '').length > 6 && regex.test(value.replaceAll(' ', ''));
+};
+
 const ExampleComponent = ({
   text
 }) => {
@@ -25,5 +34,5 @@ const ExampleComponent = ({
   }, "Example Component: ", text);
 };
 
-export { ExampleComponent, FormInputComponent };
+export { EmailValidator, ExampleComponent, FormInputComponent, PhoneValidator };
 //# sourceMappingURL=index.modern.js.map
