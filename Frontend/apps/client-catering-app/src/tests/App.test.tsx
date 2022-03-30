@@ -3,5 +3,5 @@ import App from "../App";
 
 test("renders initial text", () => {
   render(<App />);
-  expect(screen.getByText("Client App")).toBeTruthy();
+  expect(screen.getByText("Client App")).toBeFalsy();
 });
