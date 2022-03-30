@@ -1,5 +1,4 @@
-import { EmailValidator, PhoneValidator } from "../components/utilities";
-import FormInputComponent from "../components/FormInputComponents";
+import { FormInputComponent, EmailValidator, PhoneValidator } from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/RegisterFormStyle.css";
