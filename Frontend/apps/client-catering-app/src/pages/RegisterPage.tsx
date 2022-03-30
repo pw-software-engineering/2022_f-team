@@ -16,6 +16,10 @@ const RegisterPage = () => {
   const [flat, setFlat] = useState("");
   const [postalCode, setPostalCode] = useState("");
 
+  const handleRegister = (e: any) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="page-wrapper">
       <form>
@@ -117,7 +121,7 @@ const RegisterPage = () => {
           />
         </div>
         <div className="button-div">
-          <button>Register</button>
+          <button onClick={(e: any) => handleRegister(e)}>Register</button>
           <p>
             Do you already have an account?
             <Link to="/login" style={{ color: "#539091" }}>
