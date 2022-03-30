@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 interface FormInputComponentProps {
   label: string
@@ -9,50 +9,27 @@ interface FormInputComponentProps {
   onValueChange: (x: string) => void
 }
 
-interface FormInputComponentState {
-  isValid: boolean
+const FormInputComponent = (props: FormInputComponentProps) => {
+  const [isValid, setIsValid] = useState<boolean>(true)
+
+  const handleValueChange = (insertedValue: string) => {
+    setIsValid(props.validationFunc(insertedValue));
+    props.onValueChange(insertedValue)
+  }
+
+  return (
+    <div className='formInputWrapper'>
+      <label>
+        {props.label}:{' '}
+        {props.optional === undefined && <p className='requiredInput'>*</p>}
+      </label>
+      <input 
+        type={props.type}
+        onChange={(e) => handleValueChange(e.target.value)}
+      />
+      {!isValid && <p className='validationMessage'>{props.validationText}</p>}
+    </div>
+  )
 }
 
-class FormInputComponent extends React.Component<
-  FormInputComponentProps,
-  FormInputComponentState
-> {
-  constructor(props: FormInputComponentProps) {
-    super(props)
-    this.state = {
-      isValid: true
-    }
-  }
-
-  setIsValid(isValid: boolean) {
-    this.setState({
-      isValid: isValid
-    })
-  }
-
-  handleValueChange = (insertedValue: string) => {
-    const { validationFunc, onValueChange } = this.props
-    this.setIsValid(validationFunc(insertedValue))
-    onValueChange(insertedValue)
-  }
-
-  render() {
-    const { label, optional, validationText, type } = this.props
-    const { isValid } = this.state
-
-    return (
-      <div className='formInputWrapper'>
-        <label>
-          {label}:{' '}
-          {optional === undefined && <p className='requiredInput'>*</p>}
-        </label>
-        <input
-          type={type}
-          onChange={(e) => this.handleValueChange(e.target.value)}
-        />
-        {!isValid && <p className='validationMessage'>{validationText}</p>}
-      </div>
-    )
-  }
-}
-export default FormInputComponent
+export default FormInputComponent;
