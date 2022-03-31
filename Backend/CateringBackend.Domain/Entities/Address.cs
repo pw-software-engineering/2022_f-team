@@ -11,9 +11,7 @@ namespace CateringBackend.Domain.Entities
         public string PostCode { get; set; }
         public string City { get; set; }
 
-        public Address()
-        {
-        }
+        public Address() {}
 
         public Address(Address address)
         {

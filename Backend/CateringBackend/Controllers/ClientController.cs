@@ -23,6 +23,7 @@ namespace CateringBackend.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> RegisterClient([FromBody] RegisterClientCommand registerClientCommand)
         {
             var result = await _mediator.Send(registerClientCommand);
@@ -54,7 +55,7 @@ namespace CateringBackend.Controllers
         {
             var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
             var editedSuccessfully = await _mediator.Send(new EditClientWithIdCommand(editClientCommand, userId));
-            return editedSuccessfully ? Ok() : BadRequest("Użytkownik nie istnieje");
+            return editedSuccessfully ? Ok() : BadRequest("Edycja danych nie powiodła się");
         }
     }
 }

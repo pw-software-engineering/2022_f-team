@@ -9,12 +9,10 @@ namespace CateringBackendUnitTests.Handlers
     {
         public static IEnumerable<object[]> GetEditClientCommandAndClient()
         {
-            //var firstClientAddress = new Guid("f07190b2-9cce-4df7-b22f-2e5be14a7066");
             var validClientInDatabase = new Client
             {
                 Address = new Address
                 {
-                   // Id = firstClientAddress,
                     ApartmentNumber = "123",
                     Street = "ClientStreet",
                     City = "ClientCity",
@@ -26,7 +24,6 @@ namespace CateringBackendUnitTests.Handlers
                 LastName = "ClientLastName",
                 Password = "asdfasdf",
                 PhoneNumber = "123456789",
-                //AddressId = firstClientAddress
             };
 
             yield return new object[]

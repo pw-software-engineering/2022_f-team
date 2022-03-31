@@ -13,9 +13,7 @@ namespace CateringBackend.Domain.Entities
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
 
-        public Client()
-        {
-        }
+        public Client() {}
 
         public Client(Client client)
         {
