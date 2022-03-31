@@ -54,7 +54,7 @@ const SubmitButton = props => {
   return React__default.createElement("button", {
     disabled: !props.validateForm(),
     onClick: e => props.action(e)
-  }, "Register");
+  }, props.text);
 };
 
 const ExampleComponent = ({

@@ -143,7 +143,7 @@ const RegisterPage = () => {
           />
         </div>
         <div className="button-div">
-          <SubmitButton action={handleRegister} validateForm={validateForm}/>
+          <SubmitButton action={handleRegister} validateForm={validateForm} text="Register"/>
           <p>
             Do you already have an account?
             <Link to='/' style={{ color: "#539091" }}>

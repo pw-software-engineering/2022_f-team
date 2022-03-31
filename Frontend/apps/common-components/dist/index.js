@@ -59,7 +59,7 @@ var SubmitButton = function SubmitButton(props) {
     onClick: function onClick(e) {
       return props.action(e);
     }
-  }, "Register");
+  }, props.text);
 };
 
 var ExampleComponent = function ExampleComponent(_ref) {

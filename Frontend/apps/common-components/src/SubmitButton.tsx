@@ -1,6 +1,7 @@
 import React from 'react'
 
 interface SubmitButtonProps {
+  text: string
   validateForm: () => boolean
   action: (e:any) => void
 }
@@ -11,7 +12,7 @@ const SubmitButton = (props: SubmitButtonProps) => {
             disabled={!props.validateForm()}
             onClick={(e: any) => props.action(e)}
           >
-            Register
+            {props.text}
           </button>
   )
 }
