@@ -61,3 +61,12 @@ test("button is enabled after providing correct data", async () => {
   );
   expect(await screen.getByRole("button")).toBeEnabled();
 });
+
+test("link to log in is visible", () => {
+    render(
+      <BrowserRouter>
+        <RegisterPage />
+      </BrowserRouter>
+    );
+    expect(screen.getByText("Log in!")).toBeVisible();
+  });
