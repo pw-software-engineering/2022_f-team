@@ -96,7 +96,7 @@ namespace CateringBackendUnitTests.Validators
         [InlineData("ValidEmail@gmail.com")]
         [InlineData("AnotherValidEmail@m.c")]
         [InlineData("AnotherValidEmail@m.")]
-        public void GivenValidEmail_WhenValidate_ShouldNotHaveValidationErrorForEmail(string email)
+        public void GivenValidEmail_WhenValidate_ThenShouldNotHaveValidationErrorForEmail(string email)
         {
             // Arrange
             var validRegisterCommand = RegisterClientValidatorsTestsData.GetValidRegisterClientCommand();
