@@ -45,6 +45,11 @@ form button{
     cursor: pointer;
 }
 
+form button:disabled{
+    background-color: #88acad;
+    cursor:auto;
+}
+
 form .button-div{
     text-align: center;
     margin-top: 3vh;

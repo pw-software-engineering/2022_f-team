@@ -15,11 +15,19 @@ var FormInputComponent = function FormInputComponent(props) {
     props.onValueChange(insertedValue);
   };
 
+  var createAriaLabel = function createAriaLabel() {
+    if (props.label.includes(' ')) return props.label.substring(0, props.label.indexOf(' '));
+    return props.label;
+  };
+
   return React__default.createElement("div", {
     className: 'formInputWrapper'
-  }, React__default.createElement("label", null, props.label, ":", ' ', props.optional === undefined && React__default.createElement("p", {
+  }, React__default.createElement("label", {
+    id: createAriaLabel()
+  }, props.label, ":", ' ', props.optional === undefined && React__default.createElement("p", {
     className: 'requiredInput'
   }, "*")), React__default.createElement("input", {
+    "aria-labelledby": createAriaLabel(),
     type: props.type,
     onChange: function onChange(e) {
       return handleValueChange(e.target.value);
@@ -35,7 +43,11 @@ var EmailValidator = function EmailValidator(value) {
 };
 var PhoneValidator = function PhoneValidator(value) {
   var regex = /^\+?[0-9]{9,12}$/i;
-  return value.replaceAll(' ', '').length > 6 && regex.test(value.replaceAll(' ', ''));
+  return value.replace(' ', '').length > 6 && regex.test(value.replace(' ', ''));
+};
+var PostalCodeValidator = function PostalCodeValidator(value) {
+  var regex = /^[0-9]{2}-[0-9]{3}$/i;
+  return regex.test(value);
 };
 
 var ExampleComponent = function ExampleComponent(_ref) {
@@ -49,4 +61,5 @@ exports.EmailValidator = EmailValidator;
 exports.ExampleComponent = ExampleComponent;
 exports.FormInputComponent = FormInputComponent;
 exports.PhoneValidator = PhoneValidator;
+exports.PostalCodeValidator = PostalCodeValidator;
 //# sourceMappingURL=index.js.map

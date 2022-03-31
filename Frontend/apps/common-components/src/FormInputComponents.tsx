@@ -13,17 +13,23 @@ const FormInputComponent = (props: FormInputComponentProps) => {
   const [isValid, setIsValid] = useState<boolean>(true)
 
   const handleValueChange = (insertedValue: string) => {
-    setIsValid(props.validationFunc(insertedValue));
+    setIsValid(props.validationFunc(insertedValue))
     props.onValueChange(insertedValue)
   }
 
+  const createAriaLabel = () => {
+    if (props.label.includes(' '))
+      return props.label.substring(0, props.label.indexOf(' '))
+    return props.label
+  }
   return (
     <div className='formInputWrapper'>
-      <label>
+      <label id={createAriaLabel()}>
         {props.label}:{' '}
         {props.optional === undefined && <p className='requiredInput'>*</p>}
       </label>
-      <input 
+      <input
+        aria-labelledby={createAriaLabel()}
         type={props.type}
         onChange={(e) => handleValueChange(e.target.value)}
       />
@@ -32,4 +38,4 @@ const FormInputComponent = (props: FormInputComponentProps) => {
   )
 }
 
-export default FormInputComponent;
+export default FormInputComponent

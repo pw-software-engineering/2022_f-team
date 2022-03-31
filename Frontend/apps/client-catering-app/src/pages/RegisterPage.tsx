@@ -1,4 +1,9 @@
-import { FormInputComponent, EmailValidator, PhoneValidator } from "common-components";
+import {
+  FormInputComponent,
+  EmailValidator,
+  PhoneValidator,
+  PostalCodeValidator,
+} from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/RegisterFormStyle.css";
@@ -20,6 +25,22 @@ const RegisterPage = () => {
     e.preventDefault();
   };
 
+  const validateForm = () => {
+    if (!EmailValidator(email)) return false;
+    if (!PhoneValidator(phone)) return false;
+    if (confirmPassword !== password) return false;
+    if (password.length < 8) return false;
+    if (!PostalCodeValidator(postalCode)) return false;
+    if (
+      name.length == 0 ||
+      surname.length == 0 ||
+      street.length == 0 ||
+      city.length == 0 ||
+      number.length == 0
+    )
+      return false;
+    return true;
+  };
   return (
     <div className="page-wrapper">
       <form>
@@ -99,8 +120,8 @@ const RegisterPage = () => {
               label="Postal code"
               onValueChange={setPostalCode}
               type="text"
-              validationText="This field is required."
-              validationFunc={(x: string) => x.length >= 0}
+              validationText="Provide valid postal code."
+              validationFunc={(x: string) => PostalCodeValidator(x)}
             />
           </div>
         </div>
@@ -121,10 +142,15 @@ const RegisterPage = () => {
           />
         </div>
         <div className="button-div">
-          <button onClick={(e: any) => handleRegister(e)}>Register</button>
+          <button
+            disabled={!validateForm()}
+            onClick={(e: any) => handleRegister(e)}
+          >
+            Register
+          </button>
           <p>
             Do you already have an account?
-            <Link to="/login" style={{ color: "#539091" }}>
+            <Link to='/' style={{ color: "#539091" }}>
               Log in!
             </Link>
           </p>

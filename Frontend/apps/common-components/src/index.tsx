@@ -10,4 +10,8 @@ export const ExampleComponent = ({ text }: Props) => {
 }
 
 export { default as FormInputComponent } from './FormInputComponents'
-export { EmailValidator, PhoneValidator } from './utilities'
+export {
+  EmailValidator,
+  PhoneValidator,
+  PostalCodeValidator
+} from './utilities'
