@@ -3,6 +3,7 @@ import {
   EmailValidator,
   PhoneValidator,
   PostalCodeValidator,
+  SubmitButton
 } from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -142,12 +143,7 @@ const RegisterPage = () => {
           />
         </div>
         <div className="button-div">
-          <button
-            disabled={!validateForm()}
-            onClick={(e: any) => handleRegister(e)}
-          >
-            Register
-          </button>
+          <SubmitButton action={handleRegister} validateForm={validateForm}/>
           <p>
             Do you already have an account?
             <Link to='/' style={{ color: "#539091" }}>

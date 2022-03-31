@@ -6,13 +6,20 @@ const FormInputComponent = props => {
   const [isValid, setIsValid] = useState(true);
 
   const handleValueChange = insertedValue => {
-    setIsValid(props.validationFunc(insertedValue));
-    props.onValueChange(insertedValue);
+    const {
+      onValueChange,
+      validationFunc
+    } = props;
+    setIsValid(validationFunc(insertedValue));
+    onValueChange(insertedValue);
   };
 
   const createAriaLabel = () => {
-    if (props.label.includes(' ')) return props.label.substring(0, props.label.indexOf(' '));
-    return props.label;
+    const {
+      label
+    } = props;
+    if (label.includes(' ')) return label.substring(0, label.indexOf(' '));
+    return label;
   };
 
   return React__default.createElement("div", {
@@ -43,6 +50,13 @@ const PostalCodeValidator = value => {
   return regex.test(value);
 };
 
+const SubmitButton = props => {
+  return React__default.createElement("button", {
+    disabled: !props.validateForm(),
+    onClick: e => props.action(e)
+  }, "Register");
+};
+
 const ExampleComponent = ({
   text
 }) => {
@@ -51,5 +65,5 @@ const ExampleComponent = ({
   }, "Example Component: ", text);
 };
 
-export { EmailValidator, ExampleComponent, FormInputComponent, PhoneValidator, PostalCodeValidator };
+export { EmailValidator, ExampleComponent, FormInputComponent, PhoneValidator, PostalCodeValidator, SubmitButton };
 //# sourceMappingURL=index.modern.js.map

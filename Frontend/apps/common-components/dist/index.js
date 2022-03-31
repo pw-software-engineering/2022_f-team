@@ -11,13 +11,16 @@ var FormInputComponent = function FormInputComponent(props) {
       setIsValid = _useState[1];
 
   var handleValueChange = function handleValueChange(insertedValue) {
-    setIsValid(props.validationFunc(insertedValue));
-    props.onValueChange(insertedValue);
+    var onValueChange = props.onValueChange,
+        validationFunc = props.validationFunc;
+    setIsValid(validationFunc(insertedValue));
+    onValueChange(insertedValue);
   };
 
   var createAriaLabel = function createAriaLabel() {
-    if (props.label.includes(' ')) return props.label.substring(0, props.label.indexOf(' '));
-    return props.label;
+    var label = props.label;
+    if (label.includes(' ')) return label.substring(0, label.indexOf(' '));
+    return label;
   };
 
   return React__default.createElement("div", {
@@ -50,6 +53,15 @@ var PostalCodeValidator = function PostalCodeValidator(value) {
   return regex.test(value);
 };
 
+var SubmitButton = function SubmitButton(props) {
+  return React__default.createElement("button", {
+    disabled: !props.validateForm(),
+    onClick: function onClick(e) {
+      return props.action(e);
+    }
+  }, "Register");
+};
+
 var ExampleComponent = function ExampleComponent(_ref) {
   var text = _ref.text;
   return React.createElement("div", {
@@ -62,4 +74,5 @@ exports.ExampleComponent = ExampleComponent;
 exports.FormInputComponent = FormInputComponent;
 exports.PhoneValidator = PhoneValidator;
 exports.PostalCodeValidator = PostalCodeValidator;
+exports.SubmitButton = SubmitButton;
 //# sourceMappingURL=index.js.map
