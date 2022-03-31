@@ -5,7 +5,6 @@ using CateringBackend.AuthUtilities;
 using CateringBackend.Clients.Queries;
 using CateringBackend.Controllers;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
 using Xunit;
@@ -26,7 +25,7 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         }
 
         [Fact]
-        public async void WhenLoginUserQueryIsPassed_ThenItIsSentToMediator()
+        public async void GivenLoginUserQuery_WhenLoginUser_ThenItIsSentToMediator()
         {
             // Arrange
             var loginQuery = new LoginClientQuery
@@ -51,7 +50,7 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         [InlineData("", HttpStatusCode.BadRequest)]
         [InlineData("   ", HttpStatusCode.BadRequest)]
         [InlineData(null, HttpStatusCode.BadRequest)]
-        public async void WhenLoginUser_ThenBasedOnMediatorResult_ShouldReturnProperStatusCode(string mediatorResult, HttpStatusCode expectedStatusCode)
+        public async void GivenMediatorResult_WhenLoginUser_ThenReturnsProperStatusCode(string mediatorResult, HttpStatusCode expectedStatusCode)
         {
             // Arrange
             _mockedMediator

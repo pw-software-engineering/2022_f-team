@@ -24,7 +24,7 @@ namespace CateringBackendUnitTests.Handlers
         }
 
         [Fact]
-        public async void GetClientDetailsQueryHandler_ShouldReturnNull_WhenClientWithGivenIdDoesNotExist()
+        public async void GivenGetClientDetailsQuery_WhenHandleForNotExistingClient_ThenReturnsNull()
         {
             // Arrange 
             var query = new GetClientDetailsQuery(Guid.NewGuid());
@@ -37,12 +37,12 @@ namespace CateringBackendUnitTests.Handlers
         }
 
         [Fact]
-        public async void GetClientDetailsQueryHandler_ShouldThrowException_WhenClientExistsButThereIsNoClientAddressInDatabase()
+        public async void GivenClientGetClientDetailsQuery_WhenHandleForExistingClientWithoutAddress_ThenThrowsMissingAddressForClientException()
         {
             // Arrange
             var addedClient = _dbContext.Clients.Add(new Client()).Entity;
             await _dbContext.SaveChangesAsync(CancellationToken.None);
-;            var query = new GetClientDetailsQuery(addedClient.Id);
+;           var query = new GetClientDetailsQuery(addedClient.Id);
 
             // Act & Assert
             await Assert.ThrowsAsync<MissingAddressForClientException>(async () =>
@@ -52,7 +52,7 @@ namespace CateringBackendUnitTests.Handlers
         [Theory]
         [MemberData(nameof(GetClientDetailsQueryHandlerTestsData.GetValidClients),
             MemberType = typeof(GetClientDetailsQueryHandlerTestsData))]
-        public async void GetClientDetailsQueryHandler_ShouldReturnClientDetailsDtoWithAllProperData(Client clientToAddToDatabase)
+        public async void GivenGetClientDetailsQuery_WhenHandleForExistingUserWithAddress_ThenReturnsClientDetailsWithAllProperData(Client clientToAddToDatabase)
         {
             // Arrange
             _dbContext.Addresses.Add(clientToAddToDatabase.Address);

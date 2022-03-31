@@ -1,13 +1,13 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using CateringBackend.Clients.Commands;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
 using CateringBackend.Domain.Utilities;
 using EntityFrameworkCore.Testing.Moq;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace CateringBackendUnitTests.Handlers
@@ -24,7 +24,7 @@ namespace CateringBackendUnitTests.Handlers
         }
 
         [Fact]
-        public async Task WhenClientWithGivenEmailAlreadyExists_ThenRegisterClientCommandHandler_ShouldReturnNull()
+        public async Task GivenEmailWhichAlreadyExistsInDatabase_WhenHandleRegisterClientCommand_ThenReturnsNull()
         {
             // Arrange
             const string testEmail = "test@mail.com";
@@ -52,7 +52,7 @@ namespace CateringBackendUnitTests.Handlers
         [Theory]
         [MemberData(nameof(RegisterClientCommandHandlerTestsData.GetValidRegisterClientCommands),
             MemberType = typeof(RegisterClientCommandHandlerTestsData))]
-        public async Task WhenRegisterClient_ThenRegisterClientCommandHandler_ShouldAddCorrectAddressToDatabase(
+        public async Task GivenRegisterClientCommand_WhenHandle_ThenAddsCorrectAddressToDatabase(
             RegisterClientCommand registerClientCommand)
         {
             // Arrange
@@ -68,7 +68,7 @@ namespace CateringBackendUnitTests.Handlers
         [Theory]
         [MemberData(nameof(RegisterClientCommandHandlerTestsData.GetValidRegisterClientCommands),
             MemberType = typeof(RegisterClientCommandHandlerTestsData))]
-        public async Task WhenRegisterClient_ThenRegisterClientCommandHandler_ShouldAddCorrectClientToDatabase(
+        public async Task GivenRegisterClientCommand_WhenHandle_ThenAddsCorrectClientToDatabase(
             RegisterClientCommand registerClientCommand)
         {
             // Arrange
@@ -84,7 +84,7 @@ namespace CateringBackendUnitTests.Handlers
         [Theory]
         [MemberData(nameof(RegisterClientCommandHandlerTestsData.GetValidRegisterClientCommands),
             MemberType = typeof(RegisterClientCommandHandlerTestsData))]
-        public async Task WhenRegisterClient_ThenRegisterClientCommandHandler_ShouldReturnNotEmptyString(
+        public async Task GivenRegisterClientCommand_WhenHandle_ThenReturnsNotEmptyString(
             RegisterClientCommand registerClientCommand)
         {
             // Arrange

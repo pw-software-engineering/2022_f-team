@@ -42,14 +42,14 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         }
 
         [Fact]
-        public async void WhenEditClient_ThenEditClientWithIdCommandWithProperIdIsSent()
+        public async void GivenClientIdFromService_WhenEditClient_ThenCommandWithIdIsSent()
         {
             // Arrange
-            var clientIdReturnedByMediator = Guid.NewGuid();
+            var clientIdReturnedByService = Guid.NewGuid();
 
             _mockedUserIdFromTokenProvider
                 .Setup(x => x.GetUserIdFromContextOrThrow(It.IsAny<HttpContext>()))
-                .Returns(clientIdReturnedByMediator);
+                .Returns(clientIdReturnedByService);
 
             _mockedMediator
                 .Setup(x => x.Send(It.IsAny<EditClientWithIdCommand>(), It.IsAny<CancellationToken>()))
@@ -67,14 +67,14 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
                     Times.Once);
             _mockedMediator
                 .Verify(
-                    x => x.Send(It.Is<EditClientWithIdCommand>(x => x.ClientId == clientIdReturnedByMediator), It.IsAny<CancellationToken>()),
+                    x => x.Send(It.Is<EditClientWithIdCommand>(x => x.ClientId == clientIdReturnedByService), It.IsAny<CancellationToken>()),
                     Times.Once);
         }
 
         [Theory]
         [InlineData(false, HttpStatusCode.BadRequest)]
         [InlineData(true, HttpStatusCode.OK)]
-        public async void WhenEditClient_ShouldReturnProperStatusCode_BasedOnMediatorValue(bool mediatorReturnedValue, HttpStatusCode expectedStatusCode)
+        public async void GivenValueReturnedByMediator_WhenEditClient_ThenReturnProperStatusCode(bool mediatorReturnedValue, HttpStatusCode expectedStatusCode)
         {
             // Arrange
             _mockedMediator

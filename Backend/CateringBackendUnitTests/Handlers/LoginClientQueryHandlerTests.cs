@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using CateringBackend.Clients.Queries;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
@@ -23,7 +22,7 @@ namespace CateringBackendUnitTests.Handlers
 
         [Theory]
         [InlineData("client@gmail.com", "client123")]
-        public void WhenProvidingCorrectCredentials_ThenReturnJwtToken(string email, string password)
+        public void GivenCorrectCredentials_WhenHandleLoginClientQuery_ThenReturnsNotNull(string email, string password)
         {
             // Arrange
             _dbContext.Clients.Add(new Client
@@ -38,8 +37,6 @@ namespace CateringBackendUnitTests.Handlers
             var res = queryHandler.Handle(new LoginClientQuery
             { Email = email, Password = password }, default);
             res.Wait();
-
-            var clients = _dbContext.Clients.ToList();
 
             // Assert
             Assert.NotNull(res.Result);
@@ -58,7 +55,7 @@ namespace CateringBackendUnitTests.Handlers
         [InlineData("notclient@gmail.com", "notclient123")]
         [InlineData("notclient@gmail.com", "client123")]
         [InlineData("client@gmail.com", "notclient123")]
-        public void WhenProvidingInCorrectCredentials_ThenReturnNull(string email, string password)
+        public void GivenIncorrectCredentials_WhenHandleLoginClientQuery_ThenReturnsNull(string email, string password)
         {
             // Arrange 
             _dbContext.Clients.Add(new Client

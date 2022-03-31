@@ -25,7 +25,7 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         }
 
         [Fact]
-        public async void WhenRegisterUserQueryIsPassed_ThenItIsSentToMediator()
+        public async void GivenRegisterClientCommand_WhenRegisterClient_ThenItIsSendToMediator()
         {
             // Arrange
             var registerClientCommand = new RegisterClientCommand();
@@ -46,7 +46,7 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         [InlineData("", HttpStatusCode.BadRequest)]
         [InlineData("   ", HttpStatusCode.BadRequest)]
         [InlineData(null, HttpStatusCode.BadRequest)]
-        public async void WhenLoginUser_ThenBasedOnMediatorResult_ShouldReturnProperStatusCode(string mediatorResult, HttpStatusCode expectedStatusCode)
+        public async void GivenMediatorResult_WhenRegisterClient_ThenReturnsProperStatusCode(string mediatorResult, HttpStatusCode expectedStatusCode)
         {
             // Arrange
             _mockedMediator

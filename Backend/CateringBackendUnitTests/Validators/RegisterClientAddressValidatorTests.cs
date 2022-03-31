@@ -14,7 +14,7 @@ namespace CateringBackendUnitTests.Validators
         }
 
         [Fact]
-        public void GetValidRegisterClientAddress_ReturnsValidRegisterClientAddress()
+        public void GivenRegisterClientAddressFromTestsData_WhenValidate_ThenShouldNotHaveAnyValidationErrorsForAllFields()
         {
             // Arrange
             var validRegisterClientAddress = RegisterClientValidatorsTestsData.GetValidRegisterClientAddress();
@@ -33,7 +33,7 @@ namespace CateringBackendUnitTests.Validators
         [Theory]
         [MemberData(nameof(RegisterClientValidatorsTestsData.EmptyStringsTestData),
             MemberType = typeof(RegisterClientValidatorsTestsData))]
-        public void RegisterClientAddress_Street_BuildingNumber_PostCode_City_ShouldNotBeEmpty(string emptyString)
+        public void GivenInvalidStreetBuildingNumberPostCodeAndCity_WhenValidate_ThenShouldHaveValidationErrorsForEachField(string emptyString)
         {
             // Arrange
             var validRegisterClientAddress = RegisterClientValidatorsTestsData.GetValidRegisterClientAddress();

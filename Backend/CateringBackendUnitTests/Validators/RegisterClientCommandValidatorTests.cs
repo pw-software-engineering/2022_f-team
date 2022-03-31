@@ -14,13 +14,13 @@ namespace CateringBackendUnitTests.Validators
         }
 
         [Fact]
-        public void RegisterClientCommandValidator_ShouldHaveSetRegisterClientAddressValidatorOnAddress()
+        public void WhenRegisterClientCommandValidatorIsCreated_ThenShouldHaveChildValidatorSetForAddress()
         {
             _commandValidator.ShouldHaveChildValidator(x => x.Address, typeof(CateringBackend.Clients.Commands.RegisterClientAddressValidator));
         }
 
         [Fact]
-        public void GetValidRegisterClientCommand_ReturnsValidRegisterClientCommand()
+        public void GivenRegisterClientCommandFromTestsData_WhenValidate_ThenShouldNotHaveAnyValidationErrorsForAllFields()
         {
             // Arrange
             var validRegisterCommand = RegisterClientValidatorsTestsData.GetValidRegisterClientCommand();
@@ -40,7 +40,7 @@ namespace CateringBackendUnitTests.Validators
         [Theory]
         [MemberData(nameof(RegisterClientValidatorsTestsData.EmptyStringsTestData),
             MemberType = typeof(RegisterClientValidatorsTestsData))]
-        public void RegisterClientCommand_Name_LastName_Email_ShouldNotBeEmpty(string emptyString)
+        public void GivenInvalidNameLastNameAndEmail_WhenValidate_ThenShouldHaveValidationErrorForEachField(string emptyString)
         {
             // Arrange
             var validRegisterCommand = RegisterClientValidatorsTestsData.GetValidRegisterClientCommand();
@@ -58,7 +58,7 @@ namespace CateringBackendUnitTests.Validators
         }
 
         [Fact]
-        public void RegisterClientCommand_Address_ShouldBeNotNull()
+        public void GivenNullAddressInRegisterClientCommand_WhenValidate_ThenShouldHaveValidationErrorForAddress()
         {
             // Arrange
             var validRegisterCommand = RegisterClientValidatorsTestsData.GetValidRegisterClientCommand();
@@ -79,7 +79,7 @@ namespace CateringBackendUnitTests.Validators
         [InlineData("emailWithAtOnly@")]
         [InlineData("DoubleAtEmail@gmail@gmail.com")]
         [InlineData("DoubleDotEmail.gmail.com")]
-        public void RegisterClientCommand_Email_CanNotBeInvalidEmailAddress(string email)
+        public void GivenInvalidEmailAddress_WhenValidate_ThenShouldHaveValidationErrorForEmail(string email)
         {
             // Arrange
             var validRegisterCommand = RegisterClientValidatorsTestsData.GetValidRegisterClientCommand();
@@ -96,7 +96,7 @@ namespace CateringBackendUnitTests.Validators
         [InlineData("ValidEmail@gmail.com")]
         [InlineData("AnotherValidEmail@m.c")]
         [InlineData("AnotherValidEmail@m.")]
-        public void RegisterClientCommand_Email_ShouldBeValidEmailAddress(string email)
+        public void GivenValidEmail_WhenValidate_ShouldNotHaveValidationErrorForEmail(string email)
         {
             // Arrange
             var validRegisterCommand = RegisterClientValidatorsTestsData.GetValidRegisterClientCommand();

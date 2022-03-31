@@ -18,7 +18,7 @@ namespace CateringBackendUnitTests.Services
         }
 
         [Fact]
-        public void GetUserIdFromContextOrThrow_ShouldThrowJwtTokenDoesNotHaveUserIdClaimException_WhenThereIsNoUserIdClaim()
+        public void GivenTokenWithoutUserIdClaim_WhenGetUserIdFromContextOrThrow_ThenThrowsJwtTokenDoesNotHaveUserIdClaimException()
         {
             // Arrange
             var httpContext = new Mock<HttpContext>();
@@ -29,7 +29,7 @@ namespace CateringBackendUnitTests.Services
         }
 
         [Fact]
-        public void GetUserIdFromContextOrThrow_ShouldThrowParseException_WhenCanNotConvertToken()
+        public void GivenUserIdWhichCanNotBeParsed_WhenGetUserIdFromContextOrThrow_ThenThrowsFormatException()
         {
             // Arrange
             var httpContext = new Mock<HttpContext>();
@@ -43,7 +43,7 @@ namespace CateringBackendUnitTests.Services
         }
 
         [Fact]
-        public void GetUserIdFromContextOrThrow_ShouldReturnGuidFromHttpContext_WhenItIsPresent()
+        public void GivenCorrectHttpContextWithUserId_WhenGetUserIdFromContextOrThrow_ThenResultShouldBeEqualToIdInClaim()
         {
             // Arrange
             var userId = new Guid();

@@ -70,7 +70,7 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         }
 
         [Fact]
-        public async void WhenGetClientDetails_ShouldReturnNotFound_WhenMediatorReturnsNull()
+        public async void GivenMediatorResultAsNull_WhenGetClientDetails_ThenReturnsNotFound()
         {
             // Arrange
             _mockedMediator
@@ -86,7 +86,7 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         }
 
         [Fact]
-        public async void WhenGetClientDetails_ShouldReturnOk_WhenMediatorReturnsIsNotNull()
+        public async void GivenMediatorResultWhichIsNotNull_WhenGetClientDetails_ThenReturnsOkResult()
         {
             // Arrange
             var mockedClientDetailsDto = new ClientDetailsDto(new Client(), new Address());

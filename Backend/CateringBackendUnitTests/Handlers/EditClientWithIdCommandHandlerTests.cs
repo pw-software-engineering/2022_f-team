@@ -26,7 +26,7 @@ namespace CateringBackendUnitTests.Handlers
         }
 
         [Fact]
-        public async void EditClientWithIdCommandHandler_ShouldReturnFalse_WhenClientWithGivenIdDoesNotExist()
+        public async void GivenEditClientWithIdCommand_WhenHandleForNotExistingClient_ThenReturnsFalse()
         {
             // Arrange
             var clientId = Guid.NewGuid();
@@ -40,7 +40,7 @@ namespace CateringBackendUnitTests.Handlers
         }
 
         [Fact]
-        public async void EditClientWithIdCommandHandler_ShouldThrowMissingAddressForClientException_WhenThereIsNoAddressForClient()
+        public async void GivenEditClientWithIdCommand_WhenHandleForExistingClientWithoutAddress_ThenThrowsMissingAddressForClientException()
         {
             // Arrange
             var addedClientWithoutAddress = _dbContext.Clients.Add(new Client()).Entity;
@@ -59,7 +59,7 @@ namespace CateringBackendUnitTests.Handlers
         [Theory]
         [MemberData(nameof(EditClientWithIdCommandHandlerTestsData.GetEditClientCommandAndClient),
             MemberType = typeof(EditClientWithIdCommandHandlerTestsData))]
-        public async void EditClientWithIdCommandHandler_DataAfterEditShouldBeAsExpectedBasedOnRequest(string description, Client clientToAddToDatabase, EditClientCommand editClientCommand)
+        public async void GivenEditClientWithIdCommand_WhenHandleForExistingClient_ThenDataInDatabaseShouldBeChangedAsExpected(string description, Client clientToAddToDatabase, EditClientCommand editClientCommand)
         {
             // Arrange
             var addedClient = _dbContext.Clients.Add(new Client(clientToAddToDatabase)).Entity;
