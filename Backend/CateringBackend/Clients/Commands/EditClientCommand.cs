@@ -6,8 +6,6 @@ using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
 using CateringBackend.Domain.Utilities;
 using CateringBackend.Exceptions;
-using CateringBackend.Utilities;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
