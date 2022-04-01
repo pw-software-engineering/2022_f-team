@@ -19,21 +19,6 @@ namespace CateringBackend.Clients.Commands
         public RegisterClientAddress Address { get; set; }
     }
 
-    //public class RegisterClientCommandValidator : AbstractValidator<RegisterClientCommand>
-    //{
-    //    public RegisterClientCommandValidator()
-    //    {
-    //        RuleFor(x => x.Name).NotEmpty();
-    //        RuleFor(x => x.LastName).NotEmpty();
-    //        RuleFor(x => x.Password).MinimumLength(ValidationConstants.MinimumPasswordLength);
-    //        RuleFor(x => x.PhoneNumber).Matches(ValidationConstants.PhoneNumberRegex);
-    //        RuleFor(x => x.Email).NotEmpty();
-    //        RuleFor(x => x.Email).EmailAddress();
-    //        RuleFor(x => x.Address).NotEmpty();
-    //        RuleFor(x => x.Address).SetValidator(new RegisterClientAddressValidator());
-    //    }
-    //}
-
     public class RegisterClientAddress
     {
         public string Street { get; set; }
@@ -42,17 +27,6 @@ namespace CateringBackend.Clients.Commands
         public string PostCode { get; set; }
         public string City { get; set; }
     }
-
-    //public class RegisterClientAddressValidator : AbstractValidator<RegisterClientAddress>
-    //{
-    //    public RegisterClientAddressValidator()
-    //    {
-    //        RuleFor(x => x.Street).NotEmpty();
-    //        RuleFor(x => x.BuildingNumber).NotEmpty();
-    //        RuleFor(x => x.PostCode).NotEmpty();
-    //        RuleFor(x => x.City).NotEmpty();
-    //    }
-    //}
 
     public class RegisterClientCommandHandler : IRequestHandler<RegisterClientCommand, string>
     {

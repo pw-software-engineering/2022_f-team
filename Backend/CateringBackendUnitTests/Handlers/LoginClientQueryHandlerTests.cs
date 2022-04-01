@@ -74,6 +74,5 @@ namespace CateringBackendUnitTests.Handlers
             // Assert
             Assert.Null(res.Result);
         }
-
     }
 }

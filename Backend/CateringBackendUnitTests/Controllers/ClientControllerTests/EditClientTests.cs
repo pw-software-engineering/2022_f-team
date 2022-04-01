@@ -6,7 +6,6 @@ using CateringBackend.Clients.Commands;
 using CateringBackend.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
 using Xunit;

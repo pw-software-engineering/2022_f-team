@@ -12,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using CateringBackend.AuthUtilities;
-using FluentValidation.AspNetCore;
 
 namespace CateringBackEnd
 {
@@ -87,7 +86,6 @@ namespace CateringBackEnd
             services.AddSingleton<IUserIdFromTokenProvider, UserIdFromTokenProvider>();
             services.AddDbContext<CateringDbContext>();
             services.AddMediatR(typeof(Startup));
-            services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
