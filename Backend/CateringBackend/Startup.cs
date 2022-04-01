@@ -1,5 +1,4 @@
 using CateringBackend.Domain.Data;
-using CateringBackend.Utilities;
 using CateringBackend.Utilities.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using CateringBackend.AuthUtilities;
 
 namespace CateringBackEnd
 {
@@ -69,7 +69,7 @@ namespace CateringBackEnd
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey =
-                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.JwtSigningKey)),
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthConstants.JwtSigningKey)),
 
                     ValidateAudience = true,
                     ValidAudience = "audience",
@@ -83,6 +83,7 @@ namespace CateringBackEnd
                 .UseSqlServer(Configuration.GetConnectionString("CateringDatabase")).Options;
 
             services.AddTransient(x => dbContextOptions);
+            services.AddSingleton<IUserIdFromTokenProvider, UserIdFromTokenProvider>();
             services.AddDbContext<CateringDbContext>();
             services.AddMediatR(typeof(Startup));
         }

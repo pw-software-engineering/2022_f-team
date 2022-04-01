@@ -1,8 +1,10 @@
-using CateringBackend.Clients.Queries;
+﻿using CateringBackend.Clients.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using CateringBackend.AuthUtilities;
+using CateringBackend.Clients.Commands;
 
 namespace CateringBackend.Controllers
 {
@@ -11,25 +13,48 @@ namespace CateringBackend.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IUserIdFromTokenProvider _userIdFromTokenProvider;
 
-        public ClientController(IMediator mediator)
+        public ClientController(IMediator mediator, IUserIdFromTokenProvider userIdFromTokenProvider)
         {
             _mediator = mediator;
+            _userIdFromTokenProvider = userIdFromTokenProvider;
+        }
+
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RegisterClient([FromBody] RegisterClientCommand registerClientCommand)
+        {
+            var result = await _mediator.Send(registerClientCommand);
+            return string.IsNullOrWhiteSpace(result)
+                ? BadRequest("Konto nie zostało utworzone")
+                : CreatedAtAction(nameof(RegisterClient), result);
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginUser([FromBody] ClientLoginQuery loginQuery)
+        public async Task<IActionResult> LoginClient([FromBody] LoginClientQuery loginQuery)
         {
             var result = await _mediator.Send(loginQuery);
             return string.IsNullOrWhiteSpace(result) ? BadRequest("Niepowodzenie logowania") : Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("account")]
         [Authorize(Roles = "client")]
-        public string Get()
+        public async Task<IActionResult> GetClientDetails()
         {
-            return "authorized :)";
+            var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var result = await _mediator.Send(new GetClientDetailsQuery(userId));
+            return result == default ? NotFound("Pobranie danych nie powiodło się") : Ok(result);
+        }
+
+        [HttpPut("account")]
+        [Authorize(Roles = "client")]
+        public async Task<IActionResult> EditClient([FromBody] EditClientCommand editClientCommand)
+        {
+            var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var editedSuccessfully = await _mediator.Send(new EditClientWithIdCommand(editClientCommand, userId));
+            return editedSuccessfully ? Ok() : BadRequest("Edycja danych nie powiodła się");
         }
     }
 }

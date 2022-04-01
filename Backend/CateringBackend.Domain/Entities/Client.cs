@@ -13,6 +13,20 @@ namespace CateringBackend.Domain.Entities
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
 
+        public Client() {}
+
+        public Client(Client client)
+        {
+            Id = client.Id;
+            Email = client.Email;
+            Password = client.Password;
+            FirstName = client.FirstName;
+            LastName = client.LastName;
+            PhoneNumber = client.PhoneNumber;
+            AddressId = client.AddressId;
+            Address = new Address(client.Address);
+        }
+        
         public static Client Create(string email, string encryptedPassword, string firstName, string lastName, string phoneNumber, Guid addressId)
         {
             return new()

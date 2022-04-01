@@ -1,19 +1,19 @@
-using CateringBackend.Domain.Data;
-using CateringBackend.Domain.Utilities;
+using System;
 using CateringBackend.Clients.Queries;
+using CateringBackend.Domain.Data;
+using CateringBackend.Domain.Entities;
+using CateringBackend.Domain.Utilities;
 using EntityFrameworkCore.Testing.Moq;
 using Microsoft.EntityFrameworkCore;
-using System;
 using Xunit;
-using CateringBackend.Domain.Entities;
 
-namespace CateringBackEndUnitTests
+namespace CateringBackendUnitTests.Handlers
 {
-    public class ClientLoginQueryHandlerTests
+    public class LoginClientQueryHandlerTests
     {
         private readonly CateringDbContext _dbContext;
 
-        public ClientLoginQueryHandlerTests()
+        public LoginClientQueryHandlerTests()
         {
             var options = new DbContextOptionsBuilder<CateringDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
@@ -22,24 +22,19 @@ namespace CateringBackEndUnitTests
 
         [Theory]
         [InlineData("client@gmail.com", "client123")]
-        public void WhenProvidingCorrectCredentials_ThenReturnJwtToken(string email, string password)
+        public void GivenCorrectCredentials_WhenHandleLoginClientQuery_ThenReturnsNotNull(string email, string password)
         {
             // Arrange
             _dbContext.Clients.Add(new Client
             {
-                Id = new Guid(),
                 Email = email,
                 Password = PasswordManager.Encrypt(password),
-                FirstName = "testFirstName",
-                LastName = "testLastName",
-                PhoneNumber = "testPhoneNumber",
-                AddressId = new Guid()
             });
             _dbContext.SaveChanges();
-            var queryHandler = new ClientLoginQueryHandler(_dbContext);
+            var queryHandler = new LoginClientQueryHandler(_dbContext);
 
             // Act
-            var res = queryHandler.Handle(new ClientLoginQuery
+            var res = queryHandler.Handle(new LoginClientQuery
             { Email = email, Password = password }, default);
             res.Wait();
 
@@ -60,30 +55,24 @@ namespace CateringBackEndUnitTests
         [InlineData("notclient@gmail.com", "notclient123")]
         [InlineData("notclient@gmail.com", "client123")]
         [InlineData("client@gmail.com", "notclient123")]
-        public void WhenProvidingInCorrectCredentials_ThenReturnNull(string email, string password)
+        public void GivenIncorrectCredentials_WhenHandleLoginClientQuery_ThenReturnsNull(string email, string password)
         {
             // Arrange 
             _dbContext.Clients.Add(new Client
             {
-                Id = new Guid(),
                 Email = "client@gmail.com",
                 Password = PasswordManager.Encrypt("client123"),
-                FirstName = "testFirstName",
-                LastName = "testLastName",
-                PhoneNumber = "testPhoneNumber",
-                AddressId = new Guid()
             });
             _dbContext.SaveChanges();
-            var queryHandler = new ClientLoginQueryHandler(_dbContext);
+            var queryHandler = new LoginClientQueryHandler(_dbContext);
 
             // Act
-            var res = queryHandler.Handle(new ClientLoginQuery
+            var res = queryHandler.Handle(new LoginClientQuery
             { Email = email, Password = password }, default);
             res.Wait();
 
             // Assert
             Assert.Null(res.Result);
         }
-
     }
 }
