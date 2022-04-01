@@ -24,6 +24,7 @@ const FormInputComponent = (props: FormInputComponentProps) => {
       return label.substring(0, label.indexOf(' '))
     return label
   }
+  
   return (
     <div className='formInputWrapper'>
       <label id={createAriaLabel()}>
