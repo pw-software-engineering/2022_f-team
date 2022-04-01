@@ -22,18 +22,18 @@ namespace CateringBackend.Clients.Commands
         public RegisterClientAddress Address { get; set; }
     }
 
-    //public class EditClientCommandCommandValidator : AbstractValidator<EditClientCommand>
-    //{
-    //    public EditClientCommandCommandValidator()
-    //    {
-    //        RuleFor(x => x.Name).NotEmpty();
-    //        RuleFor(x => x.LastName).NotEmpty();
-    //        RuleFor(x => x.Password).MinimumLength(ValidationConstants.MinimumPasswordLength);
-    //        RuleFor(x => x.PhoneNumber).Matches(ValidationConstants.PhoneNumberRegex);
-    //        RuleFor(x => x.Address).NotEmpty();
-    //        RuleFor(x => x.Address).SetValidator(new RegisterClientAddressValidator());
-    //    }
-    //}
+    public class EditClientCommandCommandValidator : AbstractValidator<EditClientCommand>
+    {
+        public EditClientCommandCommandValidator()
+        {
+            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.LastName).NotEmpty();
+            RuleFor(x => x.Password).MinimumLength(ValidationConstants.MinimumPasswordLength);
+            RuleFor(x => x.PhoneNumber).Matches(ValidationConstants.PhoneNumberRegex);
+            RuleFor(x => x.Address).NotEmpty();
+            RuleFor(x => x.Address).SetValidator(new RegisterClientAddressValidator());
+        }
+    }
 
     public class EditClientWithIdCommand : EditClientCommand
     {
@@ -77,10 +77,10 @@ namespace CateringBackend.Clients.Commands
         private async Task EditClient(EditClientWithIdCommand editCommand, Client client)
         {
             await EditClientAddressIfProvided(editCommand, client);
-            client.FirstName = editCommand.Name;
-            client.LastName = editCommand.LastName;
-            client.Password = PasswordManager.Encrypt(editCommand.Password);
-            client.PhoneNumber = editCommand.PhoneNumber;
+            if(!string.IsNullOrWhiteSpace(editCommand.Name)) client.FirstName = editCommand.Name;
+            if (!string.IsNullOrWhiteSpace(editCommand.LastName)) client.LastName = editCommand.LastName;
+            if (!string.IsNullOrWhiteSpace(editCommand.Password)) client.Password = PasswordManager.Encrypt(editCommand.Password);
+            if (!string.IsNullOrWhiteSpace(editCommand.PhoneNumber)) client.PhoneNumber = editCommand.PhoneNumber;
         }
 
         private async Task EditClientAddressIfProvided(EditClientWithIdCommand editCommand, Client client)
@@ -93,11 +93,11 @@ namespace CateringBackend.Clients.Commands
                     throw new MissingAddressForClientException(client.Id);
                 }
 
-                clientAddress.City = editCommand.Address.City;
-                clientAddress.ApartmentNumber = editCommand.Address.ApartmentNumber;
-                clientAddress.BuildingNumber = editCommand.Address.BuildingNumber;
-                clientAddress.Street = editCommand.Address.Street;
-                clientAddress.PostCode = editCommand.Address.PostCode;
+                if (!string.IsNullOrWhiteSpace(editCommand.Address.City)) clientAddress.City = editCommand.Address.City;
+                if (!string.IsNullOrWhiteSpace(editCommand.Address.ApartmentNumber)) clientAddress.ApartmentNumber = editCommand.Address.ApartmentNumber;
+                if (!string.IsNullOrWhiteSpace(editCommand.Address.BuildingNumber)) clientAddress.BuildingNumber = editCommand.Address.BuildingNumber;
+                if (!string.IsNullOrWhiteSpace(editCommand.Address.Street)) clientAddress.Street = editCommand.Address.Street;
+                if (!string.IsNullOrWhiteSpace(editCommand.Address.PostCode)) clientAddress.PostCode = editCommand.Address.PostCode;
             }
         }
     }
