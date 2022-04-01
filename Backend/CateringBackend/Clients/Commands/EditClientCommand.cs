@@ -20,19 +20,6 @@ namespace CateringBackend.Clients.Commands
         public RegisterClientAddress Address { get; set; }
     }
 
-    //public class EditClientCommandCommandValidator : AbstractValidator<EditClientCommand>
-    //{
-    //    public EditClientCommandCommandValidator()
-    //    {
-    //        RuleFor(x => x.Name).NotEmpty();
-    //        RuleFor(x => x.LastName).NotEmpty();
-    //        RuleFor(x => x.Password).MinimumLength(ValidationConstants.MinimumPasswordLength);
-    //        RuleFor(x => x.PhoneNumber).Matches(ValidationConstants.PhoneNumberRegex);
-    //        RuleFor(x => x.Address).NotEmpty();
-    //        RuleFor(x => x.Address).SetValidator(new RegisterClientAddressValidator());
-    //    }
-    //}
-
     public class EditClientWithIdCommand : EditClientCommand
     {
         public Guid ClientId { get; set; }

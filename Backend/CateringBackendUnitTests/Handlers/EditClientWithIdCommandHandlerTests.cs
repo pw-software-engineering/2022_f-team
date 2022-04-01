@@ -76,20 +76,6 @@ namespace CateringBackendUnitTests.Handlers
         {
             var clientInDatabase = _dbContext.Clients.First();
 
-            // Only provided fields should be edited (case with validation enabled)
-            //var expectedName = string.IsNullOrWhiteSpace(editClientCommand.Name) ? clientToAddToDatabase.FirstName : editClientCommand.Name;
-            //var expectedLastName = string.IsNullOrWhiteSpace(editClientCommand.LastName) ? clientToAddToDatabase.LastName : editClientCommand.LastName;
-            //var expectedPassword = string.IsNullOrWhiteSpace(editClientCommand.Password) ? clientToAddToDatabase.Password : PasswordManager.Encrypt(editClientCommand.Password);
-            //var expectedPhoneNumber = string.IsNullOrWhiteSpace(editClientCommand.PhoneNumber) ? clientToAddToDatabase.PhoneNumber : editClientCommand.PhoneNumber;
-            //var expectedCity = string.IsNullOrWhiteSpace(editClientCommand.Address?.City) ? clientToAddToDatabase.Address?.City : editClientCommand.Address?.City;
-            //var expectedApartmentNumber =
-            //    string.IsNullOrWhiteSpace(editClientCommand.Address?.ApartmentNumber) ?
-            //        clientToAddToDatabase.Address?.ApartmentNumber : editClientCommand.Address?.ApartmentNumber;
-            //var expectedBuildingNumber = string.IsNullOrWhiteSpace(editClientCommand.Address?.BuildingNumber) ? clientToAddToDatabase.Address?.BuildingNumber : editClientCommand.Address?.BuildingNumber;
-            //var expectedPostCode = string.IsNullOrWhiteSpace(editClientCommand.Address?.PostCode) ? clientToAddToDatabase.Address?.PostCode : editClientCommand.Address?.PostCode;
-            //var expectedStreet = string.IsNullOrWhiteSpace(editClientCommand.Address?.Street) ? clientToAddToDatabase.Address?.Street : editClientCommand.Address?.Street;
-
-            // validation removed so those are expected values:
             var expectedName =  editClientCommand.Name;
             var expectedLastName = editClientCommand.LastName;
             var expectedPassword =  PasswordManager.Encrypt(editClientCommand.Password);
