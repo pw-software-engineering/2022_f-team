@@ -27,7 +27,6 @@ namespace CateringBackendUnitTests.Handlers
 
             yield return new object[]
             {
-                "Edit all fields at once",
                 validClientInDatabase,
                 new EditClientCommand
                 {
