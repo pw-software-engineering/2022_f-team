@@ -59,7 +59,7 @@ namespace CateringBackendUnitTests.Handlers
         [Theory]
         [MemberData(nameof(EditClientWithIdCommandHandlerTestsData.GetEditClientCommandAndClient),
             MemberType = typeof(EditClientWithIdCommandHandlerTestsData))]
-        public async void GivenEditClientWithIdCommand_WhenHandleForExistingClient_ThenDataInDatabaseShouldBeChangedAsExpected(string description, Client clientToAddToDatabase, EditClientCommand editClientCommand)
+        public async void GivenEditClientWithIdCommand_WhenHandleForExistingClient_ThenDataInDatabaseShouldBeChangedAsExpected(Client clientToAddToDatabase, EditClientCommand editClientCommand)
         {
             // Arrange
             var addedClient = _dbContext.Clients.Add(new Client(clientToAddToDatabase)).Entity;
