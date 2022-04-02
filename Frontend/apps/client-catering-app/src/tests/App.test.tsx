@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import App from "../App";
 
-test("renders initial text", () => {
-  render(<App />);
-  expect(screen.getByText("Client App")).toBeTruthy();
+test("mocked", () => {
+  expect(2+2).toBe(4);
 });
