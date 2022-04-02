@@ -3,45 +3,55 @@ import {
   EmailValidator,
   PhoneValidator,
   PostalCodeValidator,
-  SubmitButton
+  SubmitButton,
 } from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/RegisterFormStyle.css";
 
 const RegisterPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [phone, setPhone] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [number, setNumber] = useState("");
-  const [flat, setFlat] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+  const [registerData, setRegisterData] = useState({
+    Email: "",
+    Name: "",
+    Surname: "",
+    Password: "",
+    Confirm: "",
+    Phone: "",
+    Street: "",
+    City: "",
+    Number: "",
+    Flat: "",
+    Postal: "",
+  });
+
+  const changeRegisterDataValue = (label: string, value: string) => {
+    setRegisterData({
+      ...registerData,
+      [label]: value,
+    });
+  };
 
   const handleRegister = (e: any) => {
     e.preventDefault();
   };
 
   const validateForm = () => {
-    if (!EmailValidator(email)) return false;
-    if (!PhoneValidator(phone)) return false;
-    if (confirmPassword !== password) return false;
-    if (password.length < 8) return false;
-    if (!PostalCodeValidator(postalCode)) return false;
+    if (!EmailValidator(registerData.Email)) return false;
+    if (!PhoneValidator(registerData.Phone)) return false;
+    if (registerData.Confirm !== registerData.Password) return false;
+    if (registerData.Password.length < 8) return false;
+    if (!PostalCodeValidator(registerData.Postal)) return false;
     if (
-      name.length == 0 ||
-      surname.length == 0 ||
-      street.length == 0 ||
-      city.length == 0 ||
-      number.length == 0
+      registerData.Name.length == 0 ||
+      registerData.Surname.length == 0 ||
+      registerData.Street.length == 0 ||
+      registerData.City.length == 0 ||
+      registerData.Number.length == 0
     )
       return false;
     return true;
   };
+
   return (
     <div className="page-wrapper">
       <form>
@@ -49,28 +59,28 @@ const RegisterPage = () => {
         <div className="normal-input-wrapper">
           <FormInputComponent
             label="Email"
-            onValueChange={setEmail}
+            onValueChange={changeRegisterDataValue}
             type="email"
             validationText="Provide valid email format."
             validationFunc={(x: string) => EmailValidator(x)}
           />
           <FormInputComponent
             label="Name"
-            onValueChange={setName}
+            onValueChange={changeRegisterDataValue}
             type="text"
             validationText="This field is required."
             validationFunc={(x: string) => x.length >= 0}
           />
           <FormInputComponent
             label="Surname"
-            onValueChange={setSurname}
+            onValueChange={changeRegisterDataValue}
             type="text"
             validationText="This field is required."
             validationFunc={(x: string) => x.length >= 0}
           />
           <FormInputComponent
             label="Phone"
-            onValueChange={setPhone}
+            onValueChange={changeRegisterDataValue}
             type="phone"
             validationText="Provide a valid phone number."
             validationFunc={(x: string) => PhoneValidator(x)}
@@ -82,7 +92,7 @@ const RegisterPage = () => {
           <div className="address-input-wrapper">
             <FormInputComponent
               label="Street"
-              onValueChange={setStreet}
+              onValueChange={changeRegisterDataValue}
               type="text"
               validationText="This field is required."
               validationFunc={(x: string) => x.length >= 0}
@@ -91,7 +101,7 @@ const RegisterPage = () => {
           <div className="address-input-wrapper">
             <FormInputComponent
               label="Number"
-              onValueChange={setNumber}
+              onValueChange={changeRegisterDataValue}
               type="text"
               validationText="This field is required."
               validationFunc={(x: string) => x.length >= 0}
@@ -100,7 +110,7 @@ const RegisterPage = () => {
           <div className="address-input-wrapper">
             <FormInputComponent
               label="Flat"
-              onValueChange={setFlat}
+              onValueChange={changeRegisterDataValue}
               type="text"
               optional={true}
               validationText=""
@@ -110,7 +120,7 @@ const RegisterPage = () => {
           <div className="address-input-wrapper">
             <FormInputComponent
               label="City"
-              onValueChange={setCity}
+              onValueChange={changeRegisterDataValue}
               type="text"
               validationText="This field is required."
               validationFunc={(x: string) => x.length >= 0}
@@ -119,7 +129,7 @@ const RegisterPage = () => {
           <div className="address-input-wrapper">
             <FormInputComponent
               label="Postal code"
-              onValueChange={setPostalCode}
+              onValueChange={changeRegisterDataValue}
               type="text"
               validationText="Provide valid postal code."
               validationFunc={(x: string) => PostalCodeValidator(x)}
@@ -129,24 +139,28 @@ const RegisterPage = () => {
         <div className="normal-input-wrapper">
           <FormInputComponent
             label="Password"
-            onValueChange={setPassword}
+            onValueChange={changeRegisterDataValue}
             type="password"
             validationText="Your password has to be at least 8 characters long."
             validationFunc={(x: string) => x.length >= 8}
           />
           <FormInputComponent
             label="Confirm password"
-            onValueChange={setConfirmPassword}
+            onValueChange={changeRegisterDataValue}
             type="password"
             validationText="Your passwords have to match."
-            validationFunc={(x: string) => x === password}
+            validationFunc={(x: string) => x === registerData.Password}
           />
         </div>
         <div className="button-div">
-          <SubmitButton action={handleRegister} validateForm={validateForm} text="Register"/>
+          <SubmitButton
+            action={handleRegister}
+            validateForm={validateForm}
+            text="Register"
+          />
           <p>
             Do you already have an account?
-            <Link to='/' style={{ color: "#539091" }}>
+            <Link to="/" style={{ color: "#539091" }}>
               Log in!
             </Link>
           </p>

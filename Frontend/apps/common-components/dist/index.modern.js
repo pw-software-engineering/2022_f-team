@@ -11,7 +11,7 @@ const FormInputComponent = props => {
       validationFunc
     } = props;
     setIsValid(validationFunc(insertedValue));
-    onValueChange(insertedValue);
+    onValueChange(createAriaLabel(), insertedValue);
   };
 
   const createAriaLabel = () => {

@@ -4,7 +4,7 @@ interface FormInputComponentProps {
     type: string;
     validationText: string;
     validationFunc: (x: string) => boolean;
-    onValueChange: (x: string) => void;
+    onValueChange: (label: string, value: string) => void;
 }
 declare const FormInputComponent: (props: FormInputComponentProps) => JSX.Element;
 export default FormInputComponent;

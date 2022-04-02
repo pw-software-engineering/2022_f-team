@@ -6,25 +6,24 @@ interface FormInputComponentProps {
   type: string
   validationText: string
   validationFunc: (x: string) => boolean
-  onValueChange: (x: string) => void
+  onValueChange: (label: string, value: string) => void
 }
 
 const FormInputComponent = (props: FormInputComponentProps) => {
   const [isValid, setIsValid] = useState<boolean>(true)
 
   const handleValueChange = (insertedValue: string) => {
-    const {onValueChange, validationFunc} = props;
+    const { onValueChange, validationFunc } = props
     setIsValid(validationFunc(insertedValue))
-    onValueChange(insertedValue)
+    onValueChange(createAriaLabel(), insertedValue)
   }
 
   const createAriaLabel = () => {
-    const {label} = props;
-    if (label.includes(' '))
-      return label.substring(0, label.indexOf(' '))
+    const { label } = props
+    if (label.includes(' ')) return label.substring(0, label.indexOf(' '))
     return label
   }
-  
+
   return (
     <div className='formInputWrapper'>
       <label id={createAriaLabel()}>
