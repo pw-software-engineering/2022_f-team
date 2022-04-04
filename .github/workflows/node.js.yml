@@ -1,8 +1,6 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Node.js CI
-
 on:
   push:
     branches: [main]
@@ -11,14 +9,14 @@ on:
 
 jobs:
   client-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@${GITHUB_REF#refs/*/}
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@fix/set-cc-to-be-build-on-ci-cd
     with:
       projectPath: ./Frontend/apps/client-catering-app
   producer-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@${GITHUB_REF#refs/*/}
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@fix/set-cc-to-be-build-on-ci-cd
     with:
       projectPath: ./Frontend/apps/producer-catering-app
   deliverer-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@${GITHUB_REF#refs/*/}
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@fix/set-cc-to-be-build-on-ci-cd
     with:
       projectPath: ./Frontend/apps/deliverer-catering-app
