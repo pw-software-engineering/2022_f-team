@@ -11,14 +11,14 @@ on:
 
 jobs:
   client-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@main
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@fix/set-cc-to-be-build-on-ci-cd
     with:
       projectPath: ./Frontend/apps/client-catering-app
   producer-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@main
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@fix/set-cc-to-be-build-on-ci-cd
     with:
       projectPath: ./Frontend/apps/producer-catering-app
   deliverer-app-CI:
-    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@main
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@fix/set-cc-to-be-build-on-ci-cd
     with:
       projectPath: ./Frontend/apps/deliverer-catering-app
