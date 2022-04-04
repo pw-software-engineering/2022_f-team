@@ -22,7 +22,7 @@ jobs:
         working-directory: ./Frontend/
         run: yarn install
       - name: yarn build cc
-        working-directory: ./Frontend/common-components
+        working-directory: ./Frontend/apps/common-components/
         run: yarn build
       - name: yarn test
         working-directory: ${{inputs.projectPath}}
