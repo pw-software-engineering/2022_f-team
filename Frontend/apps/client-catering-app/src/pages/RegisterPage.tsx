@@ -7,9 +7,12 @@ import {
 } from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { APIservice } from "../APIservices/APIservice";
+import { getRegisterClientURL } from "../APIservices/URLcreator";
 import "../style/RegisterFormStyle.css";
 
 const RegisterPage = () => {
+  const service = APIservice();
   const [registerData, setRegisterData] = useState({
     Email: "",
     Name: "",
@@ -33,6 +36,22 @@ const RegisterPage = () => {
 
   const handleRegister = (e: any) => {
     e.preventDefault();
+    if(validateForm() && service.execute!==undefined){
+      service.execute('post','',{
+        "name": registerData.Name,
+        "lastName": registerData.Surname,
+        "email": registerData.Email,
+        "password": registerData.Password,
+        "phoneNumber": registerData.Phone,
+        "address": {
+          "street": registerData.Street,
+          "buildingNumber": registerData.Number,
+          "apartmentNumber": registerData.Flat,
+          "postCode": registerData.Postal,
+          "city": registerData.City
+        }
+      },getRegisterClientURL());
+    }
   };
 
   const validateForm = () => {
