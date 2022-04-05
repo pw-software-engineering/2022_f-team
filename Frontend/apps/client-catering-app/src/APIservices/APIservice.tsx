@@ -10,8 +10,7 @@ export const APIservice = (): ApiResult<string | undefined> => {
   const execute = (Method: any, Header: any, Body: JSON, Url: string) => {
     setState(ServiceState.InProgress);
 
-    // axios({ url: Url, data: Body, method: Method })
-    axios.post(Url,Body)
+    axios({ url: Url, data: Body, method: Method, headers: Header })
       .then((res) => {
         setResult(res.data);
         setState(ServiceState.Fetched);
