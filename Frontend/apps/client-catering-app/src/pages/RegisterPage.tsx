@@ -37,8 +37,8 @@ const RegisterPage = () => {
 
   const handleRegister = (e: any) => {
     e.preventDefault();
-    if (validateForm() && service.execute !== undefined) {
-      service.execute(
+    if (validateForm()) {
+      service.execute!(
         "post",
         "",
         {
