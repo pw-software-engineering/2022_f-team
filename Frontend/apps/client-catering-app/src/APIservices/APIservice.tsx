@@ -16,11 +16,10 @@ export const APIservice = (): ApiResult<string | undefined> => {
         setState(ServiceState.Fetched);
       })
       .catch((e: any) => {
-        const err: Error = { name: e.name, message: e.response.data };
-        setError(err);
+        setError({ name: e.name, message: e.response.data } as Error);
         setState(ServiceState.Error);
       });
   };
 
-  return { result: result, error: error, state, execute };
+  return { result, error, state, execute };
 };
