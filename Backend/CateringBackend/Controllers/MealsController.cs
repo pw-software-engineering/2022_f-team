@@ -19,6 +19,7 @@ namespace CateringBackend.Controllers
         }
 
         [HttpGet("{mealId}")]
+        // TODO: change the AllowAnonymous to the appropriate authorization 
         [AllowAnonymous]
         public async Task<IActionResult> GetMealDetails([FromRoute] Guid mealId)
         {

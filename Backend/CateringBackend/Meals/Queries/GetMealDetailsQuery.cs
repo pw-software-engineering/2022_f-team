@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
+using CateringBackend.Utilities.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,11 +23,9 @@ namespace CateringBackend.Meals.Queries
         {
             MealId = meal.Id;
             Name = meal.Name;
-            IngredientList = meal.Ingredients.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.Trim()).ToArray();
-            AllergenList = meal.Allergens.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.Trim()).ToArray(); ;
-            Calories = (int)meal.Calories;
+            IngredientList = meal.Ingredients.SplitByCommaToArray();
+            AllergenList = meal.Allergens.SplitByCommaToArray();
+            Calories = meal.Calories;
             Vegan = meal.IsVegan;
         }
     }
