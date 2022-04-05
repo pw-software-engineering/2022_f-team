@@ -1,16 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
-import { ApiResult, ServiceState } from "./APIresult";
+import { ApiConfig, ApiResult, ServiceState } from "./APIutilities";
 
 export const APIservice = (): ApiResult<string | undefined> => {
   const [result, setResult] = useState<string | undefined>(undefined);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [state, setState] = useState<ServiceState>(ServiceState.NoRequest);
 
-  const execute = (Method: any, Header: any, Body: JSON, Url: string) => {
+  const execute = (config: ApiConfig, body: JSON) => {
     setState(ServiceState.InProgress);
 
-    axios({ url: Url, data: Body, method: Method, headers: Header })
+    axios({ url: config.url, data: body, method: config.method, headers: config.header })
       .then((res) => {
         setResult(res.data);
         setState(ServiceState.Fetched);

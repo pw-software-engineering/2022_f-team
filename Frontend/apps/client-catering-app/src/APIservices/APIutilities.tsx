@@ -11,3 +11,9 @@ export enum ServiceState {
   Fetched,
   Error,
 }
+
+export interface ApiConfig {
+  method: any;
+  header: any;
+  url: string;
+}

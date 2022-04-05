@@ -7,10 +7,10 @@ import {
 } from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ServiceState } from "../APIservices/APIresult";
+import { ServiceState } from "../APIservices/APIutilities";
 import { APIservice } from "../APIservices/APIservice";
-import { getRegisterClientURL } from "../APIservices/URLcreator";
 import "../style/RegisterFormStyle.css";
+import { getRegisterConfig } from "../APIservices/configCreator";
 
 const RegisterPage = () => {
   const service = APIservice();
@@ -39,8 +39,7 @@ const RegisterPage = () => {
     e.preventDefault();
     if (validateForm()) {
       service.execute!(
-        "post",
-        "",
+        getRegisterConfig(),
         {
           name: registerData.Name,
           lastName: registerData.Surname,
@@ -54,8 +53,7 @@ const RegisterPage = () => {
             postCode: registerData.Postal,
             city: registerData.City,
           },
-        },
-        getRegisterClientURL()
+        }
       );
     }
   };
