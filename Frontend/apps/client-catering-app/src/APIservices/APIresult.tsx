@@ -6,8 +6,8 @@ export interface ApiResult<T> {
 }
 
 export enum ServiceState {
-  NoRequest = "NoRequest",
-  InProgress = "InProgress",
-  Fetched = "Fetched",
-  Error = "Error",
+  NoRequest,
+  InProgress,
+  Fetched,
+  Error,
 }
