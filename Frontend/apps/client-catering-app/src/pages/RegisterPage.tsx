@@ -11,7 +11,6 @@ import { ServiceState } from "../APIservices/APIresult";
 import { APIservice } from "../APIservices/APIservice";
 import { getRegisterClientURL } from "../APIservices/URLcreator";
 import "../style/RegisterFormStyle.css";
-import { Spinner, Toast } from "react-bootstrap";
 
 const RegisterPage = () => {
   const service = APIservice();
@@ -197,21 +196,14 @@ const RegisterPage = () => {
         )}
 
       {service.state === ServiceState.InProgress && (
-        <div className="position-absolute bottom-50 start-50 translate-middle">
-          <Spinner animation="border" role="status" variant="secondary">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
+        <h1>Loading</h1>
       )}
 
       {service.state === ServiceState.Error && (
-        <Toast
-          className="position-fixed bottom-0 start-50 translate-middle bg-danger bg-gradient"
-          animation
-        >
-          <Toast.Header>Error</Toast.Header>
-          <Toast.Body>{service.error!.message}</Toast.Body>
-        </Toast>
+        <div>
+          <h1>Error</h1>
+          <p>{service.error!.message}</p>
+        </div>
       )}
 
       {service.state === ServiceState.Fetched && (
