@@ -16,7 +16,6 @@ namespace CateringBackend.CrossTests
     public class ApiTests
     {
         private readonly string _baseUrl = "https://localhost:5001/client";
-        private StringContent CreateDefaultContent(string content) => new StringContent(content, Encoding.UTF8, "application/json");
         private readonly HttpClient _httpClient;
 
         public ApiTests()
@@ -87,7 +86,7 @@ namespace CateringBackend.CrossTests
             var path = $"{_baseUrl}/account";
             await RegisterAndLogin();
             var request = PrepareEditClientRequest();
-            var body = CreateDefaultContent(JsonConvert.SerializeObject(request));
+            var body = JsonConvert.SerializeObject(request).ToStringContent();
             var response = await _httpClient.PutAsync(path, body);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
@@ -97,7 +96,7 @@ namespace CateringBackend.CrossTests
         {
             var path = $"{_baseUrl}/account";
             var request = PrepareEditClientRequest();
-            var body = CreateDefaultContent(JsonConvert.SerializeObject(request));
+            var body = JsonConvert.SerializeObject(request).ToStringContent();
             var response = await _httpClient.PutAsync(path, body);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -108,7 +107,7 @@ namespace CateringBackend.CrossTests
             var path = $"{_baseUrl}/account";
             await RegisterAndLogin();
             var request = PrepareEditClientRequest(false);
-            var body = CreateDefaultContent(JsonConvert.SerializeObject(request));
+            var body = JsonConvert.SerializeObject(request).ToStringContent();
             var response = await _httpClient.PutAsync(path, body);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -200,13 +199,13 @@ namespace CateringBackend.CrossTests
         private async Task<HttpResponseMessage> Register(RegisterRequest registerRequest)
         {
             var path = $"{_baseUrl}/register";
-            var body = CreateDefaultContent(JsonConvert.SerializeObject(registerRequest));
+            var body = JsonConvert.SerializeObject(registerRequest).ToStringContent();
             return await _httpClient.PostAsync(path, body);
         }
         private async Task<HttpResponseMessage> Login(LoginRequest request)
         {
             var path = $"{_baseUrl}/login";
-            var body = CreateDefaultContent(JsonConvert.SerializeObject(request));
+            var body = JsonConvert.SerializeObject(request).ToStringContent();
             return await _httpClient.PostAsync(path, body);
         }
 
@@ -234,7 +233,7 @@ namespace CateringBackend.CrossTests
             if (authorize)
                 await RegisterAndLogin();
             var request = PrepareOrdersRequest(isValid);
-            var body = CreateDefaultContent(JsonConvert.SerializeObject(request));
+            var body = JsonConvert.SerializeObject(request).ToStringContent();
             return await _httpClient.PostAsync(path, body);
         }
 
@@ -251,7 +250,7 @@ namespace CateringBackend.CrossTests
         {
             var path = $"{_baseUrl}/orders/{orderId}/complain";
             var request = PrepareComplainRequest();
-            var body = CreateDefaultContent(JsonConvert.SerializeObject(request));
+            var body = JsonConvert.SerializeObject(request).ToStringContent();
             return await _httpClient.PostAsync(path, body);
         }
 
