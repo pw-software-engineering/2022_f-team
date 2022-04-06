@@ -1,15 +1,7 @@
-import * as React from 'react'
-import styles from './styles.module.css'
-
-interface Props {
-  text: string
-}
-
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+import './style/RegisterFormStyle.css'
 
 export { default as FormInputComponent } from './FormInputComponents'
+export { default as LoginForm, LoginData, LoginFormResponse } from './LoginForm'
 
 export {
   EmailValidator,
@@ -17,4 +9,4 @@ export {
   PostalCodeValidator
 } from './utilities'
 
-export { default as SubmitButton} from './SubmitButton'
+export { default as SubmitButton } from './SubmitButton'
