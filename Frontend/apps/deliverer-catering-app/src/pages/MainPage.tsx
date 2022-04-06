@@ -1,7 +1,7 @@
 const App = () => {
   return (
     <div>
-      <h1>Deliverer App - main page</h1>
+      <h1>Deliverer App</h1>
     </div>
   );
 };
