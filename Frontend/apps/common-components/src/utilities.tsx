@@ -4,10 +4,6 @@ export const EmailValidator = (value: string) => {
   return value.length > 0 && regex.test(value)
 }
 
-export const PasswordValidator = (value: string) => {
-  return value.length > 0;
-}
-
 export const PhoneValidator = (value: string) => {
   const regex = /^\+?[0-9]{9,12}$/i
   return value.replace(' ', '').length > 6 && regex.test(value.replace(' ', ''))

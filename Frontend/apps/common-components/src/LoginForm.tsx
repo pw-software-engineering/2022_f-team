@@ -1,79 +1,52 @@
-import React, { useState } from 'react'
-import FormInputComponent from './FormInputComponents';
-import SubmitButton from './SubmitButton';
-import { EmailValidator, PasswordValidator } from './utilities';
-import "./style/RegisterFormStyle.css";
-
-export interface LoginData {
-    Email: string,
-    Password: string,
-}
-
-export enum LoginFormResponse {
-    OK,
-    BadRequest,
-}
+import React from 'react'
+import FormInputComponent from './FormInputComponents'
+import SubmitButton from './SubmitButton'
+import { EmailValidator } from './utilities'
+import './style/RegisterFormStyle.css'
 
 interface LoginFormProps {
-    onSubmitClick: (loginData: LoginData) => LoginFormResponse
-    bottom?: React.ReactNode
+  onSubmitClick: () => void
+  bottom?: React.ReactNode
+  onValueChange: (label: string, value: string) => void
+  validateForm: () => boolean
 }
 
 const LoginForm = (props: LoginFormProps) => {
-    const [loginData, setloginData] = useState({
-        Email: "",
-        Password: "",
-    });
+  const handleLogin = (e: any) => {
+    e.preventDefault()
 
-    const changeloginDataValue = (label: string, value: string) => {
-        setloginData({
-            ...loginData,
-            [label]: value,
-        });
-    };
+    props.onSubmitClick()
+  }
 
-    const handleLogin = (e: any) => {
-        e.preventDefault();
-
-        props.onSubmitClick(loginData);
-    };
-
-    const validateForm = () => {
-        if (!EmailValidator(loginData.Email)) return false;
-        if (!PasswordValidator(loginData.Password)) return false;
-        return true;
-    };
-
-    return (
-        <form>
-            <h1>Login</h1>
-            <div className="normal-input-wrapper">
-                <FormInputComponent
-                    label="Email"
-                    onValueChange={changeloginDataValue}
-                    type="email"
-                    validationText="Provide valid email format."
-                    validationFunc={(x: string) => EmailValidator(x)}
-                />
-                <FormInputComponent
-                    label="Password"
-                    onValueChange={changeloginDataValue}
-                    type="password"
-                    validationText="Provide account password."
-                    validationFunc={(x: string) => PasswordValidator(x)}
-                />
-
-            </div>
-            <div className="button-div">
-                <SubmitButton
-                    action={handleLogin}
-                    validateForm={validateForm}
-                    text="Login"
-                />
-                {props.bottom}
-            </div>
-        </form>
-    );
+  return (
+    <form>
+      <h1>Login</h1>
+      <div className='normal-input-wrapper'>
+        <FormInputComponent
+          label='Email'
+          onValueChange={props.onValueChange}
+          type='email'
+          validationText='Provide valid email format.'
+          validationFunc={(x: string) => EmailValidator(x)}
+        />
+        <FormInputComponent
+          label='Password'
+          onValueChange={props.onValueChange}
+          type='password'
+          validationText='Provide account password.'
+          validationFunc={(x: string) => x.length >= 8}
+        />
+      </div>
+      <div className='button-div'>
+        <SubmitButton
+          action={handleLogin}
+          validateForm={props.validateForm}
+          text='Login'
+        />
+        {props.bottom}
+      </div>
+    </form>
+  )
 }
 
 export default LoginForm
