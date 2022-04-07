@@ -9,7 +9,7 @@ namespace CateringBackend.Domain.Entities
         public string Name { get; set; }
         public string Ingredients { get; set; }
         public string Allergens { get; set; }
-        public double Calories { get; set; }
+        public int Calories { get; set; }
         public bool IsVegan { get; set; }
         public bool IsAvailable { get; set; }
         public HashSet<Diet> Diets { get; set; }
@@ -19,7 +19,7 @@ namespace CateringBackend.Domain.Entities
             Diets = new HashSet<Diet>();
         }
 
-        public static Meal Create(string name, string ingredients, string allergens, double calories, bool isVegan)
+        public static Meal Create(string name, string ingredients, string allergens, int calories, bool isVegan)
         {
             return new()
             {

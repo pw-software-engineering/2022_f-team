@@ -25,7 +25,7 @@ namespace CateringBackend.Meals.Queries
             Name = meal.Name;
             IngredientList = meal.Ingredients.SplitByCommaToArray();
             AllergenList = meal.Allergens.SplitByCommaToArray();
-            Calories = (int)meal.Calories;
+            Calories = meal.Calories;
             Vegan = meal.IsVegan;
         }
     }
