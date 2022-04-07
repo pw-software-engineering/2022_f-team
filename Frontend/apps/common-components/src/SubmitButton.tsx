@@ -4,7 +4,6 @@ interface SubmitButtonProps {
   text: string
   validateForm: () => boolean
   action: (e: any) => void
-  disabled?: boolean
 }
 
 const SubmitButton = (props: SubmitButtonProps) => {
