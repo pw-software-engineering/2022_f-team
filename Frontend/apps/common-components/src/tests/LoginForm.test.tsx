@@ -8,7 +8,7 @@ import React from "react";
 test("button is disabled after render", async () => {
   render(
     <BrowserRouter>
-      <LoginForm onSubmitClick={(_) => LoginFormResponse.OK} />
+      <LoginForm onSubmitClick={(_) => { }} />
     </BrowserRouter>
   );
   expect(await screen.getByRole("button")).toBeDisabled();
