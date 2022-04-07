@@ -1,7 +1,7 @@
-import './style/RegisterFormStyle.css'
+import './style/ComponentsStyle.css'
 
 export { default as FormInputComponent } from './FormInputComponents'
-export { default as LoginForm} from './LoginForm'
+export { default as LoginForm } from './LoginForm'
 
 export {
   EmailValidator,

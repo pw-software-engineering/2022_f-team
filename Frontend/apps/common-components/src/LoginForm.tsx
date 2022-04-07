@@ -2,7 +2,6 @@ import React from 'react'
 import FormInputComponent from './FormInputComponents'
 import SubmitButton from './SubmitButton'
 import { EmailValidator } from './utilities'
-import './style/RegisterFormStyle.css'
 
 interface LoginFormProps {
   onSubmitClick: () => void

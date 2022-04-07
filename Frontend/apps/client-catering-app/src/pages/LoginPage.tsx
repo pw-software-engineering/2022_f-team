@@ -1,6 +1,7 @@
 import { LoginForm, EmailValidator } from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "../style/ComponentsStyle.css";
 import { APIservice } from "../APIservices/APIservice";
 import { ServiceState } from "../APIservices/APIutilities";
 import { getLoginConfig } from "../APIservices/configCreator";
