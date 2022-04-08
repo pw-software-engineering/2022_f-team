@@ -1,5 +1,3 @@
-import './style/RegisterFormStyle.css'
-
 export { default as FormInputComponent } from './FormInputComponents'
 export { default as LoginForm } from './LoginForm'
 
