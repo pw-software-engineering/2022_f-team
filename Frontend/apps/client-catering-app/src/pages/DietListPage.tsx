@@ -3,7 +3,7 @@ import "../style/DietComponentStyle.css";
 
 const DietListPage = () => {
     return (
-      <div>
+      <div className="page-wrapper">
         <DietComponent/>
       </div>
     );

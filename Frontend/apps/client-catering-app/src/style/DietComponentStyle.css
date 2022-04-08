@@ -5,6 +5,17 @@
     font-family: 'Lato';
 }
 
+.page-wrapper{
+    background-color: #eff8f8;
+    min-height: 100vh;
+    min-width: 100vw;
+    padding-top: 10vh;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    -moz-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+}
+
 .diet-div{
     width: 60%;
     background-color: white;
@@ -87,7 +98,8 @@
 }
 
 .meal-row{
-    border: solid 2px #539091;
+    border: solid 2px #cceae8;
+    background-color: #cceae8;
     border-radius: 5px;
     box-sizing: border-box;
     padding: 1vh 2vw;
