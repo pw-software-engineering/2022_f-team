@@ -18,6 +18,15 @@ namespace CateringBackend.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
+        // TODO: change the AllowAnonymous to the appropriate authorization 
+        [AllowAnonymous]
+        public async Task<IActionResult> GetMeals([FromQuery] GetMealsQuery getMealsQuery)
+        {
+            var result = await _mediator.Send(getMealsQuery);
+            return Ok(result);
+        }
+
         [HttpGet("{mealId}")]
         // TODO: change the AllowAnonymous to the appropriate authorization 
         [AllowAnonymous]
