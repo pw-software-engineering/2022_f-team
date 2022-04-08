@@ -1,7 +1,7 @@
 const MainPage = () => {
   return (
     <div>
-      <h1>Client App-mainPage</h1>
+      <h1>Producer App</h1>
     </div>
   );
 };
