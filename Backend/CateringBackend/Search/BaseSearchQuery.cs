@@ -13,7 +13,9 @@ namespace CateringBackend.Search
             => GetPaginated(GetSorted(GetFiltered(collectionToApplySearch))).ToList();
             
         protected abstract IQueryable<T> GetFiltered(IQueryable<T> collectionToFilter);
+
         protected abstract IQueryable<T> GetSorted(IQueryable<T> collectionToSort);
+
         private IQueryable<T> GetPaginated(IQueryable<T> collectionToPaginate) =>
             collectionToPaginate.Skip(Offset).Take(Limit);
     }
