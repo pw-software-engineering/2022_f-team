@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 interface ExpandMoreButtonProps {
   onClick: () => void
 }
 
 const ExpandMoreButton = (props: ExpandMoreButtonProps) => {
+  const [rotateChevron, setRotateChevron] = useState(false)
+
+  const handleRotate = () => setRotateChevron(!rotateChevron)
+
+  const rotate = rotateChevron ? 'rotate(180deg)' : 'rotate(0)'
+
+  const onClickAction = () => {
+    handleRotate()
+    props.onClick()
+  }
+
   return (
-    <button className='expandMoreButton' onClick={props.onClick}>
+    <button
+      className='expandMoreButton'
+      style={{ transform: rotate, transition: 'all 0.2s linear' }}
+      onClick={onClickAction}
+    >
       <svg
         xmlns='http://www.w3.org/2000/svg'
         height='48px'

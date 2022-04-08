@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import ExpandMoreButton from './ExpandMoreButton'
+import VeganMark from './VeganMark'
 
 const DietComponent = () => {
   const [showMeals, setShowMeals] = useState<boolean>(false)
@@ -8,8 +9,11 @@ const DietComponent = () => {
 
   return (
     <div className='diet-div'>
-      <h1>DietName</h1>
-      <p>
+      <div className='diet-header-div'>
+        <h1>DietName</h1>
+        <VeganMark />
+      </div>
+      <p className='description'>
         Description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
         do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
         ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -24,7 +28,19 @@ const DietComponent = () => {
         <button className='addToCartButton'>Add to cart</button>
       </div>
       <ExpandMoreButton onClick={toogleShowMeals} />
-      {showMeals && <div>Meals</div>}
+      {showMeals && (
+        <div className='mealsDiv'>
+          <h2>Meals:</h2>
+          <div className='meal-row'>
+            <p>Name</p>
+            <p>Calories: xxx</p>
+          </div>
+          <div className='meal-row'>
+            <p>Name name hsbcusidbcuisdbvcuiwvbiuwbviu</p>
+            <p>Calories: xxx</p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
