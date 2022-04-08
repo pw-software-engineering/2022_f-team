@@ -13,7 +13,6 @@ interface LoginFormProps {
 const LoginForm = (props: LoginFormProps) => {
   const handleLogin = (e: any) => {
     e.preventDefault()
-
     props.onSubmitClick()
   }
 
