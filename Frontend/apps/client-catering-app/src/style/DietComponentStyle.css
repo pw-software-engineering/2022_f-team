@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+*{
+    margin:0;
+    padding:0;
+    font-family: 'Lato';
+}
+
+.page-wrapper{
+    background-color: #eff8f8;
+    min-height: 100vh;
+    min-width: 100vw;
+    padding-top: 10vh;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    -moz-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+}
+
+.diet-div{
+    width: 60%;
+    background-color: white;
+    border: solid 3px #539091;
+    border-radius: 15px;
+    margin:auto;
+    padding: 2vh 4vw;
+    box-sizing: border-box;
+}
+
+.description{
+    text-align: justify;
+}
+
+.calories-price-div{
+    width: 100%;
+    margin-top: 2vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr min-content;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+          ". . .";      
+}
+
+.calories-price-div p{
+    display: inline-block;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.4vw;
+}
+
+.calories-price-div p:nth-of-type(1){
+    grid-column: 1;
+}
+
+.calories-price-div p:nth-of-type(2){
+    grid-column: 2;
+}
+
+.expandMoreButton{
+    width: 100%;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+  
+.addToCartButton{
+    padding: 1vh 1vw;
+    font-size: 2vh;
+    border: solid 3px #539091;
+    border-radius: 15px;
+    background-color: #539091;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+    width: max-content;
+    grid-column: 3;
+}
+
+.diet-header-div{
+    width: 100%;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+          ". .";   
+}
+
+.mealsDiv{
+    width: 80%;
+    margin: auto;
+}
+
+.meal-row{
+    border: solid 2px #cceae8;
+    background-color: #cceae8;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 1vh 2vw;
+    width: 100%;
+    margin-top: 2vh;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+          ". ."; 
+    cursor: pointer;
+
+}
+
+.meal-row p{
+    display: inline-block;
+}
+
+.meal-row p:nth-of-type(1){
+    text-align: left;
+}
+
+.meal-row p:nth-of-type(2){
+    text-align: center;
+}
