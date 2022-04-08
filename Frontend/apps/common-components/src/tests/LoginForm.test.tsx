@@ -10,7 +10,7 @@ test("button is disabled after render", async () => {
     <BrowserRouter>
       <LoginForm
         onSubmitClick={() => true}
-        onValueChange={(email, passwd) => true}
+        onValueChange={(_1, _2) => true}
         validateForm={() => false}
       />
     </BrowserRouter>
@@ -18,19 +18,15 @@ test("button is disabled after render", async () => {
   expect(await screen.getByRole("button")).toBeDisabled();
 });
 
-test("button is enabled after providing correct data", async () => {
+test("button is enabled after succesful validation", async () => {
   render(
     <BrowserRouter>
-      <LoginForm onSubmitClick={(_) => LoginFormResponse.OK} />
+      <LoginForm
+        onSubmitClick={() => true}
+        onValueChange={(_1, _2) => true}
+        validateForm={() => true}
+      />
     </BrowserRouter>
-  );
-  userEvent.type(
-    screen.getByLabelText("Email: *", { selector: "input" }),
-    "xyz123@gmail.com"
-  );
-  userEvent.type(
-    screen.getByLabelText("Password: *", { selector: "input" }),
-    "0000000"
   );
   expect(await screen.getByRole("button")).toBeEnabled();
 });
