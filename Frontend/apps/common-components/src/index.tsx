@@ -1,7 +1,7 @@
 import './style/RegisterFormStyle.css'
 
 export { default as FormInputComponent } from './FormInputComponents'
-export { default as LoginForm} from './LoginForm'
+export { default as LoginForm } from './LoginForm'
 
 export {
   EmailValidator,
@@ -10,3 +10,5 @@ export {
 } from './utilities'
 
 export { default as SubmitButton } from './SubmitButton'
+
+export { default as DietComponent } from './DietComponent'
