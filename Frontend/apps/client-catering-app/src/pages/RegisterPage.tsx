@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ServiceState } from "../APIservices/APIutilities";
 import { APIservice } from "../APIservices/APIservice";
-import "../style/ComponentsStyle.css";
+import "../style/LoginRegisterStyles.css";
 import { getRegisterConfig } from "../APIservices/configCreator";
 
 const RegisterPage = () => {

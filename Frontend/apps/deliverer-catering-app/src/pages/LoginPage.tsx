@@ -1,7 +1,7 @@
 import { LoginForm, EmailValidator } from "common-components";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../style/ComponentsStyle.css";
+import "../style/LoginRegisterStyles.css";
 
 const LoginPage = () => {
 
