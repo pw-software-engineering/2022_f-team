@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace CateringBackend.CrossTests.Requests
+namespace CateringBackend.CrossTests.Client.Requests
 {
     public class PostOrdersRequest
     {

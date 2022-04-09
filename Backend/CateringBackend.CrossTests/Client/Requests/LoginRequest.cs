@@ -1,4 +1,4 @@
-﻿namespace CateringBackend.CrossTests.Requests
+﻿namespace CateringBackend.CrossTests.Client.Requests
 {
     public class LoginRequest
     {
