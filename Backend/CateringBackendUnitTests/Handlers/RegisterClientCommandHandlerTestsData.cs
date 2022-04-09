@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CateringBackend.Clients.Commands;
+using CateringBackend.Users.Client.Commands;
 
 namespace CateringBackendUnitTests.Handlers
 {

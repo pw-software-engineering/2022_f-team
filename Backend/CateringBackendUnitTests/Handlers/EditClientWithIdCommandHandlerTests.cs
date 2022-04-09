@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading;
-using CateringBackend.Clients.Commands;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
 using CateringBackend.Domain.Utilities;
 using CateringBackend.Exceptions;
+using CateringBackend.Users.Client.Commands;
 using EntityFrameworkCore.Testing.Moq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

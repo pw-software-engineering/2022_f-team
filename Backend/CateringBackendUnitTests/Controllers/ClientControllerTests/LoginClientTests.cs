@@ -2,7 +2,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using CateringBackend.AuthUtilities;
-using CateringBackend.Clients.Queries;
 using CateringBackend.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -28,21 +27,21 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         public async void GivenLoginUserQuery_WhenLoginUser_ThenItIsSentToMediator()
         {
             // Arrange
-            var loginQuery = new LoginClientQuery
+            var loginQuery = new LoginDelivererQuery
             {
                 Email = "testEmail",
                 Password = "testPassword"
             };
 
             _mockedMediator
-                .Setup(x => x.Send(It.IsAny<LoginClientQuery>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.Send(It.IsAny<LoginDelivererQuery>(), It.IsAny<CancellationToken>()))
                 .Verifiable("Login client query was not sent");
 
             // Act 
             await _clientController.LoginClient(loginQuery);
 
             // Assert
-            _mockedMediator.Verify(x => x.Send(It.IsAny<LoginClientQuery>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockedMediator.Verify(x => x.Send(It.IsAny<LoginDelivererQuery>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Theory]
@@ -54,12 +53,12 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         {
             // Arrange
             _mockedMediator
-                .Setup(x => x.Send(It.IsAny<LoginClientQuery>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.Send(It.IsAny<LoginDelivererQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(mediatorResult))
                 .Verifiable("Client login query was not sent");
 
             // Act 
-            var result = await _clientController.LoginClient(new LoginClientQuery());
+            var result = await _clientController.LoginClient(new LoginDelivererQuery());
             var statusCodeActionResult = result as IStatusCodeActionResult;
 
             // Assert

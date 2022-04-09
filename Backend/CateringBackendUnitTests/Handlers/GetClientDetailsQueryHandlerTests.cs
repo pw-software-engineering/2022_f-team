@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
-using CateringBackend.Clients.Queries;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
 using CateringBackend.Exceptions;
+using CateringBackend.Users.Client.Queries;
 using EntityFrameworkCore.Testing.Moq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

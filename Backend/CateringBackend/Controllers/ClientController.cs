@@ -1,10 +1,10 @@
-﻿using CateringBackend.Clients.Queries;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using CateringBackend.AuthUtilities;
-using CateringBackend.Clients.Commands;
+using CateringBackend.Users.Client.Commands;
+using CateringBackend.Users.Client.Queries;
 
 namespace CateringBackend.Controllers
 {

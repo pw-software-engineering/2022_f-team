@@ -1,5 +1,4 @@
 using System;
-using CateringBackend.Clients.Queries;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
 using CateringBackend.Domain.Utilities;
@@ -34,7 +33,7 @@ namespace CateringBackendUnitTests.Handlers
             var queryHandler = new LoginClientQueryHandler(_dbContext);
 
             // Act
-            var res = queryHandler.Handle(new LoginClientQuery
+            var res = queryHandler.Handle(new LoginDelivererQuery
             { Email = email, Password = password }, default);
             res.Wait();
 
@@ -67,7 +66,7 @@ namespace CateringBackendUnitTests.Handlers
             var queryHandler = new LoginClientQueryHandler(_dbContext);
 
             // Act
-            var res = queryHandler.Handle(new LoginClientQuery
+            var res = queryHandler.Handle(new LoginDelivererQuery
             { Email = email, Password = password }, default);
             res.Wait();
 

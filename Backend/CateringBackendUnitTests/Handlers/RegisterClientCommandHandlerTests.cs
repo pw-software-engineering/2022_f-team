@@ -1,4 +1,3 @@
-using CateringBackend.Clients.Commands;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Entities;
 using CateringBackend.Domain.Utilities;
@@ -8,6 +7,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CateringBackend.Users.Client.Commands;
 using Xunit;
 
 namespace CateringBackendUnitTests.Handlers

@@ -1,12 +1,12 @@
+using System.Threading;
+using System.Threading.Tasks;
+using CateringBackend.AuthUtilities;
 using CateringBackend.Domain.Data;
 using CateringBackend.Domain.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
-using CateringBackend.AuthUtilities;
 
-namespace CateringBackend.Clients.Queries
+namespace CateringBackend.Users.Client.Queries
 {
     public class LoginClientQuery : IRequest<string>
     {
