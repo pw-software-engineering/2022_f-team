@@ -30,15 +30,13 @@ namespace CateringBackend.Meals.Commands
             if(await MealWithGivenNameIsAvailable(request.Name))
                 return false;
 
-            var createdMeal = await AddMealToDatabaseAsync(request, cancellationToken);
-
-            return createdMeal != default;
+            return await AddMealToDatabaseAsync(request, cancellationToken);
         }
 
         private async Task<bool> MealWithGivenNameIsAvailable(string name) => 
             await _dbContext.Meals.FirstOrDefaultAsync(meal => meal.Name == name && meal.IsAvailable) != default;
 
-        private async Task<Meal> AddMealToDatabaseAsync(AddMealCommand addMealCommand, CancellationToken cancellationToken)
+        private async Task<bool> AddMealToDatabaseAsync(AddMealCommand addMealCommand, CancellationToken cancellationToken)
         {
             var mealToAdd = Meal.Create(
                 addMealCommand.Name,
@@ -49,8 +47,7 @@ namespace CateringBackend.Meals.Commands
             );
 
             var createdMeal = await _dbContext.Meals.AddAsync(mealToAdd, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return createdMeal.Entity;
+            return (await _dbContext.SaveChangesAsync(cancellationToken)) != 0;
         }
     }
 }
