@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using CateringBackend.Users.Client.Commands;
 
-namespace CateringBackendUnitTests.Handlers
+namespace CateringBackendUnitTests.Handlers.ClientHandlers
 {
     public class RegisterClientCommandHandlerTestsData
     {

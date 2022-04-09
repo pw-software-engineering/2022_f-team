@@ -8,12 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CateringBackend.Users.Client.Queries
 {
-    public class LoginClientQuery : IRequest<string>
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
-
+    public record LoginClientQuery : LoginQuery, IRequest<string>;
+   
     public class LoginClientQueryHandler : IRequestHandler<LoginClientQuery, string>
     {
         private readonly CateringDbContext _dbContext;

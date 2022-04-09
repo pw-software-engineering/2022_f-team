@@ -1,48 +1,45 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using CateringBackend.AuthUtilities;
 using CateringBackend.Controllers;
-using CateringBackend.Users.Client.Queries;
+using CateringBackend.Users.Producer.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
 using Xunit;
 
-namespace CateringBackendUnitTests.Controllers.ClientControllerTests
+namespace CateringBackendUnitTests.Controllers.ProducerControllerTests
 {
-    public class LoginClientTests
+    public class LoginProducerTests
     {
-        private readonly ClientController _clientController;
+        private readonly ProducerController _producersController;
         private readonly Mock<IMediator> _mockedMediator;
-        private readonly Mock<IUserIdFromTokenProvider> _mockedUserIdFromTokenProvider;
 
-        public LoginClientTests()
+        public LoginProducerTests()
         {
-            _mockedUserIdFromTokenProvider = new Mock<IUserIdFromTokenProvider>();
             _mockedMediator = new Mock<IMediator>();
-            _clientController = new ClientController(_mockedMediator.Object, _mockedUserIdFromTokenProvider.Object);
+            _producersController = new ProducerController(_mockedMediator.Object);
         }
 
         [Fact]
-        public async void GivenLoginClientQuery_WhenLoginUser_ThenItIsSentToMediator()
+        public async void GivenLoginUserQuery_WhenLoginUser_ThenItIsSentToMediator()
         {
             // Arrange
-            var loginQuery = new LoginClientQuery
+            var loginQuery = new LoginProducerQuery()
             {
                 Email = "testEmail",
                 Password = "testPassword"
             };
 
             _mockedMediator
-                .Setup(x => x.Send(It.IsAny<LoginClientQuery>(), It.IsAny<CancellationToken>()))
-                .Verifiable("Login deliverer query was not sent");
+                .Setup(x => x.Send(It.IsAny<LoginProducerQuery>(), It.IsAny<CancellationToken>()))
+                .Verifiable("Login client query was not sent");
 
             // Act 
-            await _clientController.LoginClient(loginQuery);
+            await _producersController.LoginProducer(loginQuery);
 
             // Assert
-            _mockedMediator.Verify(x => x.Send(It.IsAny<LoginClientQuery>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockedMediator.Verify(x => x.Send(It.IsAny<LoginProducerQuery>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Theory]
@@ -54,12 +51,12 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
         {
             // Arrange
             _mockedMediator
-                .Setup(x => x.Send(It.IsAny<LoginClientQuery>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.Send(It.IsAny<LoginProducerQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(mediatorResult))
                 .Verifiable("Client login query was not sent");
 
             // Act 
-            var result = await _clientController.LoginClient(new LoginClientQuery());
+            var result = await _producersController.LoginProducer(new LoginProducerQuery());
             var statusCodeActionResult = result as IStatusCodeActionResult;
 
             // Assert

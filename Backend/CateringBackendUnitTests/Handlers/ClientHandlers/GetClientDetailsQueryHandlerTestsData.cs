@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CateringBackend.Domain.Entities;
 
-namespace CateringBackendUnitTests.Handlers
+namespace CateringBackendUnitTests.Handlers.ClientHandlers
 {
     public static class GetClientDetailsQueryHandlerTestsData
     {

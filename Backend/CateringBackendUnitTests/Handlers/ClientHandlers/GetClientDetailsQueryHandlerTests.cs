@@ -8,7 +8,7 @@ using EntityFrameworkCore.Testing.Moq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace CateringBackendUnitTests.Handlers
+namespace CateringBackendUnitTests.Handlers.ClientHandlers
 {
     public class GetClientDetailsQueryHandlerTests
     {

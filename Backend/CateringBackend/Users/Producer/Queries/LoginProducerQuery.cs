@@ -8,11 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CateringBackend.Users.Producer.Queries
 {
-    public class LoginProducerQuery : IRequest<string>
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    public record LoginProducerQuery : LoginQuery, IRequest<string>;
 
     public class LoginProducerQueryHandler : IRequestHandler<LoginProducerQuery, string>
     {

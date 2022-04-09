@@ -8,11 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CateringBackend.Users.Deliverer.Queries
 {
-    public class LoginDelivererQuery : IRequest<string>
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    public record LoginDelivererQuery : LoginQuery, IRequest<string>;
 
     public class LoginDelivererQueryHandler : IRequestHandler<LoginDelivererQuery, string>
     {
@@ -25,7 +21,7 @@ namespace CateringBackend.Users.Deliverer.Queries
 
         public async Task<string> Handle(LoginDelivererQuery request, CancellationToken cancellationToken)
         {
-            var deliverer = await _dbContext.Producers.FirstOrDefaultAsync(
+            var deliverer = await _dbContext.Deliverers.FirstOrDefaultAsync(
                 x => x.Email == request.Email && x.Password == PasswordManager.Encrypt(request.Password), 
                 cancellationToken);
 

@@ -19,7 +19,7 @@ namespace CateringBackend.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginClient([FromBody] LoginDelivererQuery loginQuery)
+        public async Task<IActionResult> LoginDeliverer([FromBody] LoginDelivererQuery loginQuery)
         {
             var result = await _mediator.Send(loginQuery);
             return string.IsNullOrWhiteSpace(result) ? BadRequest("Niepowodzenie logowania") : Ok(result);
