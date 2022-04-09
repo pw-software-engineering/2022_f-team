@@ -19,8 +19,11 @@ const MealComponent = (props: MealComponentProps) => {
           <button onClick={() => props.closeModal(undefined)}>X</button>
         </div>
         <div className='mealLists'>
-          <StringListForMeal title="Ingredients" list={props.meal.ingredientList}/>
-          <StringListForMeal title="Alergens" list={props.meal.allergenList}/>
+          <StringListForMeal
+            title='Ingredients'
+            list={props.meal.ingredientList}
+          />
+          <StringListForMeal title='Alergens' list={props.meal.allergenList} />
         </div>
         <div className='calories-div'>
           <p>Calories: {props.meal.calories} kcal</p>
