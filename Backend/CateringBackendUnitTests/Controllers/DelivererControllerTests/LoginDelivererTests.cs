@@ -53,7 +53,7 @@ namespace CateringBackendUnitTests.Controllers.DelivererControllerTests
             _mockedMediator
                 .Setup(x => x.Send(It.IsAny<LoginDelivererQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(mediatorResult))
-                .Verifiable("Client deliverer query was not sent");
+                .Verifiable("Login deliverer query was not sent");
 
             // Act 
             var result = await _delivererController.LoginDeliverer(new LoginDelivererQuery());

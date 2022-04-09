@@ -36,7 +36,7 @@ namespace CateringBackendUnitTests.Controllers.ClientControllerTests
 
             _mockedMediator
                 .Setup(x => x.Send(It.IsAny<LoginClientQuery>(), It.IsAny<CancellationToken>()))
-                .Verifiable("Login deliverer query was not sent");
+                .Verifiable("Login client query was not sent");
 
             // Act 
             await _clientController.LoginClient(loginQuery);
