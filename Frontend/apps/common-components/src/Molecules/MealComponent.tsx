@@ -1,6 +1,7 @@
 import React from 'react'
 import { MealModel } from '../models/MealModel'
 import VeganMark from '../Atoms/VeganMark'
+import StringListForMeal from '../Atoms/StringListForMeal'
 
 interface MealComponentProps {
   meal: MealModel
@@ -18,22 +19,8 @@ const MealComponent = (props: MealComponentProps) => {
           <button onClick={() => props.closeModal(undefined)}>X</button>
         </div>
         <div className='mealLists'>
-          <div>
-            <h2>Ingredients</h2>
-            <ul>
-              {props.meal.ingredientList.map((ingredient: string) => (
-                <li>{ingredient}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2>Allergens</h2>
-            <ul>
-              {props.meal.allergenList.map((allergen: string) => (
-                <li>{allergen}</li>
-              ))}
-            </ul>
-          </div>
+          <StringListForMeal title="Ingredients" list={props.meal.ingredientList}/>
+          <StringListForMeal title="Alergens" list={props.meal.allergenList}/>
         </div>
         <div className='calories-div'>
           <p>Calories: {props.meal.calories} kcal</p>
