@@ -1,15 +1,20 @@
 import React from 'react'
 import { useState } from 'react'
-import ExpandMoreButton from './ExpandMoreButton'
-import { DietModel } from './models/DietModel'
-import { MealModel } from './models/MealModel'
-import VeganMark from './VeganMark'
+import ExpandMoreButton from '../Atoms/ExpandMoreButton'
+import MealComponent from './MealComponent'
+import { DietModel } from '../models/DietModel'
+import { MealModel } from '../models/MealModel'
+import VeganMark from '../Atoms/VeganMark'
+import MealRow from '../Atoms/MealRow'
 
 interface DietComponentProps {
   diet: DietModel
 }
 
 const DietComponent = (props: DietComponentProps) => {
+  const [mealToOpenInModal, setMealToOpenInModal] = useState<
+    MealModel | undefined
+  >(undefined)
   const [showMeals, setShowMeals] = useState<boolean>(false)
   const toogleShowMeals = (): void => setShowMeals(!showMeals)
 
@@ -30,11 +35,14 @@ const DietComponent = (props: DietComponentProps) => {
         <div className='mealsDiv'>
           <h2>Meals:</h2>
           {props.diet.meals.map((meal: MealModel) => (
-            <div className='meal-row'>
-              <p>{meal.name}</p>
-              <p>Calories: {meal.calories} kcal</p>
-            </div>
+            <MealRow meal={meal} setMealToOpenInModal={setMealToOpenInModal} />
           ))}
+          {mealToOpenInModal !== undefined && (
+            <MealComponent
+              meal={mealToOpenInModal}
+              closeModal={setMealToOpenInModal}
+            />
+          )}
         </div>
       )}
     </div>

@@ -1,5 +1,5 @@
-export { default as FormInputComponent } from './FormInputComponents'
-export { default as LoginForm } from './LoginForm'
+export { default as FormInputComponent } from './Atoms/FormInputComponents'
+export { default as LoginForm } from './Molecules/LoginForm'
 
 export {
   EmailValidator,
@@ -7,9 +7,11 @@ export {
   PostalCodeValidator
 } from './utilities'
 
-export { default as SubmitButton } from './SubmitButton'
+export { default as SubmitButton } from './Atoms/SubmitButton'
 
-export { default as DietComponent } from './DietComponent'
+export { default as DietComponent } from './Molecules/DietComponent'
+
+export { default as MealComponent } from './Molecules/MealComponent'
 
 export {DietModel} from './models/DietModel'
 
