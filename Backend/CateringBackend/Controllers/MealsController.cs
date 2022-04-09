@@ -19,8 +19,8 @@ namespace CateringBackend.Controllers
         }
 
         [HttpGet]
-        // TODO: change the AllowAnonymous to the appropriate authorization 
-        [AllowAnonymous]
+        [Authorize("client")]
+        [Authorize("producer")]
         public async Task<IActionResult> GetMeals([FromQuery] GetMealsQuery getMealsQuery)
         {
             var result = await _mediator.Send(getMealsQuery);
@@ -28,8 +28,8 @@ namespace CateringBackend.Controllers
         }
 
         [HttpGet("{mealId}")]
-        // TODO: change the AllowAnonymous to the appropriate authorization 
-        [AllowAnonymous]
+        [Authorize("client")]
+        [Authorize("producer")]
         public async Task<IActionResult> GetMealDetails([FromRoute] Guid mealId)
         {
             var result = await _mediator.Send(new GetMealDetailsQuery(mealId));
