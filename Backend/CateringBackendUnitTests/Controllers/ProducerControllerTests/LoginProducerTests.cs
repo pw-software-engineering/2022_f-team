@@ -22,7 +22,7 @@ namespace CateringBackendUnitTests.Controllers.ProducerControllerTests
         }
 
         [Fact]
-        public async void GivenLoginUserQuery_WhenLoginUser_ThenItIsSentToMediator()
+        public async void GivenLoginProducerQuery_WhenLoginProducer_ThenItIsSentToMediator()
         {
             // Arrange
             var loginQuery = new LoginProducerQuery()
@@ -47,7 +47,7 @@ namespace CateringBackendUnitTests.Controllers.ProducerControllerTests
         [InlineData("", HttpStatusCode.BadRequest)]
         [InlineData("   ", HttpStatusCode.BadRequest)]
         [InlineData(null, HttpStatusCode.BadRequest)]
-        public async void GivenMediatorResult_WhenLoginUser_ThenReturnsProperStatusCode(string mediatorResult, HttpStatusCode expectedStatusCode)
+        public async void GivenMediatorResult_WhenLoginProducer_ThenReturnsProperStatusCode(string mediatorResult, HttpStatusCode expectedStatusCode)
         {
             // Arrange
             _mockedMediator
