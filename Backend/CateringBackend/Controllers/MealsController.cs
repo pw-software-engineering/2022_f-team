@@ -19,8 +19,7 @@ namespace CateringBackend.Controllers
         }
 
         [HttpGet]
-        [Authorize("client")]
-        [Authorize("producer")]
+        [Authorize(Roles = "client,producer")]
         public async Task<IActionResult> GetMeals([FromQuery] GetMealsQuery getMealsQuery)
         {
             var result = await _mediator.Send(getMealsQuery);
@@ -28,8 +27,7 @@ namespace CateringBackend.Controllers
         }
 
         [HttpGet("{mealId}")]
-        [Authorize("client")]
-        [Authorize("producer")]
+        [Authorize(Roles = "client,producer")]
         public async Task<IActionResult> GetMealDetails([FromRoute] Guid mealId)
         {
             var result = await _mediator.Send(new GetMealDetailsQuery(mealId));
