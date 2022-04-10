@@ -13,7 +13,7 @@ const Logo = () => {
       >
         <g
           transform='translate(0.000000,260.000000) scale(0.100000,-0.100000)'
-          fill='#000000'
+          fill='#3b6d6e'
           stroke='none'
         >
           <path
