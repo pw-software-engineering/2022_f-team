@@ -11,7 +11,7 @@ const StringListForMeal = (props: StringListForMealProps) => {
       <h2>{props.title}</h2>
       <ul>
         {props.list.map((item: string) => (
-          <li>{item}</li>
+          <li key={item}>{item}</li>
         ))}
       </ul>
     </div>
