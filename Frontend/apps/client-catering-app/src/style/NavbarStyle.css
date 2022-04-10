@@ -1,6 +1,9 @@
 .MyProfileIcon, .CartIcon{
     position: absolute;
     top: 2vh;
+    cursor: pointer;
+    text-align: center;
+    width: 8vw;
 }
 
 .CartIcon{
@@ -9,4 +12,21 @@
 
 .MyProfileIcon{
     right: 2vw;
+}
+
+.CartText, .ProfileText{
+    background-color: black;
+    opacity:  0.4;
+    color: white;
+    padding: 0.2vw;
+    border-radius: 5px;
+    display: none;
+}
+
+.CartIcon:hover .CartText{
+    display: block;
+}
+
+.MyProfileIcon:hover .ProfileText{
+    display: block;
 }
