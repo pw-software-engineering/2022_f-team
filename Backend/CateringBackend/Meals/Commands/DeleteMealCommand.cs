@@ -7,7 +7,7 @@ using CateringBackend.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CateringBackend.Meals.Queries
+namespace CateringBackend.Meals.Commands
 {
     public record DeleteMealCommand(Guid MealId) : IRequest<Meal>;
 
@@ -22,12 +22,14 @@ namespace CateringBackend.Meals.Queries
 
         public async Task<Meal> Handle(DeleteMealCommand request, CancellationToken cancellationToken)
         {
-            var meal = await _dbContext.Meals.Where(meal => meal.IsAvailable)
-                            .FirstOrDefaultAsync(meal => meal.Id == request.MealId);
+            var meal = await _dbContext.Meals
+                .Where(meal => meal.IsAvailable)
+                .FirstOrDefaultAsync(meal => meal.Id == request.MealId, cancellationToken);
+
             if (meal == default)
                 return null;
 
-            if (await MealWithGivenIdIsContaiendByAvailableDiet(request.MealId))
+            if (await MealWithGivenIdIsContainedByAvailableDiet(request.MealId))
                 return meal;
 
             meal.MakeUnavailable();
@@ -35,7 +37,7 @@ namespace CateringBackend.Meals.Queries
             return meal;
         }
 
-        private async Task<bool> MealWithGivenIdIsContaiendByAvailableDiet(Guid mealId) =>
+        private async Task<bool> MealWithGivenIdIsContainedByAvailableDiet(Guid mealId) =>
             await _dbContext.Diets.AnyAsync(diet => diet.IsAvailable && diet.Meals.Any(meal => meal.Id == mealId));
     }
 }
