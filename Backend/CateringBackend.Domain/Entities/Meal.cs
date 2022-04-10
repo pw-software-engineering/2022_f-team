@@ -32,7 +32,7 @@ namespace CateringBackend.Domain.Entities
             };
         }
 
-        public void Delete()
+        public void MakeUnavailable()
         {
             IsAvailable = false;
         }

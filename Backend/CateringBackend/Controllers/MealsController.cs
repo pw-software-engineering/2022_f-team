@@ -36,13 +36,26 @@ namespace CateringBackend.Controllers
         }
 
         [HttpPost]
-        // TODO: change the AllowAnonymous to the appropriate authorization
-        [AllowAnonymous]
+        [Authorize(Roles = "producer")]
         public async Task<IActionResult> AddNewMeal([FromBody] AddMealCommand addMealCommand)
         {
             var result = await _mediator.Send(addMealCommand);
-            return result ? CreatedAtAction(nameof(AddNewMeal), "Powodzenie dodania posiłku") :
-                            BadRequest("Niepowodzenie dodania posiłku");
+            return result ? 
+                CreatedAtAction(nameof(AddNewMeal), "Powodzenie dodania posiłku") :
+                BadRequest("Niepowodzenie dodania posiłku");
+        }
+
+        [HttpDelete("{mealId}")]
+        [Authorize(Roles = "producer")]
+        public async Task<IActionResult> DeleteMeal([FromRoute] Guid mealId)
+        {
+            var result = await _mediator.Send(new DeleteMealCommand(mealId));
+
+            if (result == default)
+                return NotFound("Podany posiłek nie istnieje");
+
+            return result.IsAvailable ? BadRequest("Niepowodzneie usunięcia posiłku") :
+                                        Ok("Powodzenie usunięcia posiłku");
         }
     }
 }
