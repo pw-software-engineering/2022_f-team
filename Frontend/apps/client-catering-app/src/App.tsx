@@ -9,7 +9,7 @@ import './style/NavbarStyle.css'
 const App = () => {
   return (
     <BrowserRouter>
-    <CartIcon/>
+    <CartIcon />
     <MyProfileIcon />
       <Routes>
         <Route path="/" element={<MainPage />} />

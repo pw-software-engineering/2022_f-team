@@ -1,8 +1,13 @@
 import React from 'react'
 
-const CartIcon = () => {
+interface CartIconProps {
+  count?: number
+}
+
+const CartIcon = (props: CartIconProps) => {
   return (
     <div className='CartIcon'>
+      {props.count !== undefined && <p className='number'>{props.count}</p>}
       <svg
         xmlns='http://www.w3.org/2000/svg'
         height='48px'
