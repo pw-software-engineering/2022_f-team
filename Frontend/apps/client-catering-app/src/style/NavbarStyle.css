@@ -41,3 +41,10 @@
     padding: 0.2vw;
     border-radius: 10px;
 }
+
+.Logo{
+    position: absolute;
+    left: 2vw;
+    top: 2vw;
+    cursor: pointer;
+}

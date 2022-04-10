@@ -3,12 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import DietListPage from "./pages/DietListPage";
-import {CartIcon, MyProfileIcon } from "common-components"
+import {CartIcon, MyProfileIcon, Logo } from "common-components"
 import './style/NavbarStyle.css'
 
 const App = () => {
   return (
     <BrowserRouter>
+    <Logo />
     <CartIcon />
     <MyProfileIcon />
       <Routes>

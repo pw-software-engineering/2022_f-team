@@ -20,3 +20,5 @@ export { MealModel } from './models/MealModel'
 export { default as CartIcon } from './Atoms/CartIcon'
 
 export { default as MyProfileIcon } from './Atoms/MyProfileIcon'
+
+export { default as Logo } from './Atoms/Logo'
