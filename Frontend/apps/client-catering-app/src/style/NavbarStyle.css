@@ -1,0 +1,12 @@
+.MyProfileIcon, .CartIcon{
+    position: absolute;
+    top: 2vh;
+}
+
+.CartIcon{
+    right: 6vw;
+}
+
+.MyProfileIcon{
+    right: 2vw;
+}
