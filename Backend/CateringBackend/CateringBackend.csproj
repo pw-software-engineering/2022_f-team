@@ -19,8 +19,4 @@
     <ProjectReference Include="..\CateringBackend.Domain\CateringBackend.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Meals\Commands\" />
-  </ItemGroup>
-
 </Project>

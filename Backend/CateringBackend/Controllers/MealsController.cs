@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
 using CateringBackend.Meals.Queries;
+using CateringBackend.Meals.Commands;
 
 namespace CateringBackend.Controllers
 {
@@ -25,6 +26,16 @@ namespace CateringBackend.Controllers
         {
             var result = await _mediator.Send(new GetMealDetailsQuery(mealId));
             return result == default ? NotFound("Podany posiłek nie istnieje") : Ok(result);
+        }
+
+        [HttpPost]
+        // TODO: change the AllowAnonymous to the appropriate authorization
+        [AllowAnonymous]
+        public async Task<IActionResult> AddNewMeal([FromBody] AddMealCommand addMealCommand)
+        {
+            var result = await _mediator.Send(addMealCommand);
+            return result ? CreatedAtAction(nameof(AddNewMeal), "Powodzenie dodania posiłku") :
+                            BadRequest("Niepowodzenie dodania posiłku");
         }
     }
 }
