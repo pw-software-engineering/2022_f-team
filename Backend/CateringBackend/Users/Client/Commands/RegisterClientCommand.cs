@@ -7,7 +7,7 @@ using CateringBackend.Domain.Utilities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CateringBackend.Clients.Commands
+namespace CateringBackend.Users.Client.Commands
 {
     public class RegisterClientCommand : IRequest<string>
     {
@@ -49,11 +49,11 @@ namespace CateringBackend.Clients.Commands
         private async Task<bool> UserWithGivenEmailExistsAsync(string email) => 
             await _dbContext.Clients.FirstOrDefaultAsync(client => client.Email == email) != default;
 
-        private async Task<Client> AddClientToDatabaseAsync(
+        private async Task<Domain.Entities.Client> AddClientToDatabaseAsync(
             RegisterClientCommand registerClientCommand,
             CancellationToken cancellationToken)
         {
-            var clientToAdd = new Client
+            var clientToAdd = new Domain.Entities.Client
             {
                 Address = new Address
                 {

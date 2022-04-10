@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using CateringBackend.Clients.Commands;
 using CateringBackend.Domain.Entities;
+using CateringBackend.Users.Client.Commands;
 
-namespace CateringBackendUnitTests.Handlers
+namespace CateringBackendUnitTests.Handlers.ClientHandlers
 {
     public static class EditClientWithIdCommandHandlerTestsData
     {

@@ -1,3 +1,5 @@
+using System.Text;
+using CateringBackend.AuthUtilities;
 using CateringBackend.Domain.Data;
 using CateringBackend.Utilities.Extensions;
 using MediatR;
@@ -10,10 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
-using CateringBackend.AuthUtilities;
 
-namespace CateringBackEnd
+namespace CateringBackend
 {
     public class Startup
     {

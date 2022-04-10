@@ -3,13 +3,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CateringBackend.Domain.Data;
-using CateringBackend.Domain.Entities;
 using CateringBackend.Domain.Utilities;
 using CateringBackend.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CateringBackend.Clients.Commands
+namespace CateringBackend.Users.Client.Commands
 {
     public class EditClientCommand : IRequest<bool>
     {
@@ -59,7 +58,7 @@ namespace CateringBackend.Clients.Commands
             return true;
         }
 
-        private async Task EditClient(EditClientWithIdCommand editCommand, Client client)
+        private async Task EditClient(EditClientWithIdCommand editCommand, Domain.Entities.Client client)
         {
             await EditClientAddressIfProvided(editCommand, client);
             client.FirstName = editCommand.Name;
@@ -68,7 +67,7 @@ namespace CateringBackend.Clients.Commands
             client.PhoneNumber = editCommand.PhoneNumber;
         }
 
-        private async Task EditClientAddressIfProvided(EditClientWithIdCommand editCommand, Client client)
+        private async Task EditClientAddressIfProvided(EditClientWithIdCommand editCommand, Domain.Entities.Client client)
         {
             if (editCommand.Address != default)
             {

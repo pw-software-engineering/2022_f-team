@@ -7,7 +7,7 @@ using CateringBackend.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CateringBackend.Clients.Queries
+namespace CateringBackend.Users.Client.Queries
 {
     public record ClientDetailsDto
     {
@@ -17,7 +17,7 @@ namespace CateringBackend.Clients.Queries
         public string PhoneNumber { get; set; }
         public AddressDto Address { get; set; }
 
-        public ClientDetailsDto(Client client, Address address)
+        public ClientDetailsDto(Domain.Entities.Client client, Address address)
         {
             Name = client.FirstName;
             LastName = client.LastName;
