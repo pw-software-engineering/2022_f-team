@@ -22,7 +22,8 @@ namespace CateringBackend.Meals.Queries
 
         public async Task<Meal> Handle(DeleteMealCommand request, CancellationToken cancellationToken)
         {
-            var meal = await _dbContext.Meals.FirstOrDefaultAsync(meal => meal.Id == request.MealId);
+            var meal = await _dbContext.Meals.Where(meal => meal.IsAvailable)
+                            .FirstOrDefaultAsync(meal => meal.Id == request.MealId);
             if (meal == default)
                 return null;
 
@@ -35,6 +36,6 @@ namespace CateringBackend.Meals.Queries
         }
 
         private async Task<bool> MealWithGivenIdIsContaiendByAvailableDiet(Guid mealId) =>
-        await _dbContext.Diets.AnyAsync(diet => diet.IsAvailable && diet.Meals.Any(meal => meal.Id == mealId));
+            await _dbContext.Diets.AnyAsync(diet => diet.IsAvailable && diet.Meals.Any(meal => meal.Id == mealId));
     }
 }
