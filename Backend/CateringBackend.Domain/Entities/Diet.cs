@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace CateringBackend.Domain.Entities
 {
@@ -12,7 +15,9 @@ namespace CateringBackend.Domain.Entities
         public bool IsAvailable { get; set; }
         public HashSet<Meal> Meals { get; set; }
         public HashSet<Order> Orders { get; set; }
-
+        public int Calories => Meals.Sum(m => m.Calories);
+        public bool IsVegan => Meals.All(m => m.IsVegan);
+        
         protected Diet()
         {
             Meals = new HashSet<Meal>();
