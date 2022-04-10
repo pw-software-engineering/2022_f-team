@@ -1,7 +1,7 @@
 import React from 'react'
-import FormInputComponent from './FormInputComponents'
-import SubmitButton from './SubmitButton'
-import { EmailValidator } from './utilities'
+import FormInputComponent from '../Atoms/FormInputComponents'
+import SubmitButton from '../Atoms/SubmitButton'
+import { EmailValidator } from '../utilities'
 
 interface LoginFormProps {
   onSubmitClick: () => void

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
-import LoginForm from "../LoginForm";
+import LoginForm from "../Molecules/LoginForm";
 import React from "react";
 
 test("button is disabled after render", async () => {
