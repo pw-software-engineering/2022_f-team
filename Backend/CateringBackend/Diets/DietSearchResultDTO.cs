@@ -5,7 +5,7 @@ namespace CateringBackend.Diets
 {
     public record DietsSearchResultDTO
     {
-        public Guid DietId { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
         public int Calories { get; set; }
@@ -13,7 +13,7 @@ namespace CateringBackend.Diets
 
         public DietsSearchResultDTO(Diet diet)
         {
-            DietId = diet.Id;
+            Id = diet.Id;
             Name = diet.Title;
             Price = (int)diet.Price;
             Calories = diet.Calories;
