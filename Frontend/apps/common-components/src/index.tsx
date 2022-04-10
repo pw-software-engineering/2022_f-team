@@ -13,6 +13,10 @@ export { default as DietComponent } from './Molecules/DietComponent'
 
 export { default as MealComponent } from './Molecules/MealComponent'
 
-export {DietModel} from './models/DietModel'
+export { DietModel } from './models/DietModel'
 
-export {MealModel} from './models/MealModel'
+export { MealModel } from './models/MealModel'
+
+export { default as CartIcon } from './Atoms/CartIcon'
+
+export { default as MyProfileIcon } from './Atoms/MyProfileIcon'
