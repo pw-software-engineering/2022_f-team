@@ -11,7 +11,7 @@ using MediatR;
 
 namespace CateringBackend.Meals.Queries
 {
-    public class GetMealsQuery : BaseSearchQuery<Meal>, IRequest<IEnumerable<MealDetailsDTO>>
+    public class GetMealsQuery : BaseSearchQuery<Meal>, IRequest<IEnumerable<MealSearchResultDTO>>
     {
         public string Name { get; set; }
         public string Name_with { get; set; }
@@ -41,7 +41,7 @@ namespace CateringBackend.Meals.Queries
             };
     }
 
-    public class GetMealsQueryHandler : IRequestHandler<GetMealsQuery, IEnumerable<MealDetailsDTO>>
+    public class GetMealsQueryHandler : IRequestHandler<GetMealsQuery, IEnumerable<MealSearchResultDTO>>
     {
         private readonly CateringDbContext _context;
 
@@ -50,11 +50,11 @@ namespace CateringBackend.Meals.Queries
             _context = context;
         }
 
-        public async Task<IEnumerable<MealDetailsDTO>> Handle(GetMealsQuery request,
+        public async Task<IEnumerable<MealSearchResultDTO>> Handle(GetMealsQuery request,
             CancellationToken cancellationToken)
             => request
                 .GetSearchResult(_context.Meals)
-                .Select(m => new MealDetailsDTO(m))
+                .Select(m => new MealSearchResultDTO(m))
                 .ToList();
     }
 }
