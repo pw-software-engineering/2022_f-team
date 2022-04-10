@@ -26,7 +26,7 @@ namespace CateringBackend.Meals.Queries
             if (meal == default)
                 return null;
 
-            if (await MealWithGivenIdIsContaiendByDiet(request.MealId))
+            if (await MealWithGivenIdIsContaiendByAvailableDiet(request.MealId))
                 return meal;
 
             meal.MakeUnavailable();
@@ -34,7 +34,7 @@ namespace CateringBackend.Meals.Queries
             return meal;
         }
 
-        private async Task<bool> MealWithGivenIdIsContaiendByDiet(Guid mealId) =>
-        await _dbContext.Diets.AnyAsync(diet => diet.Meals.Any(meal => meal.Id == mealId));
+        private async Task<bool> MealWithGivenIdIsContaiendByAvailableDiet(Guid mealId) =>
+        await _dbContext.Diets.AnyAsync(diet => diet.IsAvailable && diet.Meals.Any(meal => meal.Id == mealId));
     }
 }
