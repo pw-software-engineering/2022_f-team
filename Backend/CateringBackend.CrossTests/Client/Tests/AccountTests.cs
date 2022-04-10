@@ -1,10 +1,12 @@
 ﻿using CateringBackend.CrossTests.Client.Requests;
+using CateringBackend.CrossTests.Client.Responses;
 using CateringBackend.CrossTests.Utilities;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using ExpectedObjects;
 
 namespace CateringBackend.CrossTests.Client.Tests
 {
@@ -23,8 +25,11 @@ namespace CateringBackend.CrossTests.Client.Tests
             var clientData = await ClientHelpers.RegisterAndLogin(_httpClient);
             var getResponse = await _httpClient.GetAsync(ClientHelpers.GetAccountUrl());
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
-            var clientGetData = JsonConvert.DeserializeObject<RegisterRequest>(getResponse.Content.ReadAsStringAsync().Result);
-            Assert.Equal(clientData, clientGetData);
+
+            var responseContent = await getResponse.Content.ReadAsStringAsync();
+            var clientGetData = JsonConvert.DeserializeObject<GetClientDetailsResponse>(responseContent);
+            var expectedData = ObjectPropertiesMapper.ConvertObject<RegisterRequest, GetClientDetailsResponse>(clientData);
+            clientGetData.ToExpectedObject().ShouldEqual(expectedData);
         }
 
         [Fact]
@@ -43,8 +48,11 @@ namespace CateringBackend.CrossTests.Client.Tests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var getResponse = await _httpClient.GetAsync(ClientHelpers.GetAccountUrl());
-            var clientGetData = JsonConvert.DeserializeObject<EditClientRequest>(getResponse.Content.ReadAsStringAsync().Result);
-            Assert.Equal(request, clientGetData);
+            var responseContent = await getResponse.Content.ReadAsStringAsync();
+            var clientGetData = JsonConvert.DeserializeObject<GetClientDetailsResponse>(responseContent);
+            var expectedData = ObjectPropertiesMapper.ConvertObject<EditClientRequest, GetClientDetailsResponse>(request);
+            expectedData.Email = clientData.Email;
+            clientGetData.ToExpectedObject().ShouldEqual(expectedData);
         }
 
         [Fact]
