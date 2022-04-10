@@ -5,6 +5,7 @@ export interface DietModel {
   title: string
   description: string
   calories: number
+  price: number
   meals: MealModel[]
   vegan: boolean
 }

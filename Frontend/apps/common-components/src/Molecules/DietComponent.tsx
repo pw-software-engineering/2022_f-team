@@ -27,7 +27,7 @@ const DietComponent = (props: DietComponentProps) => {
       <p className='description'>{props.diet.description}</p>
       <div className='calories-price-div'>
         <p>Calories: {props.diet.calories} kcal</p>
-        <p>Price: xxx</p>
+        <p>Price: {props.diet.price}</p>
         <button className='addToCartButton'>Add to cart</button>
       </div>
       <ExpandMoreButton onClick={toogleShowMeals} />

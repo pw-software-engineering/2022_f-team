@@ -29,6 +29,7 @@ const mockedDiet = {
   description: 'Description Lorem ipsum dolor sit amet.',
   calories: 1234,
   vegan: true,
+  price: 12345,
   meals: MockedMealsArr
 }
 
