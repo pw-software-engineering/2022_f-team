@@ -52,9 +52,13 @@ namespace CateringBackend.Meals.Queries
 
         public async Task<IEnumerable<MealSearchResultDTO>> Handle(GetMealsQuery request,
             CancellationToken cancellationToken)
-            => request
-                .GetSearchResult(_context.Meals)
+        {
+            var availableMeals = _context.Meals.Where(m => m.IsAvailable);
+
+            return request
+                .GetSearchResult(availableMeals)
                 .Select(m => new MealSearchResultDTO(m))
                 .ToList();
+        }
     }
 }
