@@ -16,8 +16,8 @@ namespace CateringBackend.CrossTests.Client.Tests
         [Fact]
         public async void RegisterClient_HasAllData_ReturnsCreated()
         {
-            var request = ClientHelpers.PrepareRegisterRequest();
-            var response = await ClientHelpers.Register(_httpClient, request);
+            var request = ClientRequestsProvider.PrepareRegisterRequest();
+            var response = await ClientActions.Register(_httpClient, request);
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }

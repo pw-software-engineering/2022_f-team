@@ -16,22 +16,22 @@ namespace CateringBackend.CrossTests.Client.Tests
         [Fact]
         public async void LoginClient_HasCorrectData_ReturnsOK()
         {
-            var request = ClientHelpers.PrepareRegisterRequest();
-            await ClientHelpers.Register(_httpClient, request);
+            var request = ClientRequestsProvider.PrepareRegisterRequest();
+            await ClientActions.Register(_httpClient, request);
 
-            var loginRequest = ClientHelpers.PrepareLoginRequest(request);
-            var response = await ClientHelpers.Login(_httpClient, loginRequest);
+            var loginRequest = ClientRequestsProvider.PrepareLoginRequest(request);
+            var response = await ClientActions.Login(_httpClient, loginRequest);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
         public async void LoginClient_HasIncorrectPassword_ReturnsBadRequest()
         {
-            var request = ClientHelpers.PrepareRegisterRequest();
-            await ClientHelpers.Register(_httpClient, request);
+            var request = ClientRequestsProvider.PrepareRegisterRequest();
+            await ClientActions.Register(_httpClient, request);
 
-            var loginRequest = ClientHelpers.PrepareLoginRequest(request, false);
-            var response = await ClientHelpers.Login(_httpClient, loginRequest);
+            var loginRequest = ClientRequestsProvider.PrepareLoginRequest(request, false);
+            var response = await ClientActions.Login(_httpClient, loginRequest);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
     }

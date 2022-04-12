@@ -19,11 +19,12 @@ namespace CateringBackend.CrossTests.Client.Tests
         {
             _httpClient = new HttpClient();
         }
+
         [Fact]
         public async Task GetClientDetails_IsLoggedIn_ReturnsOK()
         {
-            var clientData = await ClientHelpers.RegisterAndLogin(_httpClient);
-            var getResponse = await _httpClient.GetAsync(ClientHelpers.GetAccountUrl());
+            var clientData = await ClientActions.RegisterAndLogin(_httpClient);
+            var getResponse = await _httpClient.GetAsync(ClientUrls.GetAccountUrl());
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
 
             var responseContent = await getResponse.Content.ReadAsStringAsync();
@@ -35,19 +36,20 @@ namespace CateringBackend.CrossTests.Client.Tests
         [Fact]
         public async Task GetClientDetails_NotLoggedIn_ReturnsUnauthorized()
         {
-            var getResponse = await _httpClient.GetAsync(ClientHelpers.GetAccountUrl());
+            var getResponse = await _httpClient.GetAsync(ClientUrls.GetAccountUrl());
             Assert.Equal(HttpStatusCode.Unauthorized, getResponse.StatusCode);
         }
+
         [Fact]
         public async void UpdateClientDetails_ProvidedCompleteData_ReturnsOK()
         {
-            var clientData = await ClientHelpers.RegisterAndLogin(_httpClient);
-            var request = ClientHelpers.PrepareEditClientRequest();
+            var clientData = await ClientActions.RegisterAndLogin(_httpClient);
+            var request = ClientRequestsProvider.PrepareEditClientRequest();
             var body = JsonConvert.SerializeObject(request).ToStringContent();
-            var response = await _httpClient.PutAsync(ClientHelpers.GetAccountUrl(), body);
+            var response = await _httpClient.PutAsync(ClientUrls.GetAccountUrl(), body);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            var getResponse = await _httpClient.GetAsync(ClientHelpers.GetAccountUrl());
+            var getResponse = await _httpClient.GetAsync(ClientUrls.GetAccountUrl());
             var responseContent = await getResponse.Content.ReadAsStringAsync();
             var clientGetData = JsonConvert.DeserializeObject<GetClientDetailsResponse>(responseContent);
             var expectedData = ObjectPropertiesMapper.ConvertObject<EditClientRequest, GetClientDetailsResponse>(request);
@@ -58,9 +60,9 @@ namespace CateringBackend.CrossTests.Client.Tests
         [Fact]
         public async void UpdateClientDetails_NotLoggedIn_ReturnsUnauthorized()
         {
-            var request = ClientHelpers.PrepareEditClientRequest();
+            var request = ClientRequestsProvider.PrepareEditClientRequest();
             var body = JsonConvert.SerializeObject(request).ToStringContent();
-            var response = await _httpClient.PutAsync(ClientHelpers.GetAccountUrl(), body);
+            var response = await _httpClient.PutAsync(ClientUrls.GetAccountUrl(), body);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 

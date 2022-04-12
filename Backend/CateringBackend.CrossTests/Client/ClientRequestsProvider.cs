@@ -1,86 +1,11 @@
 ﻿using CateringBackend.CrossTests.Client.Requests;
 using CateringBackend.CrossTests.Utilities;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CateringBackend.CrossTests.Client
 {
-    public static class ClientHelpers
+    public static class ClientRequestsProvider
     {
-        public const string BaseUrl = TestsConstants.BaseUrl + "/client";
-        public static string GetRegisterUrl() => $"{BaseUrl}/register";
-        public static string GetLoginUrl() => $"{BaseUrl}/login";
-        public static string GetOrdersUrl() => $"{BaseUrl}/orders";
-        public static string GetAccountUrl() => $"{BaseUrl}/account";
-        public static string GetOrdersComplainUrl(int orderId) => $"{BaseUrl}/orders/{orderId}/complain";
-        public static string GetOrdersPayUrl(int orderId) => $"{BaseUrl}/orders/{orderId}/pay";
-
-
-        public static async Task<HttpResponseMessage> Register(HttpClient httpClient, RegisterRequest registerRequest)
-        {
-            var body = JsonConvert.SerializeObject(registerRequest).ToStringContent();
-            return await httpClient.PostAsync(GetRegisterUrl(), body);
-        }
-        public static async Task<HttpResponseMessage> Login(HttpClient httpClient, LoginRequest request)
-        {
-            var body = JsonConvert.SerializeObject(request).ToStringContent();
-            return await httpClient.PostAsync(GetLoginUrl(), body);
-        }
-
-        public static async Task<RegisterRequest> RegisterAndLogin(HttpClient httpClient, bool isValid = true)
-        {
-            var request = PrepareRegisterRequest();
-            await Register(httpClient, request);
-            var loginRequest = PrepareLoginRequest(request, isValid);
-            var response = await Login(httpClient, loginRequest);
-            var bearer = await response.Content.ReadAsStringAsync();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
-            return request;
-        }
-
-        public static async Task<HttpResponseMessage> GetOrders(HttpClient httpClient, bool authorize = true)
-        {
-            if (authorize)
-                await RegisterAndLogin(httpClient);
-            return await httpClient.GetAsync(GetOrdersUrl());
-        }
-
-        public static async Task<HttpResponseMessage> CreateOrders(HttpClient httpClient, bool isValid = true, bool authorize = true)
-        {
-            if (authorize)
-                await RegisterAndLogin(httpClient);
-            var request = PrepareOrdersRequest(isValid);
-            var body = JsonConvert.SerializeObject(request).ToStringContent();
-            return await httpClient.PostAsync(GetOrdersUrl(), body);
-        }
-
-        public static async Task<IEnumerable<int>> CreateOrderAndReturnId(HttpClient httpClient)
-        {
-            await CreateOrders(httpClient);
-            var ordersResponse = await GetOrders(httpClient, false);
-            var ordersContent = await ordersResponse.Content.ReadAsStringAsync();
-            var orderIds = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(ordersContent);
-            return (IEnumerable<int>)(orderIds.Select(x => x.Id));
-        }
-
-        public static async Task<HttpResponseMessage> SendComplain(HttpClient httpClient, int orderId)
-        {
-            var request = PrepareComplainRequest();
-            var body = JsonConvert.SerializeObject(request).ToStringContent();
-            return await httpClient.PostAsync(GetOrdersComplainUrl(orderId), body);
-        }
-
-        public static async Task<HttpResponseMessage> PayOrder(HttpClient httpClient, int orderId)
-        {
-            return await httpClient.PostAsync(GetOrdersPayUrl(orderId), null);
-        }
-
         public static RegisterRequest PrepareRegisterRequest(bool isValid = true)
         {
             var fakerRegister = FakerHelper.GetFaker<RegisterRequest>()
@@ -136,6 +61,7 @@ namespace CateringBackend.CrossTests.Client
 
             return fakeAddress.Generate();
         }
+
         public static PostOrdersRequest PrepareOrdersRequest(bool isValid = true)
         {
             var dietIds = new string[] { "1", "2" };
