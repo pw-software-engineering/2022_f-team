@@ -6,6 +6,7 @@ import { DietModel } from '../models/DietModel'
 import { MealModel } from '../models/MealModel'
 import VeganMark from '../Atoms/VeganMark'
 import MealRow from '../Atoms/MealRow'
+import Pagination from './Pagination'
 
 interface DietComponentProps {
   diet: DietModel
@@ -30,13 +31,14 @@ const DietComponent = (props: DietComponentProps) => {
         <p>Price: {props.diet.price}</p>
         <button className='addToCartButton'>Add to cart</button>
       </div>
-      <ExpandMoreButton onClick={toogleShowMeals} />
+      <div style={{ width: '100%' }}><ExpandMoreButton onClick={toogleShowMeals} /></div>
       {showMeals && (
         <div className='mealsDiv'>
           <h2>Meals:</h2>
           {props.diet.meals.map((meal: MealModel) => (
             <MealRow meal={meal} setMealToOpenInModal={setMealToOpenInModal} />
           ))}
+          <Pagination index={1} pageCount={9} onNextClick={() => null} onPreviousClick={() => null} onNumberClick={() => null} />
           {mealToOpenInModal !== undefined && (
             <MealComponent
               meal={mealToOpenInModal}

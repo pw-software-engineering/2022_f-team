@@ -1,5 +1,6 @@
 import { DietComponent, DietModel, MealModel } from "common-components";
 import "../style/DietComponentStyle.css";
+import "../style/Pagination.css";
 
 const DietListPage = () => {
   const MockedMealsArr: MealModel[] = [
