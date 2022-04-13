@@ -13,14 +13,13 @@ interface PaginationProps {
 const Pagination = (props: PaginationProps) => {
     const indexes = Array.from(Array(props.pageCount).keys());
 
-
     return (
         <div className='pagination'>
-            <ArrowButton onClick={props.onPreviousClick} rotate={'rotate(90deg)'} />
+            <ArrowButton onClick={() => props.onPreviousClick()} rotate={'rotate(90deg)'} />
             {indexes.map((i: number) => (
-                <button className='textButton' onClick={() => props.onNumberClick(i)}>{i}</button>
+                <button key={i} className={`textButton ${i == props.index ? 'selected' : ''}`} onClick={() => props.onNumberClick(i)}>{i + 1}</button>
             ))}
-            <ArrowButton onClick={props.onPreviousClick} rotate={'rotate(270deg)'} />
+            <ArrowButton onClick={() => props.onNextClick()} rotate={'rotate(270deg)'} />
         </div>
     )
 }

@@ -1,9 +1,20 @@
 .pagination {
-    display: inline-block;
-    width: 100%;
-    text-align: center;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .textButton {
-    font-size: 30px;
+  font-size: 30px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transform: translateY(-12px);
+  background-color: transparent;
+  margin: 0 6px;
+}
+
+.selected {
+  text-decoration: underline;
 }
