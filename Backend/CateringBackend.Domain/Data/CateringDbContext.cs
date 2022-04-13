@@ -20,10 +20,10 @@ namespace CateringBackend.Domain.Data
 
         public CateringDbContext(DbContextOptions<CateringDbContext> options) : base(options)
         {
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower() == "development")
-                Database.Migrate();
             if (Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
             {
+                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower() == "development")
+                    Database.Migrate();
                 Database.OpenConnection();
             }
         }
