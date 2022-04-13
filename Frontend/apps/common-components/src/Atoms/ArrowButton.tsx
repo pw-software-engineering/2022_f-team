@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface ArrowButtonProps {
-    onClick: () => void
+    onClick?: () => void
     rotate: string
 }
 
@@ -9,9 +9,10 @@ const ArrowButton = (props: ArrowButtonProps) => {
 
     return (
         <button
+            disabled={props.onClick == null ? true : false}
             className='expandMoreButton'
             style={{ transform: props.rotate, transition: 'all 0.2s linear' }}
-            onClick={props.onClick}
+            onClick={props.onClick!}
         >
             <svg
                 xmlns='http://www.w3.org/2000/svg'

@@ -62,6 +62,11 @@
   cursor: pointer;
   background-color: transparent;
 }
+.expandMoreButton:disabled,
+.expandMoreButton[disabled] {
+  cursor: default;
+  opacity: 0.5;
+}
 
 .addToCartButton {
   padding: 1vh 1vw;

@@ -15,11 +15,11 @@ const Pagination = (props: PaginationProps) => {
 
     return (
         <div className='pagination'>
-            <ArrowButton onClick={() => props.onPreviousClick()} rotate={'rotate(90deg)'} />
+            <ArrowButton onClick={props.index <= 0 ? undefined : props.onPreviousClick} rotate={'rotate(90deg)'} />
             {indexes.map((i: number) => (
-                <button key={i} className={`textButton ${i == props.index ? 'selected' : ''}`} onClick={() => props.onNumberClick(i)}>{i + 1}</button>
+                <button key={i} className={`textButton ${i == props.index ? 'selected' : ''}`} onClick={() => props.onNumberClick(i)}>{i}</button>
             ))}
-            <ArrowButton onClick={() => props.onNextClick()} rotate={'rotate(270deg)'} />
+            <ArrowButton onClick={props.index >= props.pageCount - 1 ? undefined : props.onNextClick} rotate={'rotate(270deg)'} />
         </div>
     )
 }
