@@ -51,6 +51,7 @@ namespace CateringBackend.Meals.Commands
 
         private async Task<Meal> SearchForMealInDatabase(Guid mealId, CancellationToken cancellationToken) => await
             _dbContext.Meals.Where(meal => meal.IsAvailable).FirstOrDefaultAsync(meal => meal.Id == mealId, cancellationToken);
+        
         private async Task<Meal> AddMealToDatabaseAsync(EditMealCommand addMealCommand, CancellationToken cancellationToken)
         {
             var createdMeal = await _dbContext.Meals.AddAsync(
@@ -66,7 +67,9 @@ namespace CateringBackend.Meals.Commands
 
         private async Task AddDietsWithEditedMealToDatabaseAsync(IQueryable<Diet> dietsToEdit, Meal mealToEdit, Meal newMeal, CancellationToken cancellationToken)
         {
-            await dietsToEdit.ForEachAsync(async d => await _dbContext.Diets.AddAsync(
+            await dietsToEdit
+                .Include(d=>d.Meals)
+                .ForEachAsync(async d => await _dbContext.Diets.AddAsync(
                     Diet.Create(
                         d.Title,
                         d.Description,
@@ -76,8 +79,8 @@ namespace CateringBackend.Meals.Commands
                 cancellationToken);
         }
 
-        private IEnumerable<Meal> ReplaceEditedMeal(IEnumerable<Meal> meals, Meal mealToEdit, Meal newMeal) => 
-            meals.Where(m => m.Id == mealToEdit.Id).Select(m => newMeal);
+        private IEnumerable<Meal> ReplaceEditedMeal(ICollection<Meal> meals, Meal mealToEdit, Meal newMeal) => 
+            meals.Select(m => m.Id == mealToEdit.Id ? newMeal : m);
 
         private IQueryable<Diet> SearchDietsContainingMealId(Guid mealId) =>
             _dbContext.Diets.Where(d => d.IsAvailable && d.Meals.Any(m => m.Id == mealId));
