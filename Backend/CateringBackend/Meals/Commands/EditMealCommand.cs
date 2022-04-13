@@ -35,22 +35,25 @@ namespace CateringBackend.Meals.Commands
 
             if (mealToEdit == default)
                 return null;
+            if (await MealWithGivenNameExists(request.Name, cancellationToken))
+                return mealToEdit;
 
             mealToEdit.MakeUnavailable();
-
             var newMeal = await AddMealToDatabaseAsync(request, cancellationToken);
             
             var dietsToEdit = SearchDietsContainingMealId(mealToEdit.Id);
             await dietsToEdit.ForEachAsync(d => d.MakeUnavailable(), cancellationToken);
-
             await AddDietsWithEditedMealToDatabaseAsync(dietsToEdit, mealToEdit, newMeal, cancellationToken);
             
             await _dbContext.SaveChangesAsync(cancellationToken);
             return mealToEdit;
         }
 
+        private async Task<bool> MealWithGivenNameExists(string mealName, CancellationToken cancellationToken) => await
+            _dbContext.Meals.AnyAsync(m => m.Name == mealName);
+
         private async Task<Meal> SearchForMealInDatabase(Guid mealId, CancellationToken cancellationToken) => await
-            _dbContext.Meals.Where(meal => meal.IsAvailable).FirstOrDefaultAsync(meal => meal.Id == mealId, cancellationToken);
+            _dbContext.Meals.Where(m => m.IsAvailable).FirstOrDefaultAsync(m => m.Id == mealId, cancellationToken);
         
         private async Task<Meal> AddMealToDatabaseAsync(EditMealCommand addMealCommand, CancellationToken cancellationToken)
         {
