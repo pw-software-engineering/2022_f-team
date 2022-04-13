@@ -10,6 +10,10 @@ on:
     branches: [main]
 
 jobs:
+  common-components-CI:
+    uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@main
+    with:
+      projectPath: ./Frontend/apps/common-components
   client-app-CI:
     uses: pw-software-engineering/2022_f-team/.github/workflows/react-app-CI-template.yml@main
     with:
