@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CateringBackend.Search
 {
@@ -9,8 +11,8 @@ namespace CateringBackend.Search
         public int Limit { get; set; } = SearchConstants.DefaultLimit;
         public string Sort { get; set; }
 
-        public IEnumerable<T> GetSearchResult(IQueryable<T> collectionToApplySearch)
-            => GetPaginated(GetSorted(GetFiltered(collectionToApplySearch))).ToList();
+        public async Task<IEnumerable<T>> GetSearchResult(IQueryable<T> collectionToApplySearch)
+            => await GetPaginated(GetSorted(GetFiltered(collectionToApplySearch))).ToListAsync();
             
         protected abstract IQueryable<T> GetFiltered(IQueryable<T> collectionToFilter);
 
