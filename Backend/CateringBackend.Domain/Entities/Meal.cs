@@ -14,7 +14,7 @@ namespace CateringBackend.Domain.Entities
         public bool IsAvailable { get; set; }
         public HashSet<Diet> Diets { get; set; }
 
-        protected Meal()
+        public Meal()
         {
             Diets = new HashSet<Diet>();
         }
