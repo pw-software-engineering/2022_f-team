@@ -25,4 +25,4 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       working-directory: ./Backend
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --filter FullyQualifiedName!~CateringBackend.CrossTests --no-build --verbosity normal
