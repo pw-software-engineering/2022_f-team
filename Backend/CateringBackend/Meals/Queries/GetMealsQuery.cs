@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using CateringBackend.Domain.Data;
@@ -55,8 +56,9 @@ namespace CateringBackend.Meals.Queries
         {
             var availableMeals = _context.Meals.Where(m => m.IsAvailable);
 
-            return request
-                .GetSearchResult(availableMeals)
+            var searchResult = await request.GetSearchResult(availableMeals);
+
+            return searchResult
                 .Select(m => new MealSearchResultDTO(m))
                 .ToList();
         }

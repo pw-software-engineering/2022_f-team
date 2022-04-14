@@ -67,7 +67,9 @@ namespace CateringBackend.Diets.Queries
                     .Where(d => d.IsAvailable)
                     .Include(d => d.Meals);
 
-            return request.GetSearchResult(availableDietsWithMeals)
+            var searchResult = await request.GetSearchResult(availableDietsWithMeals);
+
+            return searchResult
                 .Select(d => new DietsSearchResultDTO(d))
                 .ToList();
         }
