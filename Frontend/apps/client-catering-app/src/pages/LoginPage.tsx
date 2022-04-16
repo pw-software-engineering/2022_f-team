@@ -1,6 +1,9 @@
-import { LoginForm, EmailValidator } from "common-components";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { LoginForm, EmailValidator, UserContextInterface, UserContext } from "common-components";
+import { useState, useContext } from "react";
+import {
+  Link,
+  Navigate
+} from "react-router-dom";
 import "../style/LoginRegisterStyles.css";
 import { APIservice } from "../APIservices/APIservice";
 import { ServiceState } from "../APIservices/APIutilities";
@@ -8,6 +11,8 @@ import { getLoginConfig } from "../APIservices/configCreator";
 
 const LoginPage = () => {
   const service = APIservice();
+
+  const userContext = useContext(UserContext);
 
   const [loginData, setloginData] = useState({
     Email: "",
@@ -22,8 +27,8 @@ const LoginPage = () => {
   };
 
   const validateForm = (): boolean => {
-    if (!EmailValidator(loginData.Email)) return false;
-    if (loginData.Password.length < 8) return false;
+    if (loginData.Email.length > 32 || loginData.Email.length == 0) return false;
+    if (loginData.Password.length > 32 || loginData.Password.length == 0) return false;
     return true;
   };
 
@@ -31,7 +36,11 @@ const LoginPage = () => {
     service.execute!(getLoginConfig(), {
       email: loginData.Email,
       password: loginData.Password,
-    });
+    },
+      (result: string | undefined) => {
+        console.log(result);
+        userContext?.login(loginData.Email, loginData.Password, result!);
+      });
   };
 
   const bottom = (
@@ -65,12 +74,7 @@ const LoginPage = () => {
       )}
 
       {service.state === ServiceState.Fetched && (
-        <div>
-          <p>You have logged in successfully.</p>
-          <Link to="/">
-            <button>Go to main page</button>
-          </Link>
-        </div>
+        <Navigate to="/diet" />
       )}
     </div>
   );

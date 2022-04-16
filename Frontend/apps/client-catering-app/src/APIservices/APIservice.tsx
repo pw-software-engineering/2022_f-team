@@ -7,13 +7,15 @@ export const APIservice = (): ApiResult<string | undefined> => {
   const [error, setError] = useState<Error | undefined>(undefined);
   const [state, setState] = useState<ServiceState>(ServiceState.NoRequest);
 
-  const execute = (config: ApiConfig, body: JSON) => {
+  const execute = (config: ApiConfig, body: JSON, then: Function) => {
     setState(ServiceState.InProgress);
 
     axios({ url: config.url, data: body, method: config.method, headers: config.header })
       .then((res) => {
         setResult(res.data);
         setState(ServiceState.Fetched);
+
+        then(res.data);
       })
       .catch((e: any) => {
         setError({ name: e.name, message: e.response.data } as Error);
