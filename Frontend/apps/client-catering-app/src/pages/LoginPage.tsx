@@ -38,7 +38,7 @@ const LoginPage = () => {
       password: loginData.Password,
     },
       (result: string | undefined) => {
-        console.log(result);
+        console.log(userContext);
         userContext?.login(loginData.Email, loginData.Password, result!);
       });
   };

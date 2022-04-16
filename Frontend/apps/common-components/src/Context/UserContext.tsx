@@ -13,28 +13,40 @@ export const UserContext = createContext<UserContextInterface | null>(null);
 
 export class UserProvider extends React.Component {
     login = (username: string, password: string, authApiKey: string) => {
+
         this.setState({
             isLogged: true,
             username: username,
             password: password,
             authApiKey: authApiKey
         });
+
+        console.debug({ username, password, authApiKey });
     };
 
     logout = () => {
-        this.setState({ isLogged: false });
+        this.setState({
+            isLogged: false,
+            username: "",
+            password: "",
+            authApiKey: ""
+        });
+
+        console.debug("Logged out a user");
     };
+
 
     state = {
         isLogged: false,
         username: "",
         password: "",
         authApiKey: "",
-        login: (_: string, __: string, ___: string) => { },
-        logout: () => { },
+        login: this.login,
+        logout: this.logout,
     };
 
     render() {
+
         return (
             <UserContext.Provider value={this.state}>
                 {this.props.children}
