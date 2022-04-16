@@ -27,8 +27,8 @@ namespace CateringBackend.Meals.Queries
                 .FilterIf(m => m.Name.Contains(Name_with), !string.IsNullOrWhiteSpace(Name_with))
                 .FilterIf(m => m.IsVegan == Vegan, Vegan.HasValue)
                 .FilterIf(m => m.Calories == Calories, Calories != null)
-                .FilterIf(m => m.Calories >= Calories_ht, Calories_ht != null)
-                .FilterIf(m => m.Calories <= Calories_lt, Calories_lt != null);
+                .FilterIf(m => m.Calories > Calories_ht, Calories_ht != null)
+                .FilterIf(m => m.Calories < Calories_lt, Calories_lt != null);
 
         protected override IQueryable<Meal> GetSorted(IQueryable<Meal> collectionToSort)
             => Sort switch
