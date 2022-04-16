@@ -36,11 +36,11 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
         {
             // Arrange
             var mealsToSeedDatabase = new List<Meal>();
-            foreach (var i in Enumerable.Range(0, numberOfMealsToAdd))
+            for(var i = 0; i < numberOfMealsToAdd; i++)
             {
                 mealsToSeedDatabase.Add(Meal.Create(i.ToString(), i.ToString(), i.ToString(), i,true));
             }
-            foreach (var i in Enumerable.Range(0, numberOfMealsUnavailable))
+            for (var i = 0; i < numberOfMealsUnavailable; i++)
             {
                 mealsToSeedDatabase[i].MakeUnavailable(); 
             }

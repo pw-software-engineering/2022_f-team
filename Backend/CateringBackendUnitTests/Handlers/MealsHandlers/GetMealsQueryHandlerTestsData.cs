@@ -169,10 +169,10 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
                 {
                     new GetMealsQuery
                     {
-                        Calories = 10
+                        Calories = calories
                     },
                     meals,
-                    meals.WhereIsAvailable().WhereCaloriesEqual(10).ToList()
+                    meals.WhereIsAvailable().WhereCaloriesEqual(calories).ToList()
                 };
             }
         }
