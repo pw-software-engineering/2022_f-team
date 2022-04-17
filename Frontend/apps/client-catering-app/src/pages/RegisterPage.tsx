@@ -4,16 +4,20 @@ import {
   PhoneValidator,
   PostalCodeValidator,
   SubmitButton,
+  ServiceState,
+  UserContext,
 } from "common-components";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ServiceState } from "../APIservices/APIutilities";
-import { APIservice } from "../APIservices/APIservice";
+import { useContext, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { APIservice } from "../Services/APIservice";
 import "../style/LoginRegisterStyles.css";
-import { getRegisterConfig } from "../APIservices/configCreator";
+import { getRegisterConfig } from "../Services/configCreator";
 
 const RegisterPage = () => {
   const service = APIservice();
+
+  const userContext = useContext(UserContext);
+
   const [registerData, setRegisterData] = useState({
     Email: "",
     Name: "",
@@ -53,8 +57,10 @@ const RegisterPage = () => {
             postCode: registerData.Postal,
             city: registerData.City,
           },
-        }
-      );
+        },
+        (result: string | undefined) => {
+          userContext?.login(result!);
+        });
     }
   };
 
@@ -205,12 +211,7 @@ const RegisterPage = () => {
       )}
 
       {service.state === ServiceState.Fetched && (
-        <div className="afterRegisterDiv">
-          <p>Your account have been created.</p>
-          <Link to="/">
-            <button>Go to main page</button>
-          </Link>
-        </div>
+        <Navigate to="/diet" />
       )}
     </div>
   );

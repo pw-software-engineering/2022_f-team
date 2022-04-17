@@ -23,4 +23,9 @@ export { default as MyProfileIcon } from './Atoms/MyProfileIcon'
 
 export { default as Logo } from './Atoms/Logo'
 
+export * from './Context/UserType';
 export * from './Context/UserContext';
+
+export { PrivateRoute } from './Routes/PrivateRoute';
+
+export * from './Services/APIutilities';

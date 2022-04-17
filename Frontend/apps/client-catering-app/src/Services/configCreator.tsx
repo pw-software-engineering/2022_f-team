@@ -1,4 +1,4 @@
-import { ApiConfig } from "./APIutilities";
+import { ApiConfig } from "common-components";
 import { getLoginClientURL, getRegisterClientURL } from "./URLcreator";
 
 export const getRegisterConfig = (): ApiConfig =>

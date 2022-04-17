@@ -1,52 +1,57 @@
 import React, { createContext } from "react";
+import { UserType } from "./UserType";
 
 export interface UserContextInterface {
-    isLogged: boolean,
-    username: string,
-    password: string,
+    isAuthenticated: boolean,
     authApiKey: string,
-    login: (username: string, password: string, authApiKey: string) => void,
+    userType: UserType | null,
+    login: (authApiKey: string) => void,
     logout: () => void,
 }
 
 export const UserContext = createContext<UserContextInterface | null>(null);
 
-export class UserProvider extends React.Component {
-    login = (username: string, password: string, authApiKey: string) => {
+export interface UserProviderProps {
+    userType: UserType,
+}
+
+export class UserProvider extends React.Component<UserProviderProps> {
+    constructor(props: UserProviderProps) {
+        super(props);
 
         this.setState({
-            isLogged: true,
-            username: username,
-            password: password,
+            isAuthenticated: false,
+            authApiKey: "",
+            login: this.login,
+            logout: this.logout,
+            userType: props.userType,
+        });
+    }
+
+    login = (authApiKey: string) => {
+        this.setState({
+            isAuthenticated: true,
             authApiKey: authApiKey
         });
-
-        console.debug({ username, password, authApiKey });
     };
 
     logout = () => {
         this.setState({
-            isLogged: false,
-            username: "",
-            password: "",
+            isAuthenticated: false,
             authApiKey: ""
         });
-
-        console.debug("Logged out a user");
     };
 
 
     state = {
-        isLogged: false,
-        username: "",
-        password: "",
+        isAuthenticated: false,
         authApiKey: "",
         login: this.login,
         logout: this.logout,
+        userType: null,
     };
 
     render() {
-
         return (
             <UserContext.Provider value={this.state}>
                 {this.props.children}

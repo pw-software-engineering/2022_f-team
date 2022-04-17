@@ -1,13 +1,12 @@
-import { LoginForm, EmailValidator, UserContextInterface, UserContext } from "common-components";
+import { LoginForm, EmailValidator, UserContextInterface, UserContext, ServiceState } from "common-components";
 import { useState, useContext } from "react";
 import {
   Link,
   Navigate
 } from "react-router-dom";
 import "../style/LoginRegisterStyles.css";
-import { APIservice } from "../APIservices/APIservice";
-import { ServiceState } from "../APIservices/APIutilities";
-import { getLoginConfig } from "../APIservices/configCreator";
+import { APIservice } from "../Services/APIservice";
+import { getLoginConfig } from "../Services/configCreator";
 
 const LoginPage = () => {
   const service = APIservice();
@@ -27,8 +26,8 @@ const LoginPage = () => {
   };
 
   const validateForm = (): boolean => {
-    if (loginData.Email.length > 32 || loginData.Email.length == 0) return false;
-    if (loginData.Password.length > 32 || loginData.Password.length == 0) return false;
+    if (!EmailValidator(loginData.Email)) return false;
+    if (loginData.Password.length < 8) return false;
     return true;
   };
 
@@ -38,8 +37,7 @@ const LoginPage = () => {
       password: loginData.Password,
     },
       (result: string | undefined) => {
-        console.log(userContext);
-        userContext?.login(loginData.Email, loginData.Password, result!);
+        userContext?.login(result!);
       });
   };
 

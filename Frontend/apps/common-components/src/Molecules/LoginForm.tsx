@@ -1,6 +1,7 @@
 import React from 'react'
 import FormInputComponent from '../Atoms/FormInputComponents'
 import SubmitButton from '../Atoms/SubmitButton'
+import { EmailValidator } from '../utilities'
 
 interface LoginFormProps {
   onSubmitClick: () => void
@@ -24,14 +25,13 @@ const LoginForm = (props: LoginFormProps) => {
           onValueChange={props.onValueChange}
           type='email'
           validationText='Provide valid email format.'
-          validationFunc={(_: string) => true}
+          validationFunc={(x: string) => EmailValidator(x)}
         />
         <FormInputComponent
           label='Password'
           onValueChange={props.onValueChange}
           type='password'
-          validationText='Provide account password.'
-          validationFunc={(_: string) => true}
+          validationText='Provide account password.' validationFunc={(x: string) => x.length >= 8}
         />
       </div>
       <div className='button-div'>

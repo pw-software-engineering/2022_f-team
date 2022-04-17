@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { ApiConfig, ApiResult, ServiceState } from "./APIutilities";
+import { ApiConfig, ApiResult, ServiceState } from "common-components";
 
 export const APIservice = (): ApiResult<string | undefined> => {
   const [result, setResult] = useState<string | undefined>(undefined);
@@ -14,7 +14,6 @@ export const APIservice = (): ApiResult<string | undefined> => {
       .then((res) => {
         setResult(res.data);
         setState(ServiceState.Fetched);
-
         callback(res.data);
       })
       .catch((e: any) => {
