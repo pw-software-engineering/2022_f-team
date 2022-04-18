@@ -31,7 +31,8 @@ const LoginForm = (props: LoginFormProps) => {
           label='Password'
           onValueChange={props.onValueChange}
           type='password'
-          validationText='Provide account password.' validationFunc={(x: string) => x.length >= 8}
+          validationText='Provide account password.'
+          validationFunc={(x: string) => x.length >= 8}
         />
       </div>
       <div className='button-div'>
