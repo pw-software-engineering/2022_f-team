@@ -21,6 +21,8 @@ export { default as CartIcon } from './Atoms/CartIcon'
 
 export { default as MyProfileIcon } from './Atoms/MyProfileIcon'
 
+export { default as LogoutIcon } from './Atoms/LogoutIcon'
+
 export { default as Logo } from './Atoms/Logo'
 
 export * from './Context/UserType';
