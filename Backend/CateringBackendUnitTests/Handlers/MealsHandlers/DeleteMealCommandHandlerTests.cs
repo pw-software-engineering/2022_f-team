@@ -15,12 +15,13 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
     public class DeleteMealCommandHandlerTests
     {
         private readonly CateringDbContext _dbContext;
-
+        private readonly DeleteMealCommandHandler _deleteMealCommandHandler;
         public DeleteMealCommandHandlerTests()
         {
             var options = new DbContextOptionsBuilder<CateringDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
             _dbContext = Create.MockedDbContextFor<CateringDbContext>(options);
+            _deleteMealCommandHandler = new DeleteMealCommandHandler(_dbContext);
         }
 
         [Fact]
@@ -28,10 +29,9 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
         {
             // Arrange
             var deleteMealCommand = new DeleteMealCommand(Guid.NewGuid());
-            var deleteMealCommandHandler = new DeleteMealCommandHandler(_dbContext);
 
             // Act
-            var result = await deleteMealCommandHandler.Handle(deleteMealCommand, CancellationToken.None);
+            var result = await _deleteMealCommandHandler.Handle(deleteMealCommand, CancellationToken.None);
 
             // Assert
             Assert.Null(result);
@@ -41,26 +41,24 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
         public async Task GivenMealWithIdThatIsContainedByAvailableDiet_WhenHandleDeleteMealCommand_ThenReturnsAvailableMeal()
         {
             // Arrange 
-            var mealId = Guid.NewGuid();
-
-            _dbContext.Meals.Add(new Meal
+            var mealToAddToDatabase = new Meal
             {
-                Id = mealId,
+                Id = Guid.NewGuid(),
                 IsAvailable = true
-            });
-            await _dbContext.SaveChangesAsync();
+            };
+
+            _dbContext.Meals.Add(mealToAddToDatabase);
             _dbContext.Diets.Add(new Diet
             {
                 IsAvailable = true,
-                Meals = new HashSet<Meal>(_dbContext.Meals)
+                Meals = new HashSet<Meal>() { mealToAddToDatabase }
             });
             await _dbContext.SaveChangesAsync();
 
-            var deleteMealCommandHandler = new DeleteMealCommandHandler(_dbContext);
-            var deleteMealCommand = new DeleteMealCommand(mealId);
+            var deleteMealCommand = new DeleteMealCommand(mealToAddToDatabase.Id);
 
             // Act
-            var result = await deleteMealCommandHandler.Handle(deleteMealCommand, CancellationToken.None);
+            var result = await _deleteMealCommandHandler.Handle(deleteMealCommand, CancellationToken.None);
 
             // Assert
             Assert.True(result.IsAvailable);
@@ -76,10 +74,8 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             _dbContext.Meals.Add(mealToAddToDatabase);
             await _dbContext.SaveChangesAsync();
 
-            var deleteMealCommandHandler = new DeleteMealCommandHandler(_dbContext);
-
             // Act
-            await deleteMealCommandHandler.Handle(deleteMealCommand, CancellationToken.None);
+            await _deleteMealCommandHandler.Handle(deleteMealCommand, CancellationToken.None);
 
             // Assert
             var mealFromDatabase = _dbContext.Meals.First();
@@ -96,10 +92,8 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             _dbContext.Meals.Add(mealToAddToDatabase);
             await _dbContext.SaveChangesAsync();
 
-            var deleteMealCommandHandler = new DeleteMealCommandHandler(_dbContext);
-
             // Act
-            var result = await deleteMealCommandHandler.Handle(deleteMealCommand, CancellationToken.None);
+            var result = await _deleteMealCommandHandler.Handle(deleteMealCommand, CancellationToken.None);
 
             // Assert
             Assert.False(result.IsAvailable);
