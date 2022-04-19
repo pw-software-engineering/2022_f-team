@@ -10,7 +10,7 @@ import {
   UserProvider,
   UserType,
   UserContext,
-  LogoutIcon
+  LogoutIcon,
 } from "common-components";
 import "./style/NavbarStyle.css";
 import { useContext } from "react";
@@ -25,14 +25,23 @@ const Root = () => {
       <Link to="/">
         <Logo />
       </Link>
-      <Link to="#">
-        <CartIcon />
-      </Link>
-      <Link to="#">
-        <MyProfileIcon />
-      </Link>
-      <button className="logoutButton" onClick={(e:any)=>userContext?.logout()}><LogoutIcon /></button>
-      
+      {userContext?.isAuthenticated! && (
+        <div>
+          <Link to="#">
+            <CartIcon />
+          </Link>
+          <Link to="#">
+            <MyProfileIcon />
+          </Link>
+          <button
+            className="logoutButton"
+            onClick={(e: any) => userContext?.logout()}
+          >
+            <LogoutIcon />
+          </button>
+        </div>
+      )}
+
       <Routes>
         <Route
           path="/"
