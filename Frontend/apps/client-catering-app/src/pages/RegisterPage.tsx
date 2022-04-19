@@ -213,7 +213,7 @@ const RegisterPage = () => {
       )}
 
       {service.state === ServiceState.Fetched && (
-        <Navigate to="/diet" />
+        <Navigate to="/" />
       )}
     </div>
   );

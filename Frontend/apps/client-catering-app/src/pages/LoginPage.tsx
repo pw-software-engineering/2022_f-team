@@ -1,4 +1,4 @@
-import { LoginForm, EmailValidator, UserContextInterface, UserContext, ServiceState } from "common-components";
+import { LoginForm, EmailValidator, UserContext, ServiceState } from "common-components";
 import { useState, useContext, useEffect } from "react";
 import {
   Link,
@@ -74,7 +74,7 @@ const LoginPage = () => {
       )}
 
       {service.state === ServiceState.Fetched && (
-        <Navigate to="/diet" />
+        <Navigate to="/" />
       )}
     </div>
   );
