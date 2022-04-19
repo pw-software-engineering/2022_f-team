@@ -18,7 +18,7 @@ namespace CateringBackend.Domain.Entities
         public int Calories => Meals.Sum(m => m.Calories);
         public bool IsVegan => Meals.All(m => m.IsVegan);
         
-        protected Diet()
+        public Diet()
         {
             Meals = new HashSet<Meal>();
             Orders = new HashSet<Order>();
