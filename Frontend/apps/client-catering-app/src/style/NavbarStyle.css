@@ -1,9 +1,14 @@
-.MyProfileIcon, .CartIcon, .LogoutIcon{
+.MyProfileIcon, .CartIcon, .logoutButton{
     position: absolute;
     top: 3vh;
     cursor: pointer;
     text-align: center;
     width: 7vw;
+}
+
+.logoutButton{
+    background-color: transparent;
+    border: none;
 }
 
 .CartIcon{
@@ -14,7 +19,7 @@
     right: 5vw;
 }
 
-.LogoutIcon{
+.logoutButton{
     right: 1vw;
 }
 
@@ -35,7 +40,7 @@
     display: block;
 }
 
-.LogoutIcon:hover .LogoutText{
+.logoutButton:hover .LogoutText{
     display: block;
 }
 

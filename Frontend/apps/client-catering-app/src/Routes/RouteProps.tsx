@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 
 interface RouteProps {
-    isAuthenticated?: boolean
+    isAuthenticated: boolean
     children: ReactNode
 }
 

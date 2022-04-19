@@ -10,19 +10,19 @@ import {
   UserProvider,
   UserType,
   UserContext,
-  LogoutIcon,
+  LogoutIcon
 } from "common-components";
-import { PrivateRoute } from "./Routes/PrivateRoute";
 import "./style/NavbarStyle.css";
 import { useContext } from "react";
-import { PublicRoute } from "./Routes/PublicReoute";
+import { PrivateRoute } from "./Routes/PrivateRoute";
+import { PublicRoute } from "./Routes/PublicRoute";
 
 const Root = () => {
   const userContext = useContext(UserContext);
 
   return (
     <BrowserRouter>
-      <Link to="#">
+      <Link to="/">
         <Logo />
       </Link>
       <Link to="#">
@@ -31,12 +31,13 @@ const Root = () => {
       <Link to="#">
         <MyProfileIcon />
       </Link>
-      <LogoutIcon />
+      <button className="logoutButton" onClick={(e:any)=>userContext?.logout()}><LogoutIcon /></button>
+      
       <Routes>
         <Route
           path="/"
           element={
-            <PrivateRoute isAuthenticated={userContext?.isAuthenticated}>
+            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
               <MainPage />
             </PrivateRoute>
           }
@@ -44,7 +45,7 @@ const Root = () => {
         <Route
           path="/register"
           element={
-            <PublicRoute isAuthenticated={userContext?.isAuthenticated}>
+            <PublicRoute isAuthenticated={userContext?.isAuthenticated!}>
               <RegisterPage />
             </PublicRoute>
           }
@@ -52,7 +53,7 @@ const Root = () => {
         <Route
           path="/login"
           element={
-            <PublicRoute isAuthenticated={userContext?.isAuthenticated}>
+            <PublicRoute isAuthenticated={userContext?.isAuthenticated!}>
               <LoginPage />
             </PublicRoute>
           }
@@ -60,7 +61,7 @@ const Root = () => {
         <Route
           path="/diet"
           element={
-            <PrivateRoute isAuthenticated={userContext?.isAuthenticated}>
+            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
               <DietListPage />
             </PrivateRoute>
           }
