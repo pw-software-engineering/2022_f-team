@@ -14,12 +14,13 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
     public class AddMealCommandHandlerTests
     {
         private readonly CateringDbContext _dbContext;
-
+        private readonly AddMealCommandHandler _addMealCommandHandler;
         public AddMealCommandHandlerTests()
         {
             var options = new DbContextOptionsBuilder<CateringDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
             _dbContext = Create.MockedDbContextFor<CateringDbContext>(options);
+            _addMealCommandHandler = new AddMealCommandHandler(_dbContext);
         }
 
         [Fact]
@@ -54,11 +55,8 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
         public async Task GivenAddMealCommand_WhenHandle_ThenAddsCorrectMealToDatabase(
             AddMealCommand addMealCommand)
         {
-            // Arrange
-            var addMealCommandHandler = new AddMealCommandHandler(_dbContext);
-
             // Act
-            await addMealCommandHandler.Handle(addMealCommand, CancellationToken.None);
+            await _addMealCommandHandler.Handle(addMealCommand, CancellationToken.None);
 
             // Assert
             AssertMealAddedToDatabase(_dbContext, addMealCommand);
@@ -70,11 +68,8 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
         public async Task GivenAddMealCommand_WhenHandle_ThenReturnsTrue(
             AddMealCommand addMealCommand)
         {
-            // Arrange
-            var addMealCommandHandler = new AddMealCommandHandler(_dbContext);
-
             // Act
-            var result = await addMealCommandHandler.Handle(addMealCommand, CancellationToken.None);
+            var result = await _addMealCommandHandler.Handle(addMealCommand, CancellationToken.None);
 
             // Assert
             Assert.True(result);
