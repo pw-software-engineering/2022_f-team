@@ -7,10 +7,19 @@ export const APIservice = (): ApiResult<any | undefined> => {
   const [error, setError] = useState<Error | undefined>(undefined);
   const [state, setState] = useState<ServiceState>(ServiceState.NoRequest);
 
-  const execute = (config: ApiConfig, body: JSON, parseFunction: Function = (a:any)=>a) => {
+  const execute = (
+    config: ApiConfig,
+    body: JSON,
+    parseFunction: Function = (a: any) => a
+  ) => {
     setState(ServiceState.InProgress);
 
-    axios({ url: config.url, data: body, method: config.method, headers: config.header })
+    axios({
+      url: config.url,
+      data: body,
+      method: config.method,
+      headers: config.header,
+    })
       .then((res) => {
         setResult(parseFunction(res.data));
         setState(ServiceState.Fetched);

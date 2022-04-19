@@ -19,7 +19,7 @@ const Root = () => {
 
   return (
     <BrowserRouter>
-    <Link to="/">
+      <Link to="/">
         <Logo />
       </Link>
       {userContext?.isAuthenticated! && (
