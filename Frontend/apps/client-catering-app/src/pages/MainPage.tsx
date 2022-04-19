@@ -1,3 +1,6 @@
+import { UserContext } from "common-components";
+import { useContext } from "react";
+
 const MainPage = () => {
   return (
     <div>
