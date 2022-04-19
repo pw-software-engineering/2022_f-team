@@ -9,45 +9,45 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CateringBackend.CrossTests.Diets.Tests
+namespace CateringBackend.CrossTests.Meals.Tests
 {
-    public class DietsTests
+    public class GetMealTests
     {
         private readonly HttpClient _httpClient;
 
-        public DietsTests()
+        public GetMealTests()
         {
             _httpClient = new HttpClient();
         }
 
         [Fact]
-        public async Task GetDiets_NotLoggedIn_ReturnsUnauthorized()
+        public async Task GetMeal_NotLoggedIn_ReturnsUnauthorized()
         {
-            var response = await DietsActions.GetDiets(_httpClient);
+            var response = await MealsActions.GetMeal(_httpClient);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [Fact]
-        public async Task GetDiets_DelivererLoggedIn_ReturnsUnauthorized()
+        public async Task GetMeal_DelivererLoggedIn_ReturnsUnauthorized()
         {
             await DelivererActions.Login(_httpClient);
-            var response = await DietsActions.GetDiets(_httpClient);
+            var response = await MealsActions.GetMeal(_httpClient);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [Fact]
-        public async Task GetDiets_ProducerLoggedIn_ReturnsOk()
+        public async Task GetMeal_ProducerLoggedIn_ReturnsOk()
         {
             await ProducerActions.Login(_httpClient);
-            var response = await DietsActions.GetDiets(_httpClient);
+            var response = await MealsActions.GetMeal(_httpClient);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
-        public async Task GetDiets_ClientLoggedIn_ReturnsOk()
+        public async Task GetMeal_ClientLoggedIn_ReturnsOk()
         {
             await ClientActions.RegisterAndLogin(_httpClient);
-            var response = await DietsActions.GetDiets(_httpClient);
+            var response = await MealsActions.GetMeal(_httpClient);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }

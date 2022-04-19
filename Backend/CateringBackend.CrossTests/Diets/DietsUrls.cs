@@ -6,6 +6,6 @@ namespace CateringBackend.CrossTests.Diets
     {
         public const string BaseDietsUrl = TestsConstants.BaseUrl + "/diets";
         public static string GetDietsUrl() => BaseDietsUrl;
-        public static string GetDietUrl(int dietId) => $"{BaseDietsUrl}/{dietId}";
+        public static string GetDietUrl(string dietId) => $"{BaseDietsUrl}/{dietId}";
     }
 }

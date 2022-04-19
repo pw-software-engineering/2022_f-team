@@ -11,43 +11,43 @@ using Xunit;
 
 namespace CateringBackend.CrossTests.Diets.Tests
 {
-    public class DietsTests
+    public class GetDietTests
     {
         private readonly HttpClient _httpClient;
 
-        public DietsTests()
+        public GetDietTests()
         {
             _httpClient = new HttpClient();
         }
 
         [Fact]
-        public async Task GetDiets_NotLoggedIn_ReturnsUnauthorized()
+        public async Task GetDiet_NotLoggedIn_ReturnsUnauthorized()
         {
-            var response = await DietsActions.GetDiets(_httpClient);
+            var response = await DietsActions.GetDiet(_httpClient);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [Fact]
-        public async Task GetDiets_DelivererLoggedIn_ReturnsUnauthorized()
+        public async Task GetDiet_DelivererLoggedIn_ReturnsUnauthorized()
         {
             await DelivererActions.Login(_httpClient);
-            var response = await DietsActions.GetDiets(_httpClient);
+            var response = await DietsActions.GetDiet(_httpClient);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [Fact]
-        public async Task GetDiets_ProducerLoggedIn_ReturnsOk()
+        public async Task GetDiet_ProducerLoggedIn_ReturnsOk()
         {
             await ProducerActions.Login(_httpClient);
-            var response = await DietsActions.GetDiets(_httpClient);
+            var response = await DietsActions.GetDiet(_httpClient);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
-        public async Task GetDiets_ClientLoggedIn_ReturnsOk()
+        public async Task GetDiet_ClientLoggedIn_ReturnsOk()
         {
             await ClientActions.RegisterAndLogin(_httpClient);
-            var response = await DietsActions.GetDiets(_httpClient);
+            var response = await DietsActions.GetDiet(_httpClient);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
