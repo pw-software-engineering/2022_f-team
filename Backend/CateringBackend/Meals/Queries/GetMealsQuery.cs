@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using CateringBackend.Domain.Data;
@@ -26,8 +27,8 @@ namespace CateringBackend.Meals.Queries
                 .FilterIf(m => m.Name.Contains(Name_with), !string.IsNullOrWhiteSpace(Name_with))
                 .FilterIf(m => m.IsVegan == Vegan, Vegan.HasValue)
                 .FilterIf(m => m.Calories == Calories, Calories != null)
-                .FilterIf(m => m.Calories >= Calories_ht, Calories_ht != null)
-                .FilterIf(m => m.Calories <= Calories_lt, Calories_lt != null);
+                .FilterIf(m => m.Calories > Calories_ht, Calories_ht != null)
+                .FilterIf(m => m.Calories < Calories_lt, Calories_lt != null);
 
         protected override IQueryable<Meal> GetSorted(IQueryable<Meal> collectionToSort)
             => Sort switch
@@ -55,8 +56,9 @@ namespace CateringBackend.Meals.Queries
         {
             var availableMeals = _context.Meals.Where(m => m.IsAvailable);
 
-            return request
-                .GetSearchResult(availableMeals)
+            var searchResult = await request.GetSearchResult(availableMeals);
+
+            return searchResult
                 .Select(m => new MealSearchResultDTO(m))
                 .ToList();
         }

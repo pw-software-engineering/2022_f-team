@@ -1,13 +1,19 @@
-import { LoginForm, EmailValidator } from "common-components";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  LoginForm,
+  EmailValidator,
+  UserContext,
+  ServiceState,
+} from "common-components";
+import { useState, useContext, useEffect } from "react";
+import { Link, Navigate } from "react-router-dom";
 import "../style/LoginRegisterStyles.css";
-import { APIservice } from "../APIservices/APIservice";
-import { ServiceState } from "../APIservices/APIutilities";
-import { getLoginConfig } from "../APIservices/configCreator";
+import { APIservice } from "../Services/APIservice";
+import { getLoginConfig } from "../Services/configCreator";
 
 const LoginPage = () => {
   const service = APIservice();
+
+  const userContext = useContext(UserContext);
 
   const [loginData, setloginData] = useState({
     Email: "",
@@ -33,6 +39,11 @@ const LoginPage = () => {
       password: loginData.Password,
     });
   };
+
+  useEffect(() => {
+    if (service.state === ServiceState.Fetched)
+      userContext?.login(service.result);
+  }, [service.state]);
 
   const bottom = (
     <p>
@@ -64,14 +75,7 @@ const LoginPage = () => {
         </div>
       )}
 
-      {service.state === ServiceState.Fetched && (
-        <div>
-          <p>You have logged in successfully.</p>
-          <Link to="/">
-            <button>Go to main page</button>
-          </Link>
-        </div>
-      )}
+      {service.state === ServiceState.Fetched && <Navigate to="/" />}
     </div>
   );
 };

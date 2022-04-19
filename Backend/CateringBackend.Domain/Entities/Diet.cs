@@ -39,7 +39,7 @@ namespace CateringBackend.Domain.Entities
             return diet;
         }
 
-        public void Delete()
+        public void MakeUnavailable()
         {
             IsAvailable = false;
         }
