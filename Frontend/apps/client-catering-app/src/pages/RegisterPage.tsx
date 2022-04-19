@@ -7,7 +7,7 @@ import {
   ServiceState,
   UserContext,
 } from "common-components";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { APIservice } from "../Services/APIservice";
 import "../style/LoginRegisterStyles.css";
@@ -57,12 +57,14 @@ const RegisterPage = () => {
             postCode: registerData.Postal,
             city: registerData.City,
           },
-        },
-        (result: string | undefined) => {
-          userContext?.login(result!);
         });
     }
   };
+
+  useEffect(()=>{
+    if(service.state === ServiceState.Fetched)
+        userContext?.login(service.result);
+  },[service.state])
 
   const validateForm = () => {
     if (!EmailValidator(registerData.Email)) return false;

@@ -1,5 +1,5 @@
 import { LoginForm, EmailValidator, UserContextInterface, UserContext, ServiceState } from "common-components";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Link,
   Navigate
@@ -35,11 +35,13 @@ const LoginPage = () => {
     service.execute!(getLoginConfig(), {
       email: loginData.Email,
       password: loginData.Password,
-    },
-      (result: string | undefined) => {
-        userContext?.login(result!);
-      });
+    })
   };
+
+  useEffect(()=>{
+    if(service.state === ServiceState.Fetched)
+        userContext?.login(service.result);
+  },[service.state])
 
   const bottom = (
     <p>
