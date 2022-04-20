@@ -11,11 +11,11 @@ using Xunit;
 
 namespace CateringBackend.CrossTests.Diets.Tests
 {
-    public class DietsTests
+    public class GetDietsTests
     {
         private readonly HttpClient _httpClient;
 
-        public DietsTests()
+        public GetDietsTests()
         {
             _httpClient = new HttpClient();
         }

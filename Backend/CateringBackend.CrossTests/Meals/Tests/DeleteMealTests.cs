@@ -38,16 +38,16 @@ namespace CateringBackend.CrossTests.Meals.Tests
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
-        [Fact]
-        public async Task DeleteMeal_ProducerLoggedIn_ReturnsOk()
-        {
-            await ProducerActions.Login(_httpClient);
-            var mealIds = await MealsActions.PostAndGetMealIds(_httpClient);
-            var response = await MealsActions.DeleteMeal(_httpClient, mealIds?.First() ?? new Guid().ToString());
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var mealIdsAfterDelete = await MealsActions.GetMealsIds(_httpClient);
-            Assert.True(!mealIdsAfterDelete.Contains(mealIds.First()));
-        }
+        //[Fact]
+        //public async Task DeleteMeal_ProducerLoggedIn_ReturnsOk()
+        //{
+        //    await ProducerActions.Login(_httpClient);
+        //    var mealIds = await MealsActions.PostAndGetMealIds(_httpClient);
+        //    var response = await MealsActions.DeleteMeal(_httpClient, mealIds?.First() ?? new Guid().ToString());
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //    var mealIdsAfterDelete = await MealsActions.GetMealsIds(_httpClient);
+        //    Assert.True(!mealIdsAfterDelete.Contains(mealIds.First()));
+        //}
 
         [Fact]
         public async Task DeleteMeal_ClientLoggedIn_ReturnsForbidden()
