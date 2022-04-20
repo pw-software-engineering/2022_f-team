@@ -28,11 +28,11 @@ namespace CateringBackend.CrossTests.Diets.Tests
         }
 
         [Fact]
-        public async Task GetDiets_DelivererLoggedIn_ReturnsUnauthorized()
+        public async Task GetDiets_DelivererLoggedIn_ReturnsForbidden()
         {
             await DelivererActions.Login(_httpClient);
             var response = await DietsActions.GetDiets(_httpClient);
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
         [Fact]

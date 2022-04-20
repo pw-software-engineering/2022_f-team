@@ -1,4 +1,4 @@
-﻿using CateringBackend.CrossTests.Producer.Requests;
+﻿using CateringBackend.CrossTests.Client.Requests;
 
 namespace CateringBackend.CrossTests.Producer
 {
@@ -8,8 +8,8 @@ namespace CateringBackend.CrossTests.Producer
         {
             return new LoginRequest()
             {
-                Email = "deliverer@gmail.com",
-                Password = "deliverer"
+                Email = "producer@gmail.com",
+                Password = "producer123"
             };
         }
     }

@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Meals\Requests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Producer\Requests\LoginRequest.cs" />
   </ItemGroup>
 

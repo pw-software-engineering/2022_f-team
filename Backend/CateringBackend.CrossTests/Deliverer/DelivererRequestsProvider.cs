@@ -12,7 +12,7 @@ namespace CateringBackend.CrossTests.Deliverer
             return new LoginRequest()
             {
                 Email = "deliverer@gmail.com",
-                Password = "deliverer"
+                Password = "deliverer123"
             };
         }
     }

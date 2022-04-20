@@ -31,11 +31,11 @@ namespace CateringBackend.CrossTests.Meals.Tests
         }
 
         [Fact]
-        public async Task PutMeal_DelivererLoggedIn_ReturnsUnauthorized()
+        public async Task PutMeal_DelivererLoggedIn_ReturnsForbidden()
         {
             await DelivererActions.Login(_httpClient);
             var response = await MealsActions.PutMeal(_httpClient);
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
         [Fact]
@@ -51,11 +51,11 @@ namespace CateringBackend.CrossTests.Meals.Tests
         }
 
         [Fact]
-        public async Task PutMeal_ClientLoggedIn_ReturnsUnauthorized()
+        public async Task PutMeal_ClientLoggedIn_ReturnsForbidden()
         {
             await ClientActions.RegisterAndLogin(_httpClient);
             var response = await MealsActions.PutMeal(_httpClient);
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace CateringBackend.CrossTests.Meals.Tests
             var getUpdatedResponse = await MealsActions.GetMeal(_httpClient, Meals.First().MealId);
             var getUpdatedContent = await getUpdatedResponse.Content.ReadAsStringAsync();
             var updatedItem = JsonConvert.DeserializeObject<Meal>(getUpdatedContent);
-            updatedItem.ToExpectedObject().ShouldEqual(true);
+            updatedItem.ToExpectedObject().ShouldEqual(Meals.First());
         }
     }
 }

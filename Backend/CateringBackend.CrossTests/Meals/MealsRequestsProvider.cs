@@ -10,7 +10,7 @@ namespace CateringBackend.CrossTests.Meals
         public static IEnumerable<Meal> PrepareMeals(int count, bool isValid = true)
         {
             var meals = FakerHelper.GetFaker<Meal>()
-                .RuleFor(x => x.MealId, f => f.Random.Number(1000, 9999).ToString())
+                .RuleFor(x => x.MealId, f => f.Random.Guid().ToString())
                 .RuleFor(x => x.Name, f => f.Lorem.Word())
                 .RuleFor(x => x.Vegan, f => f.Random.Bool())
                 .RuleFor(x => x.AllergenList, f => f.Lorem.Words(5))
