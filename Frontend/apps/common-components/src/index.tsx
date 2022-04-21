@@ -13,7 +13,7 @@ export { default as DietComponent } from './Molecules/DietComponent'
 
 export { default as MealComponent } from './Molecules/MealComponent'
 
-export { DietModel } from './models/DietModel'
+export { DietModel, GetDietsQuery } from './models/DietModel'
 
 export { MealModel } from './models/MealModel'
 
