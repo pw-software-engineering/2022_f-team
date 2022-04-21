@@ -40,7 +40,7 @@ const MainPage = () => {
   }, []);
 
   useEffect(() => {
-    if (service.state == ServiceState.Fetched) setDietsList(service.result);
+    if (service.state === ServiceState.Fetched) setDietsList(service.result);
     if (service.state === ServiceState.Error) setShowError(true);
   }, [service.state]);
 
