@@ -35,7 +35,7 @@ namespace CateringBackend.Meals.Commands
 
             if (mealToEdit == default)
                 return null;
-            if (await MealWithGivenNameExists(request.Name, cancellationToken))
+            if (await MealWithGivenNameExists(request.MealId, request.Name, cancellationToken))
                 return mealToEdit;
 
             mealToEdit.MakeUnavailable();
@@ -49,8 +49,8 @@ namespace CateringBackend.Meals.Commands
             return mealToEdit;
         }
 
-        private async Task<bool> MealWithGivenNameExists(string mealName, CancellationToken cancellationToken) => await
-            _dbContext.Meals.AnyAsync(m => m.Name == mealName);
+        private async Task<bool> MealWithGivenNameExists(Guid mealId, string mealName, CancellationToken cancellationToken) => await
+            _dbContext.Meals.Where(m => m.IsAvailable).AnyAsync(m => m.Name == mealName && m.Id != mealId);
 
         private async Task<Meal> SearchForMealInDatabase(Guid mealId, CancellationToken cancellationToken) => await
             _dbContext.Meals.Where(m => m.IsAvailable).FirstOrDefaultAsync(m => m.Id == mealId, cancellationToken);
@@ -60,8 +60,8 @@ namespace CateringBackend.Meals.Commands
             var createdMeal = await _dbContext.Meals.AddAsync(
                 Meal.Create(
                     addMealCommand.Name,
-                    string.Join(',', addMealCommand.IngredientList),
-                    string.Join(',', addMealCommand.AllergenList),
+                    addMealCommand.IngredientList == null ? string.Empty : string.Join(',', addMealCommand.IngredientList),
+                    addMealCommand.AllergenList == null ? string.Empty : string.Join(',', addMealCommand.AllergenList),
                     addMealCommand.Calories,
                     addMealCommand.Vegan), 
                 cancellationToken);
