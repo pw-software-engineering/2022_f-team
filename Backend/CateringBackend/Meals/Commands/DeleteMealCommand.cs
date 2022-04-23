@@ -26,8 +26,6 @@ namespace CateringBackend.Meals.Commands
                 .Where(meal => meal.IsAvailable)
                 .FirstOrDefaultAsync(meal => meal.Id == request.MealId, cancellationToken);
 
-            Console.WriteLine(meal);
-
             if (meal == default)
                 return null;
 

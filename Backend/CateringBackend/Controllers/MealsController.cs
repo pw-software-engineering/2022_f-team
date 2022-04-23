@@ -54,8 +54,6 @@ namespace CateringBackend.Controllers
             if (result == default)
                 return NotFound("Podany posiłek nie istnieje");
 
-            Console.WriteLine(result);
-
             return result.IsAvailable ? BadRequest("Niepowodzneie usunięcia posiłku") :
                                         Ok("Powodzenie usunięcia posiłku");
         }
