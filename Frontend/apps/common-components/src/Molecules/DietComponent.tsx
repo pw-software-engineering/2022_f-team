@@ -8,7 +8,8 @@ import VeganMark from '../Atoms/VeganMark'
 import MealRow from '../Atoms/MealRow'
 
 interface DietComponentProps {
-  diet: DietModel
+  diet: DietModel,
+  meals: Array<MealModel>
 }
 
 const DietComponent = (props: DietComponentProps) => {
@@ -21,7 +22,7 @@ const DietComponent = (props: DietComponentProps) => {
   return (
     <div className='diet-div'>
       <div className='diet-header-div'>
-        <h1>{props.diet.title}</h1>
+        <h1>{props.diet.name}</h1>
         {props.diet.vegan && <VeganMark />}
       </div>
       <p className='description'>{props.diet.description}</p>
@@ -34,7 +35,7 @@ const DietComponent = (props: DietComponentProps) => {
       {showMeals && (
         <div className='mealsDiv'>
           <h2>Meals:</h2>
-          {props.diet.meals.map((meal: MealModel) => (
+          {props.meals.map((meal: MealModel) => (
             <MealRow meal={meal} setMealToOpenInModal={setMealToOpenInModal} />
           ))}
           {mealToOpenInModal !== undefined && (

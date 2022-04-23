@@ -1,11 +1,22 @@
 import { MealModel } from './MealModel'
 
 export interface DietModel {
-  dietId: string
-  title: string
-  description: string
+  id: string
+  name: string
+  description?: string
   calories: number
   price: number
-  meals: MealModel[]
   vegan: boolean
+}
+
+export interface GetDietsQuery {
+  Name: string
+  Name_with: string
+  Vegan?: boolean
+  Calories?: number
+  Calories_lt?: number
+  Calories_ht?: number
+  Price?: number
+  Price_ht?: number
+  Price_lt?: number
 }

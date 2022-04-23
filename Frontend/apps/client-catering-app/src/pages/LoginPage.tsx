@@ -1,13 +1,22 @@
-import { LoginForm, EmailValidator } from "common-components";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  LoginForm,
+  EmailValidator,
+  UserContext,
+  ServiceState,
+  LoadingComponent,
+  ErrorToastComponent,
+} from "common-components";
+import { useState, useContext, useEffect } from "react";
+import { Link, Navigate } from "react-router-dom";
 import "../style/LoginRegisterStyles.css";
-import { APIservice } from "../APIservices/APIservice";
-import { ServiceState } from "../APIservices/APIutilities";
-import { getLoginConfig } from "../APIservices/configCreator";
+import { APIservice } from "../Services/APIservice";
+import { getLoginConfig } from "../Services/configCreator";
 
 const LoginPage = () => {
   const service = APIservice();
+
+  const userContext = useContext(UserContext);
+  const [showError, setShowError] = useState<boolean>(false);
 
   const [loginData, setloginData] = useState({
     Email: "",
@@ -34,6 +43,12 @@ const LoginPage = () => {
     });
   };
 
+  useEffect(() => {
+    if (service.state === ServiceState.Fetched)
+      userContext?.login(service.result);
+    if (service.state === ServiceState.Error) setShowError(true);
+  }, [service.state]);
+
   const bottom = (
     <p>
       {"Don't have an account? "}
@@ -55,23 +70,16 @@ const LoginPage = () => {
           />
         )}
 
-      {service.state === ServiceState.InProgress && <h1>Loading</h1>}
+      {service.state === ServiceState.InProgress && <LoadingComponent />}
 
-      {service.state === ServiceState.Error && (
-        <div>
-          <h1>Error</h1>
-          <p>{service.error!.message}</p>
-        </div>
+      {showError && (
+        <ErrorToastComponent
+          message={service.error?.message!}
+          closeToast={setShowError}
+        />
       )}
 
-      {service.state === ServiceState.Fetched && (
-        <div>
-          <p>You have logged in successfully.</p>
-          <Link to="/">
-            <button>Go to main page</button>
-          </Link>
-        </div>
-      )}
+      {service.state === ServiceState.Fetched && <Navigate to="/" />}
     </div>
   );
 };
