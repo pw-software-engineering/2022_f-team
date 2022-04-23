@@ -22,8 +22,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Producer\Requests\LoginRequest.cs" />
-  </ItemGroup>
-
 </Project>
