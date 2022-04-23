@@ -3,6 +3,8 @@ import {
   EmailValidator,
   UserContext,
   ServiceState,
+  LoadingComponent,
+  ErrorToastComponent,
 } from "common-components";
 import { useState, useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
@@ -14,6 +16,7 @@ const LoginPage = () => {
   const service = APIservice();
 
   const userContext = useContext(UserContext);
+  const [showError, setShowError] = useState<boolean>(false);
 
   const [loginData, setloginData] = useState({
     Email: "",
@@ -43,6 +46,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (service.state === ServiceState.Fetched)
       userContext?.login(service.result);
+    if (service.state === ServiceState.Error) setShowError(true);
   }, [service.state]);
 
   return (
@@ -56,13 +60,13 @@ const LoginPage = () => {
           />
         )}
 
-      {service.state === ServiceState.InProgress && <h1>Loading</h1>}
+      {service.state === ServiceState.InProgress && <LoadingComponent />}
 
-      {service.state === ServiceState.Error && (
-        <div>
-          <h1>Error</h1>
-          <p>{service.error!.message}</p>
-        </div>
+      {showError && (
+        <ErrorToastComponent
+          message={service.error?.message!}
+          closeToast={setShowError}
+        />
       )}
 
       {service.state === ServiceState.Fetched && <Navigate to="/" />}
