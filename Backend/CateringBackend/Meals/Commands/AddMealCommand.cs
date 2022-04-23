@@ -40,8 +40,8 @@ namespace CateringBackend.Meals.Commands
         {
             var mealToAdd = Meal.Create(
                 addMealCommand.Name,
-                string.Join(',', addMealCommand.IngredientList),
-                string.Join(',', addMealCommand.AllergenList),
+                addMealCommand.IngredientList != null ? string.Join(',', addMealCommand.IngredientList) : string.Empty,
+                addMealCommand.AllergenList != null ? string.Join(',', addMealCommand.AllergenList) : string.Empty,
                 addMealCommand.Calories,
                 addMealCommand.Vegan
             );
