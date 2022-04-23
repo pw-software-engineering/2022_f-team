@@ -121,6 +121,7 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
                 validMealInDatabase,
                 new Diet
                 {
+                    Id = Guid.NewGuid(),
                     IsAvailable = true,
                     Meals = new HashSet<Meal>() {validMealInDatabase}
                 }

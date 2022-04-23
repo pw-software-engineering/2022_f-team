@@ -25,7 +25,7 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
         }
 
         [Fact]
-        public async Task GivenMealIdThatNotExist_WhenHandleEditMealCommand_ThenReturnsNull()
+        public async Task GivenMealIdThatNotExist_WhenHandleEditMealCommand_ThenReturnsMealExistsAsFalse()
         {
             // Arrange
             var editMealCommand = new EditMealCommand
@@ -37,11 +37,11 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             var result = await _editMealCommandHandler.Handle(editMealCommand, CancellationToken.None);
 
             // Assert
-            Assert.Null(result);
+            Assert.False(result.mealExists);
         }
 
         [Fact]
-        public async Task GivenMealIdThatIsUnavailable_WhenHandleEditMealCommand_TheReturnsNull()
+        public async Task GivenMealIdThatIsUnavailable_WhenHandleEditMealCommand_TheReturnsMealExistsAsFalse()
         {
             // Arrange
             var mealToAddToDatabase = new Meal()
@@ -61,11 +61,11 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             var result = await _editMealCommandHandler.Handle(editMealCommand, CancellationToken.None);
 
             // Assert
-            Assert.Null(result);
+            Assert.False(result.mealExists);
         }
 
         [Fact]
-        public async Task GivenMealNameThatAlreadyExistsAndAvailable_WhenHandleEditMealCommand_ThenReturnsAvailableMeal()
+        public async Task GivenMealNameThatAlreadyExistsAndAvailable_WhenHandleEditMealCommand_ThenReturnsMealEdidtedAsFalse()
         {
             // Arrange
             var mealsToAddToDatabase = new List<Meal>()
@@ -96,7 +96,7 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             var result = await _editMealCommandHandler.Handle(editMealCommand, CancellationToken.None);
 
             // Assert
-            Assert.True(result.IsAvailable);
+            Assert.False(result.mealEdited);
         }
 
         [Theory]
@@ -131,7 +131,7 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             await _editMealCommandHandler.Handle(editMealCommand, CancellationToken.None);
 
             // Assert
-            AssertMealEditedInDatabase(_dbContext, editMealCommand);
+            AssertMealEditedInDatabase(_dbContext, editMealCommand, mealToAddToDatabase);
         }
 
         [Theory]
@@ -149,9 +149,8 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             await _editMealCommandHandler.Handle(editMealCommand, CancellationToken.None);
 
             // Assert
-            foreach (var diet in _dbContext.Diets)
-                if (diet.Meals.Any(m => m.Id == editMealCommand.MealId))
-                    Assert.False(diet.IsAvailable);
+            var dietsWithPreviousMeal = _dbContext.Diets.Where(x => x.Meals.Any(m => m.Id == editMealCommand.MealId));
+            Assert.True(dietsWithPreviousMeal.All(d => !d.IsAvailable));
         }
         
         [Theory]
@@ -169,13 +168,13 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             await _editMealCommandHandler.Handle(editMealCommand, CancellationToken.None);
 
             // Assert
-            AssertDietCopiedInDatabase(_dbContext, editMealCommand);
+            AssertDietCopiedInDatabase(_dbContext, editMealCommand, dietToAddToDatabase, mealToAddToDatabase);
         }
         
         [Theory]
         [MemberData(nameof(EditMealCommandHandlerTestsData.GetEditMealCommandAndMeal),
             MemberType = typeof(EditMealCommandHandlerTestsData))]
-        public async Task GivenEditMealCommand_WhenHandle_ThenReturnsUnavailableMeal(
+        public async Task GivenValidEditMealCommand_WhenHandle_ThenReturnsMealEditedAsTrue(
             EditMealCommand editMealCommand, Meal mealToAddToDatabase)
         {
             // Arrange
@@ -186,14 +185,14 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
             var result = await _editMealCommandHandler.Handle(editMealCommand, CancellationToken.None);
 
             // Assert
-            Assert.False(result.IsAvailable);
+            Assert.True(result.mealEdited);
         }
 
         private static void AssertMealEditedInDatabase(CateringDbContext dbContext,
-            EditMealCommand editMealCommand)
+            EditMealCommand editMealCommand, Meal oldMeal)
         {
             Assert.Equal(2, dbContext.Meals.Count());
-            var addedMeal = dbContext.Meals.Last();
+            var addedMeal = dbContext.Meals.First(m => m.Id != oldMeal.Id);
             Assert.Equal(editMealCommand.Name, addedMeal.Name);
             Assert.Equal(editMealCommand.Calories, addedMeal.Calories);
             Assert.Equal(editMealCommand.Vegan, addedMeal.IsVegan);
@@ -210,12 +209,11 @@ namespace CateringBackendUnitTests.Handlers.MealsHandlers
         }
 
         private static void AssertDietCopiedInDatabase(CateringDbContext dbContext,
-            EditMealCommand editMealCommand)
+            EditMealCommand editMealCommand, Diet oldDiet, Meal oldMeal)
         {
             Assert.Equal(2, dbContext.Diets.Count());
-            var oldDiet = dbContext.Diets.First();
-            var newDiet = dbContext.Diets.Last();
-            var editedMeal = dbContext.Meals.Last();
+            var newDiet = dbContext.Diets.First(d => d.Id != oldDiet.Id);
+            var editedMeal = dbContext.Meals.First(m => m.Id != oldMeal.Id);
 
             Assert.Equal(oldDiet.Title, newDiet.Title);
             Assert.Equal(oldDiet.Description, newDiet.Description);
