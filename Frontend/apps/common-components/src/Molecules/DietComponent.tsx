@@ -8,8 +8,9 @@ import VeganMark from '../Atoms/VeganMark'
 import MealRow from '../Atoms/MealRow'
 
 interface DietComponentProps {
-  diet: DietModel,
+  diet: DietModel
   meals: Array<MealModel>
+  addToCartFunction: (dietId: string) => void
 }
 
 const DietComponent = (props: DietComponentProps) => {
@@ -29,7 +30,12 @@ const DietComponent = (props: DietComponentProps) => {
       <div className='calories-price-div'>
         <p>Calories: {props.diet.calories} kcal</p>
         <p>Price: {props.diet.price}</p>
-        <button className='addToCartButton'>Add to cart</button>
+        <button
+          className='addToCartButton'
+          onClick={() => props.addToCartFunction(props.diet.id)}
+        >
+          Add to cart
+        </button>
       </div>
       <ExpandMoreButton onClick={toogleShowMeals} />
       {showMeals && (
