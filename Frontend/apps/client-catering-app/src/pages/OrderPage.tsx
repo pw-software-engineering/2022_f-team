@@ -1,4 +1,4 @@
-import { findDayDifference, FormInputComponent } from "common-components";
+import { findDayDifference, FormInputComponent, SubmitButton } from "common-components";
 import { useEffect, useState } from "react";
 import "../style/OrderPageStyle.css";
 
@@ -28,7 +28,19 @@ const OrderPage = (props: OrderPageProps) => {
     });
     setDietNames(temp);
   };
+
   useEffect(() => GetDietNames(), []);
+  const validateForm=():boolean=>{
+    if(orderData.From.length ==0 || orderData.To.length==0) return false;
+    if(findDayDifference(orderData.From) >= 0) return false;
+    if(findDayDifference(orderData.To,orderData.From) > 0) return false;
+    return true;
+  }
+
+  const handleOrder = (e: any) => {
+    e.preventDefault()
+  }
+
   return (
     <div className="page-wrapper">
       <form>
@@ -36,20 +48,23 @@ const OrderPage = (props: OrderPageProps) => {
         <p>
           <strong>Diets:</strong> {dietNames}
         </p>
+        <div className="dateWrapper">
         <FormInputComponent
           label={"From"}
           type={"date"}
           validationText={"Provide valid date."}
-          validationFunc={(x: string) => findDayDifference(x) < 0 && findDayDifference(x,orderData["From"]) >= 0}
+          validationFunc={(x: string) => findDayDifference(x) < 0 && findDayDifference(x,orderData.To) >= 0}
           onValueChange={changeOrderDataValue}
         />
         <FormInputComponent
           label={"To"}
           type={"date"}
           validationText={"Provide valid date."}
-          validationFunc={(x: string) => findDayDifference(x) < 0 && findDayDifference(x,orderData["From"]) <= 0}
+          validationFunc={(x: string) => findDayDifference(x) < 0 && findDayDifference(x,orderData.From) <= 0}
           onValueChange={changeOrderDataValue}
         />
+        </div>
+        <SubmitButton text={"Order"} validateForm={validateForm} action={handleOrder}/>
       </form>
     </div>
   );
