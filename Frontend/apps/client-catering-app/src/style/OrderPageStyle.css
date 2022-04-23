@@ -1,0 +1,20 @@
+.page-wrapper{
+    background-color: #eff8f8;
+    min-height: 100vh;
+    min-width: 100vw;
+    padding-top: 10vh;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    -moz-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+}
+
+form{
+    border: solid 3px #539091;
+    border-radius: 15px;
+    width: 50%;
+    background-color: white;
+    padding: 6vh 4vw;
+    box-sizing: border-box;
+    margin: auto;
+}

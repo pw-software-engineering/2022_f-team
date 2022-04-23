@@ -15,6 +15,7 @@ import "./style/NavbarStyle.css";
 import { useContext, useState} from "react";
 import { PrivateRoute } from "./Routes/PrivateRoute";
 import { PublicRoute } from "./Routes/PublicRoute";
+import OrderPage from "./pages/OrderPage";
 
 const Root = () => {
   const userContext = useContext(UserContext);
@@ -31,7 +32,7 @@ const Root = () => {
       </Link>
       {userContext?.isAuthenticated! && (
         <div>
-          <Link to="#">
+          <Link to="/order">
             <CartIcon count={cartItems.length} />
           </Link>
           <Link to="#">
@@ -69,6 +70,14 @@ const Root = () => {
             <PublicRoute isAuthenticated={userContext?.isAuthenticated!}>
               <LoginPage />
             </PublicRoute>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
+              <OrderPage cartItems={cartItems} />
+            </PrivateRoute>
           }
         />
       </Routes>
