@@ -1,4 +1,4 @@
-.MyProfileIcon, .CartIcon{
+.MyProfileIcon, .CartIcon, .logoutButton{
     position: absolute;
     top: 3vh;
     cursor: pointer;
@@ -6,15 +6,24 @@
     width: 7vw;
 }
 
+.logoutButton{
+    background-color: transparent;
+    border: none;
+}
+
 .CartIcon{
-    right: 7vw;
+    right: 9vw;
 }
 
 .MyProfileIcon{
-    right: 2vw;
+    right: 5vw;
 }
 
-.CartText, .ProfileText{
+.logoutButton{
+    right: 1vw;
+}
+
+.CartText, .ProfileText, .LogoutText{
     background-color: black;
     opacity:  0.4;
     color: white;
@@ -28,6 +37,10 @@
 }
 
 .MyProfileIcon:hover .ProfileText{
+    display: block;
+}
+
+.logoutButton:hover .LogoutText{
     display: block;
 }
 
@@ -46,5 +59,33 @@
     position: absolute;
     left: 2vw;
     top: 2vw;
+    cursor: pointer;
+}
+
+.errorDiv{
+    position: absolute;
+    bottom:10%;
+    right:40%;
+    width: 20%;
+    background-color: #eff8f8;
+    border: solid 2px #539091;
+    padding: 2vw;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.errorDiv h1{
+    margin-bottom: 1vh;
+}
+
+.errorDiv button{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    font-size: 1.8vw;
+    font-weight: 600;
     cursor: pointer;
 }

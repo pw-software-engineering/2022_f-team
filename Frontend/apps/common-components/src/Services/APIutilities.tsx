@@ -2,7 +2,7 @@ export interface ApiResult<T> {
   result: T;
   error?: Error;
   state: ServiceState;
-  execute?: Function | undefined;
+  execute?: Function;
 }
 
 export enum ServiceState {
