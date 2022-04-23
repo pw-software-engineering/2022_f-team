@@ -15,7 +15,7 @@ namespace CateringBackend.Diets.Queries
     public class GetDietDetailsResultDTO
     {
         public string Name { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public int Calories { get; set; }
         public bool Vegan { get; set; }
         public IEnumerable<GetDietDetailsResultDTOMeal> Meals { get; set; }
@@ -23,7 +23,7 @@ namespace CateringBackend.Diets.Queries
         public GetDietDetailsResultDTO(Diet diet)
         {
             Name = diet.Title;
-            Price = (int)diet.Price;
+            Price = diet.Price;
             Calories = diet.Calories;
             Vegan = diet.IsVegan;
             Meals = diet.Meals.Select(m => new GetDietDetailsResultDTOMeal(m.Id, m.Name, m.Calories, m.IsVegan));
