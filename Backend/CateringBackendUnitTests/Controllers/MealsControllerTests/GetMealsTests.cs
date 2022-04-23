@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CateringBackend.Controllers;
 using CateringBackend.Meals;
 using CateringBackend.Meals.Queries;
-using CateringBackend.Users.Deliverer.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
