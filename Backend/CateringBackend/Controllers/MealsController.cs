@@ -63,13 +63,15 @@ namespace CateringBackend.Controllers
         public async Task<IActionResult> EditMeal([FromRoute] Guid mealId, [FromBody] EditMealCommand editMealCommand)
         {
             editMealCommand.MealId = mealId;
-            var result = await _mediator.Send(editMealCommand);
+            var (mealExists, mealEdited) = await _mediator.Send(editMealCommand);
 
-            if (result == default)
+            if(!mealExists)
                 return NotFound("Podany posiłek nie istnieje");
-
-            return result.IsAvailable ? BadRequest("Niepowodzneie edycji posiłku") :
-                                        Ok("Powodzenie edycji posiłku");
+            
+            if (!mealEdited)
+                return BadRequest("Niepowodzneie edycji posiłku");
+           
+            return Ok("Powodzenie edycji posiłku");
         }
     }
 }
