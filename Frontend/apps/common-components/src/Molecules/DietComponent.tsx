@@ -9,6 +9,8 @@ import MealRow from '../Atoms/MealRow'
 
 interface DietComponentProps {
   diet: DietModel
+  meals: Array<MealModel>
+  addToCartFunction: (dietId: string) => void
 }
 
 const DietComponent = (props: DietComponentProps) => {
@@ -21,20 +23,25 @@ const DietComponent = (props: DietComponentProps) => {
   return (
     <div className='diet-div'>
       <div className='diet-header-div'>
-        <h1>{props.diet.title}</h1>
+        <h1>{props.diet.name}</h1>
         {props.diet.vegan && <VeganMark />}
       </div>
       <p className='description'>{props.diet.description}</p>
       <div className='calories-price-div'>
         <p>Calories: {props.diet.calories} kcal</p>
         <p>Price: {props.diet.price}</p>
-        <button className='addToCartButton'>Add to cart</button>
+        <button
+          className='addToCartButton'
+          onClick={() => props.addToCartFunction(props.diet.id)}
+        >
+          Add to cart
+        </button>
       </div>
       <ExpandMoreButton onClick={toogleShowMeals} />
       {showMeals && (
         <div className='mealsDiv'>
           <h2>Meals:</h2>
-          {props.diet.meals.map((meal: MealModel) => (
+          {props.meals.map((meal: MealModel) => (
             <MealRow meal={meal} setMealToOpenInModal={setMealToOpenInModal} />
           ))}
           {mealToOpenInModal !== undefined && (

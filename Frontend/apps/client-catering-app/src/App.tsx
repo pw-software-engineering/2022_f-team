@@ -2,7 +2,6 @@ import RegisterPage from "./pages/RegisterPage";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
-import DietListPage from "./pages/DietListPage";
 import {
   CartIcon,
   MyProfileIcon,
@@ -13,12 +12,17 @@ import {
   LogoutIcon,
 } from "common-components";
 import "./style/NavbarStyle.css";
-import { useContext } from "react";
+import { useContext, useState} from "react";
 import { PrivateRoute } from "./Routes/PrivateRoute";
 import { PublicRoute } from "./Routes/PublicRoute";
 
 const Root = () => {
   const userContext = useContext(UserContext);
+  const [cartItems, setCartItems] = useState<Array<string>>([]);
+
+  const AddToCart = (itemID: string) => {
+    setCartItems([...cartItems,itemID]);
+  };
 
   return (
     <BrowserRouter>
@@ -28,7 +32,7 @@ const Root = () => {
       {userContext?.isAuthenticated! && (
         <div>
           <Link to="#">
-            <CartIcon />
+            <CartIcon count={cartItems.length} />
           </Link>
           <Link to="#">
             <MyProfileIcon />
@@ -47,7 +51,7 @@ const Root = () => {
           path="/"
           element={
             <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
-              <MainPage />
+              <MainPage AddToCart={AddToCart} />
             </PrivateRoute>
           }
         />
@@ -67,14 +71,6 @@ const Root = () => {
             </PublicRoute>
           }
         />
-        <Route
-          path="/diet"
-          element={
-            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
-              <DietListPage />
-            </PrivateRoute>
-          }
-        />
       </Routes>
     </BrowserRouter>
   );
@@ -89,3 +85,6 @@ const App = () => {
 };
 
 export default App;
+function setState(arg0: number): [any, any] {
+  throw new Error("Function not implemented.");
+}
