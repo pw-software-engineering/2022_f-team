@@ -3,14 +3,14 @@ import { MealShort } from '../models/MealModel'
 
 interface MealRowProps {
   meal: MealShort
-  setMealToOpenInModal: (res: any) => void
+  setMealToQuery: (res: any) => void
 }
 
 const MealRow = (props: MealRowProps) => {
   return (
     <button
       className='meal-row'
-      onClick={() => props.setMealToOpenInModal(props.meal)}
+      onClick={() => props.setMealToQuery(props.meal.id)}
     >
       <p>{props.meal.name}</p>
       <p>Calories: {props.meal.calories} kcal</p>

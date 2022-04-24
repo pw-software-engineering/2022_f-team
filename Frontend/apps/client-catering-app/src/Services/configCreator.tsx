@@ -3,6 +3,7 @@ import {
   getDietDetailsURL,
   getDietsURL,
   getLoginClientURL,
+  getMealDetailsURL,
   getRegisterClientURL,
 } from "./URLcreator";
 
@@ -24,4 +25,11 @@ export const getDietDetailsConfig = (key: string, dietId: string) =>
     method: "get",
     header: { Authorization: "Bearer " + key },
     url: getDietDetailsURL(dietId),
+  } as ApiConfig);
+
+export const getMealDetailsConfig = (key: string, mealId: string) =>
+  ({
+    method: "get",
+    header: { Authorization: "Bearer " + key },
+    url: getMealDetailsURL(mealId),
   } as ApiConfig);

@@ -2,13 +2,17 @@ import {
   DietComponent,
   DietModel,
   ErrorToastComponent,
+  MealModel,
   MealShort,
   ServiceState,
   UserContext,
 } from "common-components";
 import { useContext, useEffect, useState } from "react";
 import { APIservice } from "../Services/APIservice";
-import { getDietDetailsConfig } from "../Services/configCreator";
+import {
+  getDietDetailsConfig,
+  getMealDetailsConfig,
+} from "../Services/configCreator";
 
 interface DietComponentWrapperProps {
   diet: DietModel;
@@ -17,9 +21,15 @@ interface DietComponentWrapperProps {
 
 const DietComponentWrapper = (props: DietComponentWrapperProps) => {
   const service = APIservice();
+  let mealService = APIservice();
+
   const userContext = useContext(UserContext);
   const [showError, setShowError] = useState<boolean>(false);
   const [meals, setMeals] = useState<Array<MealShort>>([]);
+
+  const [mealToDisplay, setMealToDisplay] = useState<MealModel | undefined>(
+    undefined
+  );
 
   const mealsParseFunction = (res: any) => {
     const resultArray: Array<JSON> = [];
@@ -40,6 +50,19 @@ const DietComponentWrapper = (props: DietComponentWrapperProps) => {
     if (service.state === ServiceState.Error) setShowError(true);
   }, [service.state]);
 
+  const queryForMeal = (mealId: string) => {
+    mealService.execute!(
+      getMealDetailsConfig(userContext?.authApiKey!, mealId),
+      {}
+    );
+  };
+
+  useEffect(() => {
+    if (mealService.state === ServiceState.Fetched)
+      setMealToDisplay(mealService.result);
+    if (mealService.state === ServiceState.Error) setShowError(true);
+  }, [mealService.state]);
+
   return (
     <div>
       <DietComponent
@@ -47,10 +70,19 @@ const DietComponentWrapper = (props: DietComponentWrapperProps) => {
         addToCartFunction={props.addToCartFunction}
         getMeals={getMeals}
         meals={meals}
+        queryForMeal={queryForMeal}
+        mealToDisplay={mealToDisplay}
+        setMealToDisplay={setMealToDisplay}
       />
-      {showError && (
+      {showError && service.state === ServiceState.Error && (
         <ErrorToastComponent
           message={service.error?.message!}
+          closeToast={setShowError}
+        />
+      )}
+      {showError && mealService.state === ServiceState.Error && (
+        <ErrorToastComponent
+          message={mealService.error?.message!}
           closeToast={setShowError}
         />
       )}

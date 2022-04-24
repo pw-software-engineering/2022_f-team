@@ -13,13 +13,14 @@ interface DietComponentProps {
   addToCartFunction: (dietId: string) => void
   getMeals: (dietId: string) => void
   meals: Array<MealShort>
+  setMealToDisplay: (res: any) => void
+  mealToDisplay: MealModel | undefined
+  queryForMeal: (res: string) => void
 }
 
 const DietComponent = (props: DietComponentProps) => {
-  const [mealToOpenInModal, setMealToOpenInModal] = useState<
-    MealModel | undefined
-  >(undefined)
   const [showMeals, setShowMeals] = useState<boolean>(false)
+  const [showModal, setShowModal] = useState<boolean>(false)
   const toogleShowMeals = (): void => {
     if (props.meals.length === 0) {
       props.getMeals(props.diet.id)
@@ -27,6 +28,10 @@ const DietComponent = (props: DietComponentProps) => {
     setShowMeals(!showMeals)
   }
 
+  const displayMealModal = (id: string) => {
+    props.queryForMeal(id)
+    setShowModal(true)
+  }
   return (
     <div className='diet-div'>
       <div className='diet-header-div'>
@@ -50,12 +55,13 @@ const DietComponent = (props: DietComponentProps) => {
           <h2>Meals:</h2>
           {props.meals.length === 0 && <LoadingComponent />}
           {props.meals.map((meal: MealShort) => (
-            <MealRow meal={meal} setMealToOpenInModal={setMealToOpenInModal} />
+            <MealRow meal={meal} setMealToQuery={displayMealModal} />
           ))}
-          {mealToOpenInModal !== undefined && (
+          {showModal && (
             <MealComponent
-              meal={mealToOpenInModal}
-              closeModal={setMealToOpenInModal}
+              meal={props.mealToDisplay}
+              closeModal={setShowModal}
+              setMealToDisplay={props.setMealToDisplay}
             />
           )}
         </div>
