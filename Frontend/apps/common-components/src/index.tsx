@@ -15,7 +15,7 @@ export { default as MealComponent } from './Molecules/MealComponent'
 
 export { DietModel, GetDietsQuery } from './models/DietModel'
 
-export { MealModel } from './models/MealModel'
+export { MealModel, MealShort } from './models/MealModel'
 
 export { default as CartIcon } from './Atoms/CartIcon'
 

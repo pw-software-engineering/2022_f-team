@@ -14,6 +14,7 @@ namespace CateringBackend.Diets.Queries
 
     public class GetDietDetailsResultDTO
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int Calories { get; set; }
@@ -22,6 +23,7 @@ namespace CateringBackend.Diets.Queries
 
         public GetDietDetailsResultDTO(Diet diet)
         {
+            Id = diet.Id;
             Name = diet.Title;
             Price = diet.Price;
             Calories = diet.Calories;

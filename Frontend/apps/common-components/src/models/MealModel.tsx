@@ -6,3 +6,10 @@ export interface MealModel {
   calories: number
   vegan: boolean
 }
+
+export interface MealShort{
+  id:string
+  name: string
+  calories: number
+  isVegan: boolean
+}

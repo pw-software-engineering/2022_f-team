@@ -3,14 +3,16 @@ import { useState } from 'react'
 import ExpandMoreButton from '../Atoms/ExpandMoreButton'
 import MealComponent from './MealComponent'
 import { DietModel } from '../models/DietModel'
-import { MealModel } from '../models/MealModel'
+import { MealModel, MealShort } from '../models/MealModel'
 import VeganMark from '../Atoms/VeganMark'
 import MealRow from '../Atoms/MealRow'
+import { LoadingComponent } from '../Atoms/LoadingComponent'
 
 interface DietComponentProps {
   diet: DietModel
-  meals: Array<MealModel>
   addToCartFunction: (dietId: string) => void
+  getMeals: (dietId: string) => void
+  meals: {}
 }
 
 const DietComponent = (props: DietComponentProps) => {
@@ -18,7 +20,13 @@ const DietComponent = (props: DietComponentProps) => {
     MealModel | undefined
   >(undefined)
   const [showMeals, setShowMeals] = useState<boolean>(false)
-  const toogleShowMeals = (): void => setShowMeals(!showMeals)
+  const toogleShowMeals = (): void => {
+    if (props.meals[props.diet.id] === undefined) {
+      props.meals[props.diet.id] = []
+      props.getMeals(props.diet.id)
+    }
+    setShowMeals(!showMeals)
+  }
 
   return (
     <div className='diet-div'>
@@ -41,7 +49,8 @@ const DietComponent = (props: DietComponentProps) => {
       {showMeals && (
         <div className='mealsDiv'>
           <h2>Meals:</h2>
-          {props.meals.map((meal: MealModel) => (
+          {props.meals[props.diet.id].length === 0 && <LoadingComponent />}
+          {props.meals[props.diet.id].map((meal: MealShort) => (
             <MealRow meal={meal} setMealToOpenInModal={setMealToOpenInModal} />
           ))}
           {mealToOpenInModal !== undefined && (

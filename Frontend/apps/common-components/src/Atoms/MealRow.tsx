@@ -1,8 +1,8 @@
 import React from 'react'
-import { MealModel } from '../models/MealModel'
+import { MealShort } from '../models/MealModel'
 
 interface MealRowProps {
-  meal: MealModel
+  meal: MealShort
   setMealToOpenInModal: (res: any) => void
 }
 
