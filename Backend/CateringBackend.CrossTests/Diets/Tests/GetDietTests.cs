@@ -11,44 +11,44 @@ using Xunit;
 
 namespace CateringBackend.CrossTests.Diets.Tests
 {
-    //public class GetDietTests
-    //{
-    //    private readonly HttpClient _httpClient;
+    public class GetDietTests
+    {
+        private readonly HttpClient _httpClient;
 
-    //    public GetDietTests()
-    //    {
-    //        _httpClient = new HttpClient();
-    //    }
+        public GetDietTests()
+        {
+            _httpClient = new HttpClient();
+        }
 
-    //    [Fact]
-    //    public async Task GetDiet_NotLoggedIn_ReturnsUnauthorized()
-    //    {
-    //        var response = await DietsActions.GetDiet(_httpClient);
-    //        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-    //    }
+        //[Fact]
+        //public async Task GetDiet_NotLoggedIn_ReturnsUnauthorized()
+        //{
+        //    var response = await DietsActions.GetDiet(_httpClient);
+        //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        //}
 
-    //    [Fact]
-    //    public async Task GetDiet_DelivererLoggedIn_ReturnsUnauthorized()
-    //    {
-    //        await DelivererActions.Login(_httpClient);
-    //        var response = await DietsActions.GetDiet(_httpClient);
-    //        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-    //    }
+        //[Fact]
+        //public async Task GetDiet_DelivererLoggedIn_ReturnsUnauthorized()
+        //{
+        //    await DelivererActions.Authorize(_httpClient);
+        //    var response = await DietsActions.GetDiet(_httpClient);
+        //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        //}
 
-    //    [Fact]
-    //    public async Task GetDiet_ProducerLoggedIn_ReturnsOk()
-    //    {
-    //        await ProducerActions.Login(_httpClient);
-    //        var response = await DietsActions.GetDiet(_httpClient);
-    //        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    //    }
+        //[Fact]
+        //public async Task GetDiet_ProducerLoggedIn_ReturnsOk()
+        //{
+        //    await ProducerActions.Authorize(_httpClient);
+        //    var response = await DietsActions.GetDiet(_httpClient);
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //}
 
-    //    [Fact]
-    //    public async Task GetDiet_ClientLoggedIn_ReturnsOk()
-    //    {
-    //        await ClientActions.RegisterAndLogin(_httpClient);
-    //        var response = await DietsActions.GetDiet(_httpClient);
-    //        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    //    }
-    //}
+        //[Fact]
+        //public async Task GetDiet_ClientLoggedIn_ReturnsOk()
+        //{
+        //    await ClientActions.RegisterAndLogin(_httpClient);
+        //    var response = await DietsActions.GetDiet(_httpClient);
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //}
+    }
 }

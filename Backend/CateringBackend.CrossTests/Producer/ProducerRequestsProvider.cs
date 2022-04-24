@@ -4,13 +4,17 @@ namespace CateringBackend.CrossTests.Producer
 {
     public static class ProducerRequestsProvider
     {
-        public static LoginRequest PrepareLoginRequest()
+        public static LoginRequest PrepareLoginRequest(bool isValid = true)
         {
-            return new LoginRequest()
+            var request =  new LoginRequest()
             {
                 Email = "producer@gmail.com",
                 Password = "producer123"
             };
+            if (!isValid)
+                request.Password = string.Empty;
+
+            return request;
         }
     }
 }

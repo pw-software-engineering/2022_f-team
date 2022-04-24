@@ -7,13 +7,18 @@ namespace CateringBackend.CrossTests.Deliverer
 {
     public static class DelivererRequestsProvider
     {
-        public static LoginRequest PrepareLoginRequest()
+        public static LoginRequest PrepareLoginRequest(bool isValid = true)
         {
-            return new LoginRequest()
+            var request =  new LoginRequest()
             {
                 Email = "deliverer@gmail.com",
                 Password = "deliverer123"
             };
+
+            if (!isValid)
+                request.Password = string.Empty;
+
+            return request;
         }
     }
 }

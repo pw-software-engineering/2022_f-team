@@ -32,7 +32,7 @@ namespace CateringBackend.CrossTests.Meals.Tests
         [Fact]
         public async Task GetMeal_DelivererLoggedIn_ReturnsForbidden()
         {
-            await DelivererActions.Login(_httpClient);
+            await DelivererActions.Authorize(_httpClient);
             var mealIds = await MealsActions.PostAndGetMealIds(_httpClient);
             var response = await MealsActions.GetMeal(_httpClient, mealIds?.First());
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
@@ -42,7 +42,7 @@ namespace CateringBackend.CrossTests.Meals.Tests
         public async Task GetMeal_ProducerLoggedIn_ReturnsOk()
         {
             var mealIds = await MealsActions.PostAndGetMealIds(_httpClient);
-            await ProducerActions.Login(_httpClient);
+            await ProducerActions.Authorize(_httpClient);
             var response = await MealsActions.GetMeal(_httpClient, mealIds?.First());
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }

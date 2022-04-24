@@ -39,8 +39,11 @@ namespace CateringBackend.CrossTests.Meals
         public static async Task<HttpResponseMessage> PutMeal(HttpClient httpClient, bool isValid = true)
         {
             var postResponse = await PostMeals(httpClient, isValid);
+            if (!postResponse.IsSuccessStatusCode)
+                return postResponse;
             var mealIds = await GetMealsIds(httpClient);
-            var putRequest = MealsRequestsProvider.PrepareMeals(1);
+            var putRequest = MealsRequestsProvider.PrepareMeals(1).First();
+            putRequest.MealId = mealIds.FirstOrDefault();
             var putBody = JsonConvert.SerializeObject(putRequest).ToStringContent();
             var putResponse = await httpClient.PutAsync(MealsUrls.GetMealUrl(mealIds?.FirstOrDefault() ?? new Guid().ToString()), putBody);
             return putResponse;
@@ -49,7 +52,6 @@ namespace CateringBackend.CrossTests.Meals
         public static async Task<HttpResponseMessage> PostMeals(HttpClient httpClient, bool isValid = true)
         {
             var meal = MealsRequestsProvider.PrepareMeals(3, isValid);
-            //var postRequest = meal.Select(x => ObjectPropertiesMapper.ConvertObject<Meal, PostMealRequest>(x)).ToList();
             var postRequest = ObjectPropertiesMapper.ConvertObject<Meal, PostMealRequest>(meal.First());
             var body = JsonConvert.SerializeObject(postRequest).ToStringContent();
             return await httpClient.PostAsync(MealsUrls.GetMealsUrl(), body);

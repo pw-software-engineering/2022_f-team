@@ -33,22 +33,18 @@ namespace CateringBackend.CrossTests.Meals.Tests
         [Fact]
         public async Task PutMeal_DelivererLoggedIn_ReturnsForbidden()
         {
-            await DelivererActions.Login(_httpClient);
+            await DelivererActions.Authorize(_httpClient);
             var response = await MealsActions.PutMeal(_httpClient);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
-        //[Fact]
-        //public async Task PutMeal_ProducerLoggedIn_ReturnsOk()
-        //{
-        //    await ProducerActions.Login(_httpClient);
-        //    var response = await MealsActions.PutMeal(_httpClient);
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //    var getResponse = await MealsActions.GetMeals(_httpClient);
-        //    var getContent = await getResponse.Content.ReadAsStringAsync();
-        //    var Meals = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getContent);
-        //    Assert.NotEmpty(Meals);
-        //}
+        [Fact]
+        public async Task PutMeal_ProducerLoggedIn_ReturnsOk()
+        {
+            await ProducerActions.Authorize(_httpClient);
+            var response = await MealsActions.PutMeal(_httpClient);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
 
         [Fact]
         public async Task PutMeal_ClientLoggedIn_ReturnsForbidden()
@@ -57,21 +53,5 @@ namespace CateringBackend.CrossTests.Meals.Tests
             var response = await MealsActions.PutMeal(_httpClient);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
-
-        //[Fact]
-        //public async Task PutMeal_MealWithNoId_ReturnsBadRequest()
-        //{
-        //    await ProducerActions.Login(_httpClient);
-        //    var postResponse = await MealsActions.PostMeals(_httpClient);
-        //    var getResponse = await MealsActions.GetMeals(_httpClient);
-        //    var getContent = await getResponse.Content.ReadAsStringAsync();
-        //    var Meals = JsonConvert.DeserializeObject<IEnumerable<Meal>>(getContent);
-        //    var response = await MealsActions.PutMeal(_httpClient, false);
-        //    var putContent = await getResponse.Content.ReadAsStringAsync();
-        //    var getUpdatedResponse = await MealsActions.GetMeal(_httpClient, Meals.First().MealId);
-        //    var getUpdatedContent = await getUpdatedResponse.Content.ReadAsStringAsync();
-        //    var updatedItem = JsonConvert.DeserializeObject<Meal>(getUpdatedContent);
-        //    updatedItem.ToExpectedObject().ShouldEqual(Meals.First());
-        //}
     }
 }

@@ -11,7 +11,7 @@ namespace CateringBackend.CrossTests.Meals
         {
             var meals = FakerHelper.GetFaker<Meal>()
                 .RuleFor(x => x.MealId, f => f.Random.Guid().ToString())
-                .RuleFor(x => x.Name, f => f.Lorem.Word())
+                .RuleFor(x => x.Name, f => f.Lorem.Sentence(5))
                 .RuleFor(x => x.Vegan, f => f.Random.Bool())
                 .RuleFor(x => x.AllergenList, f => f.Lorem.Words(5))
                 .RuleFor(x => x.IngredientList, f => f.Lorem.Words(5))
