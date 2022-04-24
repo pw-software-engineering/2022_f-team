@@ -20,9 +20,9 @@ namespace CateringBackend.Diets.Queries
         public int? Calories { get; set; }
         public int? Calories_lt { get; set; }
         public int? Calories_ht { get; set; }
-        public int? Price { get; set; }
-        public int? Price_lt { get; set; }
-        public int? Price_ht { get; set; }
+        public decimal? Price { get; set; }
+        public decimal? Price_lt { get; set; }
+        public decimal? Price_ht { get; set; }
 
         protected override IQueryable<Diet> GetFiltered(IQueryable<Diet> collectionToFilter)
             => collectionToFilter
