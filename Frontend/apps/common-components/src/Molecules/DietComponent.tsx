@@ -12,7 +12,7 @@ interface DietComponentProps {
   diet: DietModel
   addToCartFunction: (dietId: string) => void
   getMeals: (dietId: string) => void
-  meals: {}
+  meals: Array<MealShort>
 }
 
 const DietComponent = (props: DietComponentProps) => {
@@ -21,8 +21,7 @@ const DietComponent = (props: DietComponentProps) => {
   >(undefined)
   const [showMeals, setShowMeals] = useState<boolean>(false)
   const toogleShowMeals = (): void => {
-    if (props.meals[props.diet.id] === undefined) {
-      props.meals[props.diet.id] = []
+    if (props.meals.length === 0) {
       props.getMeals(props.diet.id)
     }
     setShowMeals(!showMeals)
@@ -49,8 +48,8 @@ const DietComponent = (props: DietComponentProps) => {
       {showMeals && (
         <div className='mealsDiv'>
           <h2>Meals:</h2>
-          {props.meals[props.diet.id].length === 0 && <LoadingComponent />}
-          {props.meals[props.diet.id].map((meal: MealShort) => (
+          {props.meals.length === 0 && <LoadingComponent />}
+          {props.meals.map((meal: MealShort) => (
             <MealRow meal={meal} setMealToOpenInModal={setMealToOpenInModal} />
           ))}
           {mealToOpenInModal !== undefined && (
