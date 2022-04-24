@@ -64,6 +64,7 @@ const OrderPage = (props: OrderPageProps) => {
           onValueChange={changeOrderDataValue}
         />
         </div>
+        <p>Price: xxx</p>
         <SubmitButton text={"Order"} validateForm={validateForm} action={handleOrder}/>
       </form>
     </div>
