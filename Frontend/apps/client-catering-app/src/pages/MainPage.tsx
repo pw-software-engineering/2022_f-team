@@ -15,7 +15,11 @@ import { APIservice } from "../Services/APIservice";
 import { getDietsConfig } from "../Services/configCreator";
 import "../style/DietComponentStyle.css";
 
-const MainPage = () => {
+interface MainPageProps {
+  AddToCart: (item: string) => void;
+}
+
+const MainPage = (props: MainPageProps) => {
   const service = APIservice();
   const userContext = useContext(UserContext);
   const [showError, setShowError] = useState<boolean>(false);
@@ -47,7 +51,11 @@ const MainPage = () => {
   return (
     <div className="page-wrapper">
       {dietsList.map((item) => (
-        <DietComponent diet={item} meals={mealsList} />
+        <DietComponent
+          diet={item}
+          meals={mealsList}
+          addToCartFunction={props.AddToCart}
+        />
       ))}
       {service.state === ServiceState.InProgress && dietsList.length == 0 && (
         <LoadingComponent />
