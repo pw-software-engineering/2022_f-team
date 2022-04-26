@@ -3,23 +3,35 @@ import { useState } from 'react'
 import ExpandMoreButton from '../Atoms/ExpandMoreButton'
 import MealComponent from './MealComponent'
 import { DietModel } from '../models/DietModel'
-import { MealModel } from '../models/MealModel'
+import { MealModel, MealShort } from '../models/MealModel'
 import VeganMark from '../Atoms/VeganMark'
 import MealRow from '../Atoms/MealRow'
+import { LoadingComponent } from '../Atoms/LoadingComponent'
 
 interface DietComponentProps {
   diet: DietModel
-  meals: Array<MealModel>
   addToCartFunction: (dietId: string) => void
+  getMeals: (dietId: string) => void
+  meals: Array<MealShort>
+  setMealToDisplay: (res: any) => void
+  mealToDisplay: MealModel | undefined
+  queryForMeal: (res: string) => void
 }
 
 const DietComponent = (props: DietComponentProps) => {
-  const [mealToOpenInModal, setMealToOpenInModal] = useState<
-    MealModel | undefined
-  >(undefined)
   const [showMeals, setShowMeals] = useState<boolean>(false)
-  const toogleShowMeals = (): void => setShowMeals(!showMeals)
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const toogleShowMeals = (): void => {
+    if (props.meals.length === 0) {
+      props.getMeals(props.diet.id)
+    }
+    setShowMeals(!showMeals)
+  }
 
+  const displayMealModal = (id: string) => {
+    props.queryForMeal(id)
+    setShowModal(true)
+  }
   return (
     <div className='diet-div'>
       <div className='diet-header-div'>
@@ -41,13 +53,15 @@ const DietComponent = (props: DietComponentProps) => {
       {showMeals && (
         <div className='mealsDiv'>
           <h2>Meals:</h2>
-          {props.meals.map((meal: MealModel) => (
-            <MealRow meal={meal} setMealToOpenInModal={setMealToOpenInModal} />
+          {props.meals.length === 0 && <LoadingComponent />}
+          {props.meals.map((meal: MealShort) => (
+            <MealRow meal={meal} setMealToQuery={displayMealModal} />
           ))}
-          {mealToOpenInModal !== undefined && (
+          {showModal && (
             <MealComponent
-              meal={mealToOpenInModal}
-              closeModal={setMealToOpenInModal}
+              meal={props.mealToDisplay}
+              closeModal={setShowModal}
+              setMealToDisplay={props.setMealToDisplay}
             />
           )}
         </div>
