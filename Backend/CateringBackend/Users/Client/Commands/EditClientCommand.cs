@@ -14,6 +14,7 @@ namespace CateringBackend.Users.Client.Commands
     {
         public string Name { get; set; }
         public string LastName { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public RegisterClientAddress Address { get; set; }
@@ -28,6 +29,7 @@ namespace CateringBackend.Users.Client.Commands
             ClientId = clientId;
             Name = editClientCommand.Name;
             LastName = editClientCommand.LastName;
+            Email = editClientCommand.Email;
             Password = editClientCommand.Password;
             PhoneNumber = editClientCommand.PhoneNumber;
             Address = editClientCommand.Address;
@@ -51,6 +53,14 @@ namespace CateringBackend.Users.Client.Commands
                 return false;
             }
 
+            if (!string.IsNullOrWhiteSpace(request.Email) && client.Email != request.Email)
+            {
+                var clientWithGivenEmailExists = await _dbContext.Clients
+                    .AnyAsync(c => c.Email == request.Email, cancellationToken: cancellationToken);
+                
+                if (clientWithGivenEmailExists) return false;
+            }
+
             await EditClient(request, client);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -63,6 +73,7 @@ namespace CateringBackend.Users.Client.Commands
             await EditClientAddressIfProvided(editCommand, client);
             client.FirstName = editCommand.Name;
             client.LastName = editCommand.LastName;
+            client.Email = editCommand.Email;
             client.Password = PasswordManager.Encrypt(editCommand.Password);
             client.PhoneNumber = editCommand.PhoneNumber;
         }
