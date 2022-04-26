@@ -13,7 +13,7 @@ namespace CateringBackend.CrossTests.Client
                 .RuleFor(x => x.LastName, f => f.Name.LastName())
                 .RuleFor(x => x.Email, f => f.Internet.Email())
                 .RuleFor(x => x.Password, f => f.Internet.Password())
-                .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber());
+                .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber("#########"));
             var registerRequest = fakerRegister.Generate();
 
             if (isValid)
@@ -39,10 +39,11 @@ namespace CateringBackend.CrossTests.Client
         public static EditClientRequest PrepareEditClientRequest(bool isValid = true)
         {
             var fakerEdit = FakerHelper.GetFaker<EditClientRequest>()
+                .RuleFor(x => x.Email, f => f.Internet.Email())
                 .RuleFor(x => x.Name, f => f.Name.FirstName())
                 .RuleFor(x => x.LastName, f => f.Name.LastName())
                 .RuleFor(x => x.Password, f => f.Internet.Password())
-                .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber());
+                .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber("#########"));
             var editRequest = fakerEdit.Generate();
             editRequest.Address = PrepareAddress();
             if (!isValid)
@@ -77,7 +78,7 @@ namespace CateringBackend.CrossTests.Client
                 orderRequest.DeliveryDetails = FakerHelper.GetFaker<DeliveryDetails>()
                     .RuleFor(x => x.Address, f => PrepareAddress())
                     .RuleFor(x => x.CommentForDeliverer, f => f.Lorem.Sentence(5))
-                    .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber())
+                    .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber("#########"))
                     .Generate();
             }
 

@@ -6,6 +6,6 @@ namespace CateringBackend.CrossTests.Utilities
 {
     public static class TestsConstants
     {
-        public const string BaseUrl = "https://localhost:5001";
+        public const string BaseUrl = "http://localhost:5018";
     }
 }
