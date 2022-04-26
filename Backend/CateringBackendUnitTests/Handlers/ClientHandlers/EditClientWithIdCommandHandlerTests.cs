@@ -40,6 +40,24 @@ namespace CateringBackendUnitTests.Handlers.ClientHandlers
         }
 
         [Fact]
+        public async void GivenEditClientWithIdCommand_WhenHandleChangeEmailWhichConflictsWithOtherInDatabase_ThenReturnsFalse()
+        {
+            // Arrange
+            var requestingEmailChangeClientId = Guid.NewGuid();
+            var emailThatExistsInDatabase = "test@gmail.com";
+            await _dbContext.Clients.AddAsync(new Client { Id = requestingEmailChangeClientId });
+            await _dbContext.Clients.AddAsync(new Client { Email = emailThatExistsInDatabase });
+            await _dbContext.SaveChangesAsync();
+            var request = new EditClientWithIdCommand(new EditClientCommand{Email = emailThatExistsInDatabase }, requestingEmailChangeClientId);
+
+            // Act
+            var result = await _editClientWithIdCommandHandler.Handle(request, CancellationToken.None);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
         public async void GivenEditClientWithIdCommand_WhenHandleForExistingClientWithoutAddress_ThenThrowsMissingAddressForClientException()
         {
             // Arrange
@@ -78,6 +96,7 @@ namespace CateringBackendUnitTests.Handlers.ClientHandlers
 
             var expectedName =  editClientCommand.Name;
             var expectedLastName = editClientCommand.LastName;
+            var expectedEmail = editClientCommand.Email;
             var expectedPassword =  PasswordManager.Encrypt(editClientCommand.Password);
             var expectedPhoneNumber = editClientCommand.PhoneNumber;
             var expectedCity = editClientCommand.Address?.City;
@@ -88,6 +107,7 @@ namespace CateringBackendUnitTests.Handlers.ClientHandlers
 
             Assert.Equal(expectedName, clientInDatabase.FirstName);
             Assert.Equal(expectedLastName, clientInDatabase.LastName);
+            Assert.Equal(expectedEmail, clientInDatabase.Email);
             Assert.Equal(expectedPassword, clientInDatabase.Password);
             Assert.Equal(expectedPhoneNumber, clientInDatabase.PhoneNumber);
             Assert.Equal(expectedCity, clientInDatabase.Address?.City);
