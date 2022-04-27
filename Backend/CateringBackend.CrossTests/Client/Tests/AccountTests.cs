@@ -53,7 +53,6 @@ namespace CateringBackend.CrossTests.Client.Tests
             var responseContent = await getResponse.Content.ReadAsStringAsync();
             var clientGetData = JsonConvert.DeserializeObject<GetClientDetailsResponse>(responseContent);
             var expectedData = ObjectPropertiesMapper.ConvertObject<EditClientRequest, GetClientDetailsResponse>(request);
-            // expectedData.Email = clientData.Email;
             clientGetData.ToExpectedObject().ShouldEqual(expectedData);
         }
 
