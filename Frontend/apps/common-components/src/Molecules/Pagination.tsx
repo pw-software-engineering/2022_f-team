@@ -5,14 +5,13 @@ import '../style/DietComponentStyle.css'
 interface PaginationProps {
     index: number,
     pageCount: number,
-    onPreviousClick: () => void
-    onNumberClick: (index: number) => void
+    onPreviousClick: () => void,
+    onNumberClick: (index: number) => void,
     onNextClick: () => void
 }
 
 const Pagination = (props: PaginationProps) => {
     const indexes = Array.from(Array(props.pageCount).keys());
-
 
     return (
         <div className='pagination'>
@@ -25,4 +24,4 @@ const Pagination = (props: PaginationProps) => {
     )
 }
 
-export default Pagination
+export default Pagination;
