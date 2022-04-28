@@ -21,7 +21,7 @@
     background-color: white;
     border: solid 3px #539091;
     border-radius: 15px;
-    margin: 3vh auto;
+    margin:auto;
     padding: 2vh 4vw;
     box-sizing: border-box;
 }
@@ -62,12 +62,6 @@
     border: none;
     cursor: pointer;
     background-color: transparent;
-}
-
-.expandMoreButton:disabled ,
-.expandMoreButton[disabled]{
-  opacity: 0.5;
-  cursor: default;
 }
   
 .addToCartButton{

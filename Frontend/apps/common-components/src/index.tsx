@@ -33,3 +33,5 @@ export * from './Services/APIutilities'
 export { LoadingComponent } from './Atoms/LoadingComponent'
 
 export { ErrorToastComponent } from './Atoms/ErrorToastComponent'
+
+export { default as Pagination } from './Molecules/Pagination'

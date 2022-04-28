@@ -9,10 +9,11 @@ const ArrowButton = (props: ArrowButtonProps) => {
 
     return (
         <button
-            disabled={props.onClick == null ? true : false}
+            disabled={props.onClick == undefined ? true : false}
             className='expandMoreButton'
             style={{ transform: props.rotate, transition: 'all 0.2s linear' }}
             onClick={props.onClick!}
+            type={'submit'}
         >
             <svg
                 xmlns='http://www.w3.org/2000/svg'
