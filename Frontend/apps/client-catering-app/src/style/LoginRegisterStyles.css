@@ -3,6 +3,7 @@
     margin:0;
     padding:0;
     font-family: 'Lato';
+    /* overflow-x: hidden; */
 }
 
 .page-wrapper{
@@ -10,6 +11,7 @@
     min-height: 100vh;
     min-width: 100vw;
     padding-top: 10vh;
+    padding-bottom: 10vh;
     box-sizing: border-box;
     -webkit-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
     -moz-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);

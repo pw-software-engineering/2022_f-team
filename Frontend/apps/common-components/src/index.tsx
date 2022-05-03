@@ -35,3 +35,7 @@ export { LoadingComponent } from './Atoms/LoadingComponent'
 export { ErrorToastComponent } from './Atoms/ErrorToastComponent'
 
 export { default as Pagination } from './Molecules/Pagination'
+
+export { default as SearchComponent } from './Molecules/SearchComponent'
+
+export { default as FiltersComponet } from './Molecules/AdvancedFilters'

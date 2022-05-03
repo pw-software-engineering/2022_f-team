@@ -5,6 +5,7 @@ import {
   UserContext,
   DietModel,
   Pagination,
+  SearchComponent,
 } from "common-components";
 import { useContext, useEffect, useState } from "react";
 import DietComponentWrapper from "../components/DietComponentWrapper";
@@ -12,6 +13,8 @@ import { APIservice } from "../Services/APIservice";
 import { getDietsConfig } from "../Services/configCreator";
 import "../style/DietComponentStyle.css";
 import "../style/Pagination.css";
+import "../style/Filter.css";
+import "../style/NavbarStyle.css";
 
 interface MainPageProps {
   AddToCart: (item: string) => void;
@@ -65,6 +68,7 @@ const MainPage = (props: MainPageProps) => {
     <div className="page-wrapper">
       {service.state === ServiceState.Fetched &&
         <div>
+          <SearchComponent onFiltersChange={() => { }} onSubmitClick={() => { }} />
           {dietsList.map((item) => (
             <DietComponentWrapper key={`item-${item.id}`} diet={item} addToCartFunction={props.AddToCart} />
           ))}
