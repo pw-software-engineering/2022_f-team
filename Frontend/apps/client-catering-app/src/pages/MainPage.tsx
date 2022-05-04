@@ -10,6 +10,8 @@ import {
   FiltersComponent,
   RangeFilter,
   RangeFilterOnChangeProps,
+  FilterCheckbox,
+  GetDietsQuery,
 } from "common-components";
 import { useContext, useEffect, useState } from "react";
 import DietComponentWrapper from "../components/DietComponentWrapper";
@@ -32,6 +34,8 @@ const MainPage = (props: MainPageProps) => {
   const [showError, setShowError] = useState<boolean>(false);
   const [dietsList, setDietsList] = useState<Array<DietModel>>([]);
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
+
+  const [dietsQuery, setDietsQuery] = useState<GetDietsQuery>({ Name: '', Name_with: '', Vegan: false, });
 
   const query = { Name: "", Name_with: "" };
 
@@ -73,7 +77,10 @@ const MainPage = (props: MainPageProps) => {
     to?: number,
   }
 
-  const [fromTo, setFromTo] = useState<FromTo>({ from: undefined, to: undefined });
+  const setFields = (filed: any) => {
+    setDietsQuery({ ...dietsQuery, ...filed });
+    console.log(dietsQuery);
+  }
 
   return (
     <div className="page-wrapper">
@@ -81,12 +88,72 @@ const MainPage = (props: MainPageProps) => {
         <div>
           <FiltersWrapper
             search={
-              <SearchComponent label={'Diets catalogue'} onFiltersChange={() => { }} onSubmitClick={() => { }} />
+              <SearchComponent label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string, exact: boolean) => {
+                if (dietsQuery != undefined) {
+                  if (exact) {
+                    setFields({ 'Name': value, 'Name_with': '' });
+                  }
+                  else {
+                    setFields({ 'Name': '', 'Name_with': value });
+                  }
+                }
+              }} onSubmitClick={() =>
+                setDietsQuery(dietsQuery)
+              } />
             }
             filters={
               <FiltersComponent>
-                <RangeFilter label={'Price'} onChange={(props: RangeFilterOnChangeProps) => setFromTo({ from: props.from, to: props.to })} />
-                <RangeFilter label={'Calories'} onChange={(props: RangeFilterOnChangeProps) => setFromTo({ from: props.from, to: props.to })} />
+                <div style={{
+                  display: 'flex',
+                  paddingBottom: '20px'
+                }}>
+                  <div style={{
+                    flexGrow: 1,
+                  }}>
+                    <span style={{
+                      fontSize: '30px',
+                      width: '100%',
+                    }}>
+                      Filters
+                    </span>
+                    <div style={{
+                      display: 'inline-block',
+                      width: '100%',
+                      paddingTop: '10px'
+                    }}>
+                      <FilterCheckbox label={'Vegan'} checked={dietsQuery.Vegan ?? false} onClick={() => {
+                        setFields({ 'Vegan': !dietsQuery.Vegan });
+                      }} />
+                    </div>
+                  </div>
+                  <div style={{ width: '26px' }}></div>
+                  <div style={{
+                    flexGrow: 1,
+                  }}>
+                    <span style={{
+                      fontSize: '30px',
+                      width: '100%',
+                    }}>
+                      Sort by
+                    </span>
+                    <div style={{
+                      display: 'inline-block',
+                      width: '100%',
+                      paddingTop: '10px'
+                    }}>
+                      <FilterCheckbox label={'Vegan'} checked={dietsQuery.Vegan ?? false} onClick={() => {
+                        setFields({ 'Vegan': !dietsQuery.Vegan });
+                      }} />
+                    </div>
+                  </div>
+                </div>
+
+                <RangeFilter from={dietsQuery.Price_ht} to={dietsQuery.Price_lt} label={'Price'} onChange={(filterProps: RangeFilterOnChangeProps) => {
+                  setFields({ 'Price_ht': filterProps.from, 'Price_lt': filterProps.to });
+                }} />
+                <RangeFilter from={dietsQuery.Calories_ht} to={dietsQuery.Calories_lt} label={'Calories'} onChange={(filterProps: RangeFilterOnChangeProps) => {
+                  setFields({ 'Calories_ht': filterProps.from, 'Calories_lt': filterProps.to });
+                }} />
               </FiltersComponent>
             }
           ></FiltersWrapper>
@@ -101,16 +168,20 @@ const MainPage = (props: MainPageProps) => {
           />
         </div>
       }
-      {service.state === ServiceState.InProgress && dietsList.length == 0 && (
-        <LoadingComponent />
-      )}
-      {showError && (
-        <ErrorToastComponent
-          message={service.error?.message!}
-          closeToast={setShowError}
-        />
-      )}
-    </div>
+      {
+        service.state === ServiceState.InProgress && dietsList.length == 0 && (
+          <LoadingComponent />
+        )
+      }
+      {
+        showError && (
+          <ErrorToastComponent
+            message={service.error?.message!}
+            closeToast={setShowError}
+          />
+        )
+      }
+    </div >
   );
 };
 

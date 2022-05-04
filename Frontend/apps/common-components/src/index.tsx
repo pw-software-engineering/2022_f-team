@@ -41,3 +41,5 @@ export { default as SearchComponent } from './Molecules/SearchComponent'
 export { FiltersComponent, RangeFilter, RangeFilterOnChangeProps } from './Molecules/AdvancedFilters'
 
 export { default as FiltersWrapper } from './Molecules/FiltersWrapper'
+
+export { default as FilterCheckbox } from './Atoms/FilterCheckbox'

@@ -8,6 +8,7 @@ interface FiltersComponentProps {
 export const FiltersComponent = (props: FiltersComponentProps) => {
     return (
         <div>
+            <div style={{ height: '10px' }}></div>
             {props.children}
         </div>
     )
@@ -32,6 +33,10 @@ export const RangeFilter = (props: RangeFilterProps) => {
         }
     };
 
+    const toNumberLimit = (value: string) => {
+        return value.length > 0 ? Number(value) : undefined;
+    }
+
     return (
         <div style={{
             paddingBottom: '20px',
@@ -46,6 +51,7 @@ export const RangeFilter = (props: RangeFilterProps) => {
                 height: '52px',
                 paddingTop: '10px',
             }}><input
+                    value={props.from ?? ''}
                     style={{
                         flexGrow: 1,
                         paddingLeft: '5px'
@@ -53,10 +59,11 @@ export const RangeFilter = (props: RangeFilterProps) => {
                     type={'number'}
                     placeholder="From"
                     onKeyPress={(e) => allowOnlyNumbers(e)}
-                    onChange={(e) => props.onChange({ from: Number(e.target.value), to: props.to })}
+                    onChange={(e) => props.onChange({ from: toNumberLimit(e.target.value), to: props.to })}
                 />
                 <div style={{ width: '20px' }}></div>
                 <input
+                    value={props.to ?? ''}
                     style={{
                         flexGrow: 1,
                         paddingLeft: '5px'
@@ -64,7 +71,7 @@ export const RangeFilter = (props: RangeFilterProps) => {
                     type={'number'}
                     placeholder="To"
                     onKeyPress={(e) => allowOnlyNumbers(e)}
-                    onChange={(e) => props.onChange({ from: props.from, to: Number(e.target.value) })}
+                    onChange={(e) => props.onChange({ from: props.from, to: toNumberLimit(e.target.value) })}
                 />
             </div>
         </div>

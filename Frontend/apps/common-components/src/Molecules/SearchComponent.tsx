@@ -1,17 +1,17 @@
 import React from 'react'
 import { useState } from 'react';
+import FilterCheckbox from '../Atoms/FilterCheckbox';
 import SubmitButton from '../Atoms/SubmitButton';
 // import ArrowButton from '../Atoms/ArrowButton'
 import '../styles/DietComponentStyle.css'
 
 interface SearchComponentProps {
     onSubmitClick: () => void,
-    onFiltersChange: () => void,
+    onChange: (value: string, exact: boolean) => void,
     label: string,
 }
 
 const SearchComponent = (props: SearchComponentProps) => {
-    // const indexes = Array.from(Array(props.pageCount).keys());
     const [searchValue, setSearchValue] = useState<string>('');
     const [searchExact, setSearchExact] = useState<boolean>(false);
 
@@ -29,47 +29,28 @@ const SearchComponent = (props: SearchComponentProps) => {
                 height: '52px',
                 paddingTop: '15px'
             }}>
-                <div
-                    style={{
-                        height: '46px',
-                        // width: '70px',
-                        padding: '0px 15px ',
-                        textAlign: 'center',
-                        cursor: 'pointer',
-                        color: 'black',
-                        fontWeight: '500',
-                        display: 'table',
-                        opacity: searchExact ? '1' : '.6',
-                        border: 'solid 3px #539091',
-                        backgroundColor: 'white',
-                        borderRadius: '15px',
-
+                <FilterCheckbox
+                    checked={searchExact}
+                    onClick={() => {
+                        props.onChange(searchValue, !searchExact);
+                        setSearchExact(!searchExact)
                     }}
-                    onClick={() => setSearchExact(!searchExact)}
-                >
-                    <input style={{
-                        height: '46px',
-                        width: '20px',
-                        marginRight: '7px'
-                    }} type={'checkbox'} checked={searchExact} />
-                    <span style={{
-                        display: 'table-cell',
-                        verticalAlign: 'middle',
-                    }}>
-                        Search exact
-                    </span>
-                </div>
-                <div style={{ width: '10px' }} />
+                    label={'Search exact'}
+                />
+                <div style={{ width: '20px' }} />
                 <input
                     style={{
                         flexGrow: 1,
                         height: '52px',
                     }}
                     type={'search'}
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={(e) => {
+                        props.onChange(e.target.value, searchExact);
+                        setSearchValue(e.target.value);
+                    }}
                 />
                 <div style={{ width: '20px' }} />
-                <SubmitButton validateForm={() => true} text='Search' action={() => { console.log(searchValue) }} />
+                <SubmitButton validateForm={() => true} text='Search' action={() => props.onSubmitClick()} />
             </div>
         </div>
     )
