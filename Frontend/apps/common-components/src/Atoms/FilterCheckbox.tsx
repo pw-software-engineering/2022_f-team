@@ -21,7 +21,7 @@ const FilterCheckbox = (props: FilterCheckboxProps) => {
                 border: 'solid 3px #539091',
                 backgroundColor: 'white',
                 borderRadius: '15px',
-
+                marginRight: '10px',
             }}
             onClick={() => props.onClick()}
         >

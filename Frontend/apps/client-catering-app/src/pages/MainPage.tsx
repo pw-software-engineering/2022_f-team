@@ -83,15 +83,17 @@ const MainPage = (props: MainPageProps) => {
     console.log(dietsQuery);
   }
 
+  const [searchExact, setSearchExact] = useState<boolean>(false);
+
   return (
     <div className="page-wrapper">
       {service.state === ServiceState.Fetched &&
         <div>
           <FiltersWrapper
             search={
-              <SearchComponent label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string, exact: boolean) => {
+              <SearchComponent label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string) => {
                 if (dietsQuery != undefined) {
-                  if (exact) {
+                  if (searchExact) {
                     setFields({ 'Name': value, 'Name_with': '' });
                   }
                   else {
@@ -118,13 +120,23 @@ const MainPage = (props: MainPageProps) => {
                       Filters
                     </span>
                     <div style={{
-                      display: 'inline-block',
+                      // display: 'inline-block',
                       width: '100%',
-                      paddingTop: '10px'
+                      paddingTop: '10px',
+                      display: 'flex',
+                      flexWrap: 'nowrap'
                     }}>
                       <FilterCheckbox label={'Vegan'} checked={dietsQuery.Vegan ?? false} onClick={() => {
                         setFields({ 'Vegan': !dietsQuery.Vegan });
                       }} />
+
+                      <FilterCheckbox
+                        checked={searchExact}
+                        onClick={() => {
+                          setSearchExact(!searchExact)
+                        }}
+                        label={'Search exact'}
+                      />
                     </div>
                   </div>
                   {/* <div style={{ width: '56px' }}></div> */}
