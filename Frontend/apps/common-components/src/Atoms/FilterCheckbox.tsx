@@ -20,7 +20,7 @@ const FilterCheckbox = (props: FilterCheckboxProps) => {
                 opacity: props.checked ? '1' : '.6',
                 border: 'solid 3px #539091',
                 backgroundColor: 'white',
-                borderRadius: '15px',
+                borderRadius: '23px',
                 marginRight: '10px',
             }}
             onClick={() => props.onClick()}
