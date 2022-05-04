@@ -43,3 +43,5 @@ export { FiltersComponent, RangeFilter, RangeFilterOnChangeProps } from './Molec
 export { default as FiltersWrapper } from './Molecules/FiltersWrapper'
 
 export { default as FilterCheckbox } from './Atoms/FilterCheckbox'
+
+export { default as Select } from './Atoms/Select'

@@ -12,6 +12,7 @@ import {
   RangeFilterOnChangeProps,
   FilterCheckbox,
   GetDietsQuery,
+  Select,
 } from "common-components";
 import { useContext, useEffect, useState } from "react";
 import DietComponentWrapper from "../components/DietComponentWrapper";
@@ -126,7 +127,7 @@ const MainPage = (props: MainPageProps) => {
                       }} />
                     </div>
                   </div>
-                  <div style={{ width: '26px' }}></div>
+                  {/* <div style={{ width: '56px' }}></div> */}
                   <div style={{
                     flexGrow: 1,
                   }}>
@@ -141,9 +142,14 @@ const MainPage = (props: MainPageProps) => {
                       width: '100%',
                       paddingTop: '10px'
                     }}>
-                      <FilterCheckbox label={'Vegan'} checked={dietsQuery.Vegan ?? false} onClick={() => {
-                        setFields({ 'Vegan': !dietsQuery.Vegan });
-                      }} />
+                      <Select onChange={(value: string) => { }}>
+                        <option value='title(asc)'>Title A-Z</option>
+                        <option value='title(desc)'>Title Z-A</option>
+                        <option value='calories(asc)'>Calories low-high</option>
+                        <option value='calories(desc)'>Calories high-low</option>
+                        <option value='price(asc)'>Price low-high</option>
+                        <option value='price(desc)'>Price high-low</option>
+                      </Select>
                     </div>
                   </div>
                 </div>
