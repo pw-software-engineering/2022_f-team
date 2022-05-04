@@ -1,53 +1,72 @@
 import React from 'react'
-import { useState } from 'react';
-import SubmitButton from '../Atoms/SubmitButton';
-// import ArrowButton from '../Atoms/ArrowButton'
 import '../styles/DietComponentStyle.css'
 
 interface FiltersComponentProps {
-    onSubmitClick: () => void,
-    onFiltersChange: () => void,
+    children: React.ReactNode
 }
 
-const FiltersComponent = (props: FiltersComponentProps) => {
-    // const indexes = Array.from(Array(props.pageCount).keys());
-    const [searchValue, setSearchValue] = useState<string>('');
-
-
-
-    console.log(props);
-
+export const FiltersComponent = (props: FiltersComponentProps) => {
     return (
         <div>
-            <div className='diet-div'>
-                <div className='search-wrapper' style={{
-                    display: 'flex',
-                    height: '52px'
-                }}>
-                    <input
-                        style={{
-                            flexGrow: 1,
-                            height: '52px',
-                        }}
-                        type={'search'}
-                        onChange={(e) => setSearchValue(e.target.value)}
-                    />
-                    <div style={{ width: '20px' }} />
-                    <SubmitButton validateForm={() => searchValue.length > 0} text='Search' action={() => { console.log(searchValue) }} />
-                    {/* <ArrowButton onClick={props.index <= 0 ? undefined : props.onPreviousClick} rotate={'rotate(90deg)'} />
-                {indexes.map((i: number) => (
-                    <button type={'submit'} key={`page-${i}`} className={`textButton ${i == props.index ? 'selected' : ''}`} onClick={() => props.onNumberClick(i)}>{i}</button>
-                ))}
-                <ArrowButton onClick={props.index >= props.pageCount - 1 ? undefined : props.onNextClick} rotate={'rotate(270deg)'} /> */}
-                </div>
-            </div>
-            <div className='filters-div'>
-                <div className='filters-list'>
-
-                </div>
-            </div>
+            {props.children}
         </div>
     )
 }
 
-export default FiltersComponent;
+export interface RangeFilterOnChangeProps {
+    from?: number,
+    to?: number
+}
+
+interface RangeFilterProps {
+    label: string,
+    from?: number
+    to?: number
+    onChange: (props: RangeFilterOnChangeProps) => void,
+}
+
+export const RangeFilter = (props: RangeFilterProps) => {
+    const allowOnlyNumbers = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+        }
+    };
+
+    return (
+        <div style={{
+            paddingBottom: '20px',
+        }}>
+            <span style={{
+                fontSize: '30px',
+            }}>
+                {props.label}
+            </span>
+            <div style={{
+                display: 'flex',
+                height: '52px',
+                paddingTop: '10px',
+            }}><input
+                    style={{
+                        flexGrow: 1,
+                        paddingLeft: '5px'
+                    }}
+                    type={'number'}
+                    placeholder="From"
+                    onKeyPress={(e) => allowOnlyNumbers(e)}
+                    onChange={(e) => props.onChange({ from: Number(e.target.value), to: props.to })}
+                />
+                <div style={{ width: '20px' }}></div>
+                <input
+                    style={{
+                        flexGrow: 1,
+                        paddingLeft: '5px'
+                    }}
+                    type={'number'}
+                    placeholder="To"
+                    onKeyPress={(e) => allowOnlyNumbers(e)}
+                    onChange={(e) => props.onChange({ from: props.from, to: Number(e.target.value) })}
+                />
+            </div>
+        </div>
+    )
+}

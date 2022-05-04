@@ -6,6 +6,10 @@ import {
   DietModel,
   Pagination,
   SearchComponent,
+  FiltersWrapper,
+  FiltersComponent,
+  RangeFilter,
+  RangeFilterOnChangeProps,
 } from "common-components";
 import { useContext, useEffect, useState } from "react";
 import DietComponentWrapper from "../components/DietComponentWrapper";
@@ -64,11 +68,29 @@ const MainPage = (props: MainPageProps) => {
     setCurrentPageIndex(index);
   }
 
+  interface FromTo {
+    from?: number,
+    to?: number,
+  }
+
+  const [fromTo, setFromTo] = useState<FromTo>({ from: undefined, to: undefined });
+
   return (
     <div className="page-wrapper">
       {service.state === ServiceState.Fetched &&
         <div>
-          <SearchComponent onFiltersChange={() => { }} onSubmitClick={() => { }} />
+          <FiltersWrapper
+            search={
+              <SearchComponent label={'Diets catalogue'} onFiltersChange={() => { }} onSubmitClick={() => { }} />
+            }
+            filters={
+              <FiltersComponent>
+                <RangeFilter label={'Price'} onChange={(props: RangeFilterOnChangeProps) => setFromTo({ from: props.from, to: props.to })} />
+                <RangeFilter label={'Calories'} onChange={(props: RangeFilterOnChangeProps) => setFromTo({ from: props.from, to: props.to })} />
+              </FiltersComponent>
+            }
+          ></FiltersWrapper>
+
           {dietsList.map((item) => (
             <DietComponentWrapper key={`item-${item.id}`} diet={item} addToCartFunction={props.AddToCart} />
           ))}

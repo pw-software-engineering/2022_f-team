@@ -38,4 +38,6 @@ export { default as Pagination } from './Molecules/Pagination'
 
 export { default as SearchComponent } from './Molecules/SearchComponent'
 
-export { default as FiltersComponet } from './Molecules/AdvancedFilters'
+export { FiltersComponent, RangeFilter, RangeFilterOnChangeProps } from './Molecules/AdvancedFilters'
+
+export { default as FiltersWrapper } from './Molecules/FiltersWrapper'
