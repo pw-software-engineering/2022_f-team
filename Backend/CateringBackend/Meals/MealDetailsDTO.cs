@@ -17,8 +17,8 @@ namespace CateringBackend.Meals
         {
             MealId = meal.Id;
             Name = meal.Name;
-            IngredientList = meal.Ingredients.SplitByCommaToArray();
-            AllergenList = meal.Allergens.SplitByCommaToArray();
+            IngredientList = meal.Ingredients?.SplitByCommaToArray();
+            AllergenList = meal.Allergens?.SplitByCommaToArray();
             Calories = meal.Calories;
             Vegan = meal.IsVegan;
         }

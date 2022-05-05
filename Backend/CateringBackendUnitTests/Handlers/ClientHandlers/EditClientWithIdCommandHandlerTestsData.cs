@@ -38,6 +38,7 @@ namespace CateringBackendUnitTests.Handlers.ClientHandlers
                         BuildingNumber = "EditedBuildingNumber",
                         PostCode = "EditedPostCode",
                     },
+                    Email = "EditedEmail@gmail.com",
                     LastName = "EditedLastName",
                     Name = "EditedName",
                     Password = "EditedPassword",

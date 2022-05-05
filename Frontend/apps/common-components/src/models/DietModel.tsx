@@ -1,4 +1,3 @@
-import { MealModel } from './MealModel'
 
 export interface DietModel {
   id: string

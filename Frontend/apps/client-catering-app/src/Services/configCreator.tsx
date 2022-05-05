@@ -1,5 +1,11 @@
 import { ApiConfig } from "common-components";
-import { getDietsURL, getLoginClientURL, getRegisterClientURL } from "./URLcreator";
+import {
+  getDietDetailsURL,
+  getDietsURL,
+  getLoginClientURL,
+  getMealDetailsURL,
+  getRegisterClientURL,
+} from "./URLcreator";
 
 export const getRegisterConfig = (): ApiConfig =>
   ({ method: "post", header: "", url: getRegisterClientURL() } as ApiConfig);
@@ -10,6 +16,20 @@ export const getLoginConfig = (): ApiConfig =>
 export const getDietsConfig = (key: string) =>
   ({
     method: "get",
-    header: {'Authorization': 'Bearer ' + key},
+    header: { Authorization: "Bearer " + key },
     url: getDietsURL(),
+  } as ApiConfig);
+
+export const getDietDetailsConfig = (key: string, dietId: string) =>
+  ({
+    method: "get",
+    header: { Authorization: "Bearer " + key },
+    url: getDietDetailsURL(dietId),
+  } as ApiConfig);
+
+export const getMealDetailsConfig = (key: string, mealId: string) =>
+  ({
+    method: "get",
+    header: { Authorization: "Bearer " + key },
+    url: getMealDetailsURL(mealId),
   } as ApiConfig);

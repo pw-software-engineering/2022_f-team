@@ -1,16 +1,12 @@
 import {
-  DietComponent,
   ErrorToastComponent,
   LoadingComponent,
-  MealModel,
   ServiceState,
   UserContext,
-} from "common-components";
-import {
   DietModel,
-  GetDietsQuery,
-} from "common-components/dist/models/DietModel";
+} from "common-components";
 import { useContext, useEffect, useState } from "react";
+import DietComponentWrapper from "../components/DietComponentWrapper";
 import { APIservice } from "../Services/APIservice";
 import { getDietsConfig } from "../Services/configCreator";
 import "../style/DietComponentStyle.css";
@@ -25,7 +21,6 @@ const MainPage = (props: MainPageProps) => {
   const [showError, setShowError] = useState<boolean>(false);
 
   const [dietsList, setDietsList] = useState<Array<DietModel>>([]);
-  const [mealsList, setMealsList] = useState<Array<MealModel>>([]);
 
   const query = { Name: "", Name_with: "" };
 
@@ -51,11 +46,7 @@ const MainPage = (props: MainPageProps) => {
   return (
     <div className="page-wrapper">
       {dietsList.map((item) => (
-        <DietComponent
-          diet={item}
-          meals={mealsList}
-          addToCartFunction={props.AddToCart}
-        />
+        <DietComponentWrapper diet={item} addToCartFunction={props.AddToCart} />
       ))}
       {service.state === ServiceState.InProgress && dietsList.length == 0 && (
         <LoadingComponent />
