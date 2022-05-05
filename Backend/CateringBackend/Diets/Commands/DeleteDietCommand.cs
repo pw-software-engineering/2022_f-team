@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CateringBackend.Domain.Data;
-using CateringBackend.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
