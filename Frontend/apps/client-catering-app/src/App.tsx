@@ -12,7 +12,7 @@ import {
   LogoutIcon,
 } from "common-components";
 import "./style/NavbarStyle.css";
-import { useContext, useState} from "react";
+import { useContext, useState } from "react";
 import { PrivateRoute } from "./Routes/PrivateRoute";
 import { PublicRoute } from "./Routes/PublicRoute";
 import OrderPage from "./pages/OrderPage";
@@ -22,7 +22,7 @@ const Root = () => {
   const [cartItems, setCartItems] = useState<Array<string>>([]);
 
   const AddToCart = (itemID: string) => {
-    setCartItems([...cartItems,itemID]);
+    setCartItems([...cartItems, itemID]);
   };
 
   return (
@@ -32,9 +32,12 @@ const Root = () => {
       </Link>
       {userContext?.isAuthenticated! && (
         <div>
-          <Link to="/order">
-            <CartIcon count={cartItems.length} />
-          </Link>
+          {cartItems.length > 0 && (
+            <Link to="/order">
+              <CartIcon count={cartItems.length} />
+            </Link>
+          )}
+          {cartItems.length == 0 && <CartIcon count={cartItems.length} />}
           <Link to="#">
             <MyProfileIcon />
           </Link>
@@ -94,6 +97,3 @@ const App = () => {
 };
 
 export default App;
-function setState(arg0: number): [any, any] {
-  throw new Error("Function not implemented.");
-}

@@ -1,5 +1,10 @@
-import { findDayDifference, FormInputComponent, SubmitButton } from "common-components";
+import {
+  findDayDifference,
+  FormInputComponent,
+  SubmitButton,
+} from "common-components";
 import { useEffect, useState } from "react";
+import { APIservice } from "../Services/APIservice";
 import "../style/OrderPageStyle.css";
 
 interface OrderPageProps {
@@ -7,10 +12,12 @@ interface OrderPageProps {
 }
 const OrderPage = (props: OrderPageProps) => {
   const [dietNames, setDietNames] = useState<string>("");
+  const service = APIservice();
 
   const [orderData, setOrderData] = useState({
     From: "",
-    To: ""
+    To: "",
+    Comment: "",
   });
 
   const changeOrderDataValue = (label: string, value: string) => {
@@ -24,22 +31,23 @@ const OrderPage = (props: OrderPageProps) => {
     let temp = "";
     props.cartItems.forEach((element) => {
       if (temp.length != 0) temp += ", ";
-      temp += element;
+      temp += element.split(':')[1];
     });
     setDietNames(temp);
   };
 
   useEffect(() => GetDietNames(), []);
-  const validateForm=():boolean=>{
-    if(orderData.From.length ==0 || orderData.To.length==0) return false;
-    if(findDayDifference(orderData.From) >= 0) return false;
-    if(findDayDifference(orderData.To,orderData.From) > 0) return false;
+
+  const validateForm = (): boolean => {
+    if (orderData.From.length == 0 || orderData.To.length == 0) return false;
+    if (findDayDifference(orderData.From) >= 0) return false;
+    if (findDayDifference(orderData.To, orderData.From) > 0) return false;
     return true;
-  }
+  };
 
   const handleOrder = (e: any) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
   return (
     <div className="page-wrapper">
@@ -49,23 +57,43 @@ const OrderPage = (props: OrderPageProps) => {
           <strong>Diets:</strong> {dietNames}
         </p>
         <div className="dateWrapper">
-        <FormInputComponent
-          label={"From"}
-          type={"date"}
-          validationText={"Provide valid date."}
-          validationFunc={(x: string) => findDayDifference(x) < 0 && findDayDifference(x,orderData.To) >= 0}
-          onValueChange={changeOrderDataValue}
-        />
-        <FormInputComponent
-          label={"To"}
-          type={"date"}
-          validationText={"Provide valid date."}
-          validationFunc={(x: string) => findDayDifference(x) < 0 && findDayDifference(x,orderData.From) <= 0}
-          onValueChange={changeOrderDataValue}
+          <FormInputComponent
+            label={"From"}
+            type={"date"}
+            validationText={"Provide valid date."}
+            validationFunc={(x: string) =>
+              findDayDifference(x) < 0 &&
+              findDayDifference(x, orderData.To) >= 0
+            }
+            onValueChange={changeOrderDataValue}
+          />
+          <FormInputComponent
+            label={"To"}
+            type={"date"}
+            validationText={"Provide valid date."}
+            validationFunc={(x: string) =>
+              findDayDifference(x) < 0 &&
+              findDayDifference(x, orderData.From) <= 0
+            }
+            onValueChange={changeOrderDataValue}
+          />
+        </div>
+        <div className="orderCommentInput">
+          <label>Delivery comment:</label>
+          <textarea
+            onChange={(e) => changeOrderDataValue("Comment", e.target.value)}
+          />
+        </div>
+        
+        <p className="price">Price: xxx</p>
+        <div className="buttonWrapper">
+        <SubmitButton
+          text={"Order"}
+          validateForm={validateForm}
+          action={handleOrder}
         />
         </div>
-        <p>Price: xxx</p>
-        <SubmitButton text={"Order"} validateForm={validateForm} action={handleOrder}/>
+        
       </form>
     </div>
   );

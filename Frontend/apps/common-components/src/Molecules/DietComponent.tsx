@@ -44,7 +44,7 @@ const DietComponent = (props: DietComponentProps) => {
         <p>Price: {props.diet.price}</p>
         <button
           className='addToCartButton'
-          onClick={() => props.addToCartFunction(props.diet.id)}
+          onClick={() => props.addToCartFunction(props.diet.id+":"+props.diet.name)}
         >
           Add to cart
         </button>
