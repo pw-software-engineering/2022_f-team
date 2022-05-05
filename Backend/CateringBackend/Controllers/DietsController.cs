@@ -36,7 +36,7 @@ namespace CateringBackend.Controllers
         }
 
         [HttpDelete("{dietId}")]
-        [AllowAnonymous] // CHANGE THE AUTHORIZATION
+        [Authorize(Roles = "producer")]
         public async Task<IActionResult> DeleteDiet([FromRoute] Guid dietId)
         {
             var (dietExists, dietDeleted) = await _mediator.Send(new DeleteDietCommand(dietId));
