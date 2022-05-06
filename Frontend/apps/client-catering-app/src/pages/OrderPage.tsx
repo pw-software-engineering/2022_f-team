@@ -12,12 +12,14 @@ interface OrderPageProps {
 }
 const OrderPage = (props: OrderPageProps) => {
   const [dietNames, setDietNames] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
   const service = APIservice();
 
   const [orderData, setOrderData] = useState({
     From: "",
     To: "",
     Comment: "",
+    paymentMethod: "card",
   });
 
   const changeOrderDataValue = (label: string, value: string) => {
@@ -25,13 +27,24 @@ const OrderPage = (props: OrderPageProps) => {
       ...orderData,
       [label]: value,
     });
+    if (label === "From" || label === "To") recalculatePrice(label, value);
+  };
+
+  const recalculatePrice = (label:string, value:string) => {
+    if (!validateForm()) return;
+    let temp = 0;
+    props.cartItems.forEach((element) => {
+      temp += Number(element.split(":")[2]);
+    });
+    if(label === "From") setPrice(temp * findDayDifference(value, orderData.To));
+    else setPrice(temp * findDayDifference(orderData.From, value));
   };
 
   const GetDietNames = () => {
     let temp = "";
     props.cartItems.forEach((element) => {
       if (temp.length != 0) temp += ", ";
-      temp += element.split(':')[1];
+      temp += element.split(":")[1];
     });
     setDietNames(temp);
   };
@@ -78,22 +91,34 @@ const OrderPage = (props: OrderPageProps) => {
             onValueChange={changeOrderDataValue}
           />
         </div>
+
+        <label>Payment method:</label>
+        <select
+          onChange={(e) =>
+            changeOrderDataValue("paymentMethod", e.target.value)
+          }
+          value={orderData.paymentMethod}
+        >
+          <option value="card">Card</option>
+          <option value="paypal">PayPal</option>
+          <option value="cash">Cash</option>
+        </select>
+
         <div className="orderCommentInput">
           <label>Delivery comment:</label>
           <textarea
             onChange={(e) => changeOrderDataValue("Comment", e.target.value)}
           />
         </div>
-        
-        <p className="price">Price: xxx</p>
+
+        <p className="price">Price: {price}</p>
         <div className="buttonWrapper">
-        <SubmitButton
-          text={"Order"}
-          validateForm={validateForm}
-          action={handleOrder}
-        />
+          <SubmitButton
+            text={"Order"}
+            validateForm={validateForm}
+            action={handleOrder}
+          />
         </div>
-        
       </form>
     </div>
   );
