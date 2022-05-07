@@ -5,6 +5,7 @@ interface FormInputComponentProps {
   optional?: true
   type: string
   validationText: string
+  value?: string
   validationFunc: (x: string) => boolean
   onValueChange: (label: string, value: string) => void
 }
@@ -33,6 +34,7 @@ const FormInputComponent = (props: FormInputComponentProps) => {
       <input
         aria-labelledby={createAriaLabel()}
         type={props.type}
+        value={props.value}
         onChange={(e) => handleValueChange(e.target.value)}
       />
       {!isValid && <p className='validationMessage'>{props.validationText}</p>}
