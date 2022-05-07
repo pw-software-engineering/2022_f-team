@@ -36,27 +36,61 @@ const MainPage = (props: MainPageProps) => {
   const [dietsList, setDietsList] = useState<Array<DietModel>>([]);
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
 
-  const [dietsQuery, setDietsQuery] = useState<GetDietsQuery>({ Name: '', Name_with: '', Vegan: false, });
-
-  const query = { Name: "", Name_with: "" };
+  const [dietsQuery, setDietsQuery] = useState<GetDietsQuery>(
+    {
+      Name: '',
+      Name_with: '',
+      Vegan: undefined,
+      Calories: undefined,
+      Calories_ht: 700,
+      Calories_lt: 1000,
+      Price: undefined,
+      Price_ht: undefined,
+      Price_lt: undefined
+    }
+  );
 
   const parseFunction = (res: Array<JSON>) => {
+    console.log(res);
     const resultArray: Array<JSON> = [];
     res.forEach((item: JSON) => resultArray.push(item));
     return resultArray;
   };
 
-  useEffect(() => {
+  const loadDiets = (query: any) => {
+    console.log({ query });
+    console.log(userContext?.authApiKey)
+
     service.execute!(
       getDietsConfig(userContext?.authApiKey!),
-      query,
+      {
+        "Name": '',
+        "Name_with": '',
+        "Vegan": false,
+        "Calories": null,
+        "Calories_ht": 707,
+        "Calories_lt": 1000,
+        "Price": null,
+        "Price_ht": null,
+        "Price_lt": null
+      },
       parseFunction
     );
+  }
+
+  useEffect(() => {
+    loadDiets(dietsQuery);
   }, []);
 
   useEffect(() => {
     if (service.state === ServiceState.Fetched) setDietsList(service.result);
     if (service.state === ServiceState.Error) setShowError(true);
+
+    if (service.state === ServiceState.Fetched) {
+      // console.log(service.state);
+      console.log(service.result);
+    }
+
   }, [service.state]);
 
   const getPageCount = () => Math.ceil(dietsList.length / maxItemsPerPage) + 3;
@@ -73,13 +107,8 @@ const MainPage = (props: MainPageProps) => {
     setCurrentPageIndex(index);
   }
 
-  interface FromTo {
-    from?: number,
-    to?: number,
-  }
-
-  const setFields = (filed: any) => {
-    setDietsQuery({ ...dietsQuery, ...filed });
+  const setFields = (fields: any) => {
+    setDietsQuery({ ...dietsQuery, ...fields });
     console.log(dietsQuery);
   }
 
@@ -100,8 +129,10 @@ const MainPage = (props: MainPageProps) => {
                     setFields({ 'Name': '', 'Name_with': value });
                   }
                 }
-              }} onSubmitClick={() =>
-                setDietsQuery(dietsQuery)
+              }} onSubmitClick={() => {
+                // setDietsQuery(dietsQuery);
+                loadDiets(dietsQuery);
+              }
               } />
             }
             filters={
@@ -127,7 +158,7 @@ const MainPage = (props: MainPageProps) => {
                       flexWrap: 'nowrap'
                     }}>
                       <FilterCheckbox label={'Vegan'} checked={dietsQuery.Vegan ?? false} onClick={() => {
-                        setFields({ 'Vegan': !dietsQuery.Vegan });
+                        setFields({ 'Vegan': dietsQuery.Vegan === undefined ? true : undefined });
                       }} />
 
                       <FilterCheckbox
