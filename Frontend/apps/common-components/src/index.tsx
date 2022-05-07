@@ -1,11 +1,7 @@
 export { default as FormInputComponent } from './Atoms/FormInputComponents'
 export { default as LoginForm } from './Molecules/LoginForm'
 
-export {
-  EmailValidator,
-  PhoneValidator,
-  PostalCodeValidator
-} from './utilities'
+export * from './utilities'
 
 export { default as SubmitButton } from './Atoms/SubmitButton'
 
