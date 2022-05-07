@@ -22,7 +22,7 @@ const EditProfile = () => {
   const servicePut = APIservice();
 
   const [editData, setEditData] = useState({
-    Email: "rrrrrtt@kdnj.com",
+    Email: "",
     Name: "",
     Surname: "",
     Phone: "",
