@@ -14,11 +14,11 @@ export const getRegisterConfig = (): ApiConfig =>
 export const getLoginConfig = (): ApiConfig =>
   ({ method: "post", header: "", url: getLoginClientURL() } as ApiConfig);
 
-export const getDietsConfig = (key: string, query: string) =>
+export const getDietsConfig = (key: string) =>
   ({
     method: "get",
     header: { Authorization: "Bearer " + key },
-    url: getDietsURL(query),
+    url: getDietsURL(),
   } as ApiConfig);
 
 export const getDietDetailsConfig = (key: string, dietId: string) =>
