@@ -14,6 +14,7 @@ import { Link, Navigate } from "react-router-dom";
 import { APIservice } from "../Services/APIservice";
 import "../style/LoginRegisterStyles.css";
 import { getRegisterConfig } from "../Services/configCreator";
+import RegisterForm from "../components/RegisterForm";
 
 const RegisterPage = () => {
   const service = APIservice();
@@ -89,118 +90,13 @@ const RegisterPage = () => {
     <div className="page-wrapper">
       {service.state !== ServiceState.InProgress &&
         service.state !== ServiceState.Fetched && (
-          <form>
-            <h1>Register</h1>
-            <div className="normal-input-wrapper">
-              <FormInputComponent
-                label="Email"
-                onValueChange={changeRegisterDataValue}
-                type="email"
-                validationText="Provide valid email format."
-                validationFunc={(x: string) => EmailValidator(x)}
-              />
-              <FormInputComponent
-                label="Name"
-                onValueChange={changeRegisterDataValue}
-                type="text"
-                validationText="This field is required."
-                validationFunc={(x: string) => x.length >= 0}
-              />
-              <FormInputComponent
-                label="Surname"
-                onValueChange={changeRegisterDataValue}
-                type="text"
-                validationText="This field is required."
-                validationFunc={(x: string) => x.length >= 0}
-              />
-              <FormInputComponent
-                label="Phone"
-                onValueChange={changeRegisterDataValue}
-                type="phone"
-                validationText="Provide a valid phone number."
-                validationFunc={(x: string) => PhoneValidator(x)}
-              />
-            </div>
-
-            <div className="address-div">
-              <h3>Address</h3>
-              <div className="address-input-wrapper">
-                <FormInputComponent
-                  label="Street"
-                  onValueChange={changeRegisterDataValue}
-                  type="text"
-                  validationText="This field is required."
-                  validationFunc={(x: string) => x.length >= 0}
-                />
-              </div>
-              <div className="address-input-wrapper">
-                <FormInputComponent
-                  label="Number"
-                  onValueChange={changeRegisterDataValue}
-                  type="text"
-                  validationText="This field is required."
-                  validationFunc={(x: string) => x.length >= 0}
-                />
-              </div>
-              <div className="address-input-wrapper">
-                <FormInputComponent
-                  label="Flat"
-                  onValueChange={changeRegisterDataValue}
-                  type="text"
-                  optional={true}
-                  validationText=""
-                  validationFunc={(x: string) => true}
-                />
-              </div>
-              <div className="address-input-wrapper">
-                <FormInputComponent
-                  label="City"
-                  onValueChange={changeRegisterDataValue}
-                  type="text"
-                  validationText="This field is required."
-                  validationFunc={(x: string) => x.length >= 0}
-                />
-              </div>
-              <div className="address-input-wrapper">
-                <FormInputComponent
-                  label="Postal code"
-                  onValueChange={changeRegisterDataValue}
-                  type="text"
-                  validationText="Provide valid postal code."
-                  validationFunc={(x: string) => PostalCodeValidator(x)}
-                />
-              </div>
-            </div>
-            <div className="normal-input-wrapper">
-              <FormInputComponent
-                label="Password"
-                onValueChange={changeRegisterDataValue}
-                type="password"
-                validationText="Your password has to be at least 8 characters long."
-                validationFunc={(x: string) => x.length >= 8}
-              />
-              <FormInputComponent
-                label="Confirm password"
-                onValueChange={changeRegisterDataValue}
-                type="password"
-                validationText="Your passwords have to match."
-                validationFunc={(x: string) => x === registerData.Password}
-              />
-            </div>
-            <div className="button-div">
-              <SubmitButton
-                action={handleRegister}
-                validateForm={validateForm}
-                text="Register"
-              />
-              <p>
-                Do you already have an account?
-                <Link to="/" style={{ color: "#539091" }}>
-                  Log in!
-                </Link>
-              </p>
-            </div>
-          </form>
+          <RegisterForm
+            isForRegister={true}
+            changeDataValue={changeRegisterDataValue}
+            validateForm={validateForm}
+            handleAction={handleRegister}
+            inputData={registerData}
+          />
         )}
 
       {service.state === ServiceState.InProgress && <LoadingComponent />}

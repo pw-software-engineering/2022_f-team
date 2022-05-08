@@ -11,3 +11,5 @@ export const getDietDetailsURL = (dietId: string): string =>
 
 export const getMealDetailsURL = (mealId: string): string =>
   apiUrl + "/Meals/" + mealId;
+
+export const getClientProfileURL = (): string => apiUrl + "/Client/account";
