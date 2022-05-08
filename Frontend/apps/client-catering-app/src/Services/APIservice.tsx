@@ -14,6 +14,13 @@ export const APIservice = (): ApiResult<any | undefined> => {
   ) => {
     setState(ServiceState.InProgress);
 
+    console.log({
+      url: config.url,
+      data: body,
+      method: config.method,
+      headers: config.header,
+    });
+
     axios({
       url: config.url,
       data: body,

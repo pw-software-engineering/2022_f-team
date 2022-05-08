@@ -35,15 +35,14 @@ const MainPage = (props: MainPageProps) => {
   const [showError, setShowError] = useState<boolean>(false);
   const [dietsList, setDietsList] = useState<Array<DietModel>>([]);
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
-
   const [dietsQuery, setDietsQuery] = useState<GetDietsQuery>(
     {
       Name: '',
       Name_with: '',
       Vegan: undefined,
       Calories: undefined,
-      Calories_ht: 700,
-      Calories_lt: 1000,
+      Calories_ht: undefined,
+      Calories_lt: undefined,
       Price: undefined,
       Price_ht: undefined,
       Price_lt: undefined
@@ -57,23 +56,39 @@ const MainPage = (props: MainPageProps) => {
     return resultArray;
   };
 
-  const loadDiets = (query: any) => {
+  const addParameterIfDefined = (query: GetDietsQuery, key: string) => {
+    const value = query[key as keyof GetDietsQuery];
+    return value != undefined ? `&${key}=${value}` : '';
+  }
+
+  const getParametersFromQuery = (query: GetDietsQuery) => {
+    const parameters = `Name=${query.Name}`
+      + addParameterIfDefined(query, "Name_with")
+      + addParameterIfDefined(query, "Vegan")
+      + addParameterIfDefined(query, "Calories")
+      + addParameterIfDefined(query, "Calories_ht")
+      + addParameterIfDefined(query, "Calories_lt")
+      + addParameterIfDefined(query, "Price")
+      + addParameterIfDefined(query, "Price_ht")
+      + addParameterIfDefined(query, "Price_lt");
+
+    return parameters;
+  }
+
+  // TODO: remove it when BE is seeded with more diets
+  const makeRepeated = (arr: Array<never>, repeats: number) =>
+    [].concat(...Array.from({ length: repeats }, () => arr));
+
+  const loadDiets = (query: GetDietsQuery) => {
     console.log({ query });
     console.log(userContext?.authApiKey)
 
+    const parameters = getParametersFromQuery(query);
+    const url = getDietsConfig(userContext?.authApiKey!, parameters);
+
     service.execute!(
-      getDietsConfig(userContext?.authApiKey!),
-      {
-        "Name": '',
-        "Name_with": '',
-        "Vegan": false,
-        "Calories": null,
-        "Calories_ht": 707,
-        "Calories_lt": 1000,
-        "Price": null,
-        "Price_ht": null,
-        "Price_lt": null
-      },
+      url,
+      query,
       parseFunction
     );
   }
@@ -83,17 +98,20 @@ const MainPage = (props: MainPageProps) => {
   }, []);
 
   useEffect(() => {
-    if (service.state === ServiceState.Fetched) setDietsList(service.result);
+    if (service.state === ServiceState.Fetched) setDietsList(makeRepeated(service.result, 1));
     if (service.state === ServiceState.Error) setShowError(true);
 
     if (service.state === ServiceState.Fetched) {
-      // console.log(service.state);
       console.log(service.result);
     }
 
   }, [service.state]);
 
-  const getPageCount = () => Math.ceil(dietsList.length / maxItemsPerPage) + 3;
+  const getPageCount = () => Math.ceil(dietsList.length / maxItemsPerPage);
+
+  const dietItemOffset = () => currentPageIndex * maxItemsPerPage;
+
+  const getCurrentlyShownEntries = () => dietsList.slice(dietItemOffset(), maxItemsPerPage + dietItemOffset());
 
   const onPreviousPageClick = () => {
     setCurrentPageIndex(currentPageIndex - 1);
@@ -207,8 +225,8 @@ const MainPage = (props: MainPageProps) => {
             }
           ></FiltersWrapper>
 
-          {dietsList.map((item) => (
-            <DietComponentWrapper key={`item-${item.id}`} diet={item} addToCartFunction={props.AddToCart} />
+          {getCurrentlyShownEntries().map((item, index) => (
+            <DietComponentWrapper key={`item-${item.id}${index}`} diet={item} addToCartFunction={props.AddToCart} />
           ))}
           <Pagination index={currentPageIndex} pageCount={getPageCount()}
             onPreviousClick={onPreviousPageClick}
