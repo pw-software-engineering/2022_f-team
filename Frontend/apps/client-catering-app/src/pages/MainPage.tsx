@@ -143,7 +143,7 @@ const MainPage = (props: MainPageProps) => {
         <FiltersWrapper
           onClick={() => setShowFilters(!showFilters)}
           search={
-            <SearchComponent value={searchValue} label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string) => {
+            <SearchComponent value={searchValue} label={'Diets catalogue'} onChange={(value: string) => {
               if (dietsQuery != undefined) {
                 if (searchExact) {
                   setFields({ 'Name': value, 'Name_with': '' });
