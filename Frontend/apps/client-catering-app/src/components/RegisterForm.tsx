@@ -109,7 +109,6 @@ const RegisterForm = (props: RegisetFormProps) => {
           />
         </div>
       </div>
-      {props.isForRegister && (
         <div className="normal-input-wrapper">
           <FormInputComponent
             value={props.inputData.Password}
@@ -128,7 +127,6 @@ const RegisterForm = (props: RegisetFormProps) => {
             validationFunc={(x: string) => x === props.inputData.Password}
           />
         </div>
-      )}
       <div className="button-div">
         {props.isForRegister && (
           <SubmitButton

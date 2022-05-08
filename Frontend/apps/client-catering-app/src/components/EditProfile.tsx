@@ -26,6 +26,8 @@ const EditProfile = () => {
     Name: "",
     Surname: "",
     Phone: "",
+    Password:"",
+    Confirm:"",
     Street: "",
     City: "",
     Number: "",
@@ -55,6 +57,8 @@ const EditProfile = () => {
           Number: res.address.buildingNumber,
           Flat: res.address.apartmentNumber,
           Postal: res.address.postCode,
+          Password:"",
+          Confirm:""
         };
       }
     );
@@ -70,6 +74,8 @@ const EditProfile = () => {
     if (!EmailValidator(editData.Email)) return false;
     if (!PhoneValidator(editData.Phone)) return false;
     if (!PostalCodeValidator(editData.Postal)) return false;
+    if(editData.Password.length<8) return false;
+    if(editData.Password !== editData.Confirm) return false;
     if (
       editData.Name.length == 0 ||
       editData.Surname.length == 0 ||
@@ -91,6 +97,7 @@ const EditProfile = () => {
           lastName: editData.Surname,
           email: editData.Email,
           phoneNumber: editData.Phone,
+          password: editData.Password,
           address: {
             street: editData.Street,
             buildingNumber: editData.Number,
