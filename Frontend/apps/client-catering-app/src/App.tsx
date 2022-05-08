@@ -16,6 +16,7 @@ import { useContext, useState } from "react";
 import { PrivateRoute } from "./Routes/PrivateRoute";
 import { PublicRoute } from "./Routes/PublicRoute";
 import OrderPage from "./pages/OrderPage";
+import MyProfilePage from "./pages/MyProfilePage";
 
 const Root = () => {
   const userContext = useContext(UserContext);
@@ -38,7 +39,7 @@ const Root = () => {
             </Link>
           )}
           {cartItems.length == 0 && <CartIcon count={cartItems.length} />}
-          <Link to="#">
+          <Link to="/profile">
             <MyProfileIcon />
           </Link>
           <button
@@ -80,6 +81,14 @@ const Root = () => {
           element={
             <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
               <OrderPage cartItems={cartItems} />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
+              <MyProfilePage />
             </PrivateRoute>
           }
         />

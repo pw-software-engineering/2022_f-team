@@ -1,5 +1,6 @@
 import { ApiConfig } from "common-components";
 import {
+  getClientProfileURL,
   getDietDetailsURL,
   getDietsURL,
   getLoginClientURL,
@@ -32,4 +33,18 @@ export const getMealDetailsConfig = (key: string, mealId: string) =>
     method: "get",
     header: { Authorization: "Bearer " + key },
     url: getMealDetailsURL(mealId),
+  } as ApiConfig);
+
+export const getClientProfileDataConfig = (key: string) =>
+  ({
+    method: "get",
+    header: { Authorization: "Bearer " + key },
+    url: getClientProfileURL(),
+  } as ApiConfig);
+
+export const putClientProfileDataConfig = (key: string) =>
+  ({
+    method: "put",
+    header: { Authorization: "Bearer " + key },
+    url: getClientProfileURL(),
   } as ApiConfig);
