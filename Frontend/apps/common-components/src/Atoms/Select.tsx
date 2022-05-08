@@ -26,6 +26,7 @@ const Select = (props: SelectProps) => {
             fontSize: '20px',
             border: '2px solid #333',
             borderRadius: '10px',
+            margin: 0,
         }} onChange={(e) => props.onChange(e.target.value)}>
             {props.children}
         </select>

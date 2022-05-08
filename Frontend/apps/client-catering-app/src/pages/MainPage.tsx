@@ -197,6 +197,7 @@ const MainPage = (props: MainPageProps) => {
                   </div>
                   <div style={{
                     flexGrow: 1,
+                    paddingLeft: '20px'
                   }}>
                     <span style={{
                       fontSize: '30px',
