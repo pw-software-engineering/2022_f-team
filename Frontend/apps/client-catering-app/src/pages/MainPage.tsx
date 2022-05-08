@@ -22,7 +22,7 @@ const MainPage = (props: MainPageProps) => {
 
   const [dietsList, setDietsList] = useState<Array<DietModel>>([]);
 
-  const query = { Name: "", Name_with: "" };
+  var query:string ="?"
 
   const parseFunction = (res: Array<JSON>) => {
     const resultArray: Array<JSON> = [];
@@ -32,7 +32,7 @@ const MainPage = (props: MainPageProps) => {
 
   useEffect(() => {
     service.execute!(
-      getDietsConfig(userContext?.authApiKey!),
+      getDietsConfig(userContext?.authApiKey!, query),
       query,
       parseFunction
     );
