@@ -15,19 +15,22 @@ import '../styles/DietComponentStyle.css'
 
 interface SelectProps {
     children: React.ReactNode,
+    value: string,
     onChange: (value: string) => void
 }
 
 const Select = (props: SelectProps) => {
     return (
-        <select style={{
-            height: '53px',
-            width: '100%',
-            fontSize: '20px',
-            border: '2px solid #333',
-            borderRadius: '10px',
-            margin: 0,
-        }} onChange={(e) => props.onChange(e.target.value)}>
+        <select
+            value={props.value}
+            style={{
+                height: '53px',
+                width: '100%',
+                fontSize: '20px',
+                border: '2px solid #333',
+                borderRadius: '10px',
+                margin: 0,
+            }} onChange={(e) => props.onChange(e.target.value)}>
             {props.children}
         </select>
     )

@@ -18,4 +18,7 @@ export interface GetDietsQuery {
   Price?: number
   Price_ht?: number
   Price_lt?: number
+  Sort: string
+  Offset?: number
+  Limit?: number
 }
