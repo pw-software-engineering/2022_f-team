@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/DietComponentStyle.css'
+import { filterInputStyles } from './FilterInputStyles'
 
 interface FiltersComponentProps {
     children: React.ReactNode
@@ -52,10 +53,7 @@ export const RangeFilter = (props: RangeFilterProps) => {
                 paddingTop: '10px',
             }}><input
                     value={props.from ?? ''}
-                    style={{
-                        flexGrow: 1,
-                        paddingLeft: '5px'
-                    }}
+                    style={filterInputStyles}
                     type={'number'}
                     placeholder="From"
                     onKeyPress={(e) => allowOnlyNumbers(e)}
@@ -64,10 +62,7 @@ export const RangeFilter = (props: RangeFilterProps) => {
                 <div style={{ width: '20px' }}></div>
                 <input
                     value={props.to ?? ''}
-                    style={{
-                        flexGrow: 1,
-                        paddingLeft: '5px'
-                    }}
+                    style={filterInputStyles}
                     type={'number'}
                     placeholder="To"
                     onKeyPress={(e) => allowOnlyNumbers(e)}

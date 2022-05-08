@@ -2,6 +2,7 @@ import React from 'react'
 import SubmitButton from '../Atoms/SubmitButton';
 // import ArrowButton from '../Atoms/ArrowButton'
 import '../styles/DietComponentStyle.css'
+import { filterInputStyles } from './FilterInputStyles';
 
 interface SearchComponentProps {
     onSubmitClick: () => void,
@@ -25,7 +26,7 @@ const SearchComponent = (props: SearchComponentProps) => {
             }}>
                 <input
                     style={{
-                        flexGrow: 1,
+                        ...filterInputStyles,
                         height: '52px',
                     }}
                     type={'search'}
