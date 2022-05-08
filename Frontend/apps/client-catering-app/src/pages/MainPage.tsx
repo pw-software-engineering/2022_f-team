@@ -132,11 +132,14 @@ const MainPage = (props: MainPageProps) => {
 
   const [searchExact, setSearchExact] = useState<boolean>(false);
 
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+
   return (
     <div className="page-wrapper">
       {service.state === ServiceState.Fetched &&
         <div>
           <FiltersWrapper
+            onClick={() => setShowFilters(!showFilters)}
             search={
               <SearchComponent value={searchExact ? dietsQuery.Name : dietsQuery.Name_with} label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string) => {
                 if (dietsQuery != undefined) {
@@ -153,7 +156,7 @@ const MainPage = (props: MainPageProps) => {
               }
               } />
             }
-            filters={
+            filters={(showFilters &&
               <FiltersComponent>
                 <div style={{
                   display: 'flex',
@@ -221,7 +224,7 @@ const MainPage = (props: MainPageProps) => {
                   setFields({ 'Calories_ht': filterProps.from, 'Calories_lt': filterProps.to });
                 }} />
               </FiltersComponent>
-            }
+            )}
           ></FiltersWrapper>
 
           {getCurrentlyShownEntries().map((item, index) => (
