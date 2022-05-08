@@ -15,19 +15,19 @@ const SearchComponent = (props: SearchComponentProps) => {
     return (
         <div>
             <span style={{
-                fontSize: '40px',
+                fontSize: '36px',
             }}>
                 {props.label}
             </span>
             <div className='search-wrapper' style={{
                 display: 'flex',
-                height: '52px',
                 paddingTop: '15px'
             }}>
                 <input
                     style={{
                         ...filterInputStyles,
-                        height: '52px',
+                        height: '40px',
+                        marginTop:'8px'
                     }}
                     type={'search'}
                     value={props.value}

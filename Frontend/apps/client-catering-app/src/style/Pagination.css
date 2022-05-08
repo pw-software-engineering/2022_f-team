@@ -1,12 +1,16 @@
 .pagination {
-  display: inline-block;
-  width: 100%;
+  display: block;
   text-align: center;
-  margin-top: 20px;
+  width: 60%;
+  background-color: white;
+  border: solid 3px #539091;
+  border-radius: 15px;
+  margin: 3vh auto;
+  box-sizing: border-box;
 }
 
 .textButton {
-  font-size: 30px;
+  font-size: 25px;
   text-align: center;
   border: none;
   cursor: pointer;

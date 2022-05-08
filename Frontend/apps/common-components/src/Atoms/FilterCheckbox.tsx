@@ -10,7 +10,7 @@ const FilterCheckbox = (props: FilterCheckboxProps) => {
     return (
         <div
             style={{
-                height: '46px',
+                height: '30px',
                 padding: '0px 15px ',
                 textAlign: 'center',
                 cursor: 'pointer',

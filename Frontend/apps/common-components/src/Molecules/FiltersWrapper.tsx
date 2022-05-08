@@ -12,9 +12,8 @@ const FiltersWrapper = (props: FiltersWrapperProps) => {
 
     return (
         <div>
-            <div className='diet-div'>
+            <div className='filter-div'>
                 {(props.search)}
-                <div style={{ height: '10px' }}></div>
                 <ExpandMoreButton onClick={props.onClick} />
                 {props.filters}
             </div>

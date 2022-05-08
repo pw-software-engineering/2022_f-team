@@ -9,7 +9,7 @@ interface FiltersComponentProps {
 export const FiltersComponent = (props: FiltersComponentProps) => {
     return (
         <div>
-            <div style={{ height: '10px' }}></div>
+            <div style={{ height: '8px' }}></div>
             {props.children}
         </div>
     )
@@ -43,13 +43,13 @@ export const RangeFilter = (props: RangeFilterProps) => {
             paddingBottom: '20px',
         }}>
             <span style={{
-                fontSize: '30px',
+                fontSize: '18px',
             }}>
                 {props.label}
             </span>
             <div style={{
                 display: 'flex',
-                height: '52px',
+                height: '36px',
                 paddingTop: '10px',
             }}><input
                     value={props.from ?? ''}

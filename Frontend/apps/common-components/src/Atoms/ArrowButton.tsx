@@ -17,9 +17,9 @@ const ArrowButton = (props: ArrowButtonProps) => {
         >
             <svg
                 xmlns='http://www.w3.org/2000/svg'
-                height='48px'
+                height='38px'
                 viewBox='0 0 24 24'
-                width='48px'
+                width='38px'
                 fill='#000000'
             >
                 <path d='M24 24H0V0h24v24z' fill='none' opacity='.87' />

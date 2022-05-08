@@ -24,9 +24,9 @@ const Select = (props: SelectProps) => {
         <select
             value={props.value}
             style={{
-                height: '53px',
+                height: '36px',
                 width: '100%',
-                fontSize: '20px',
+                fontSize: '18px',
                 border: '2px solid #333',
                 borderRadius: '10px',
                 margin: 0,
