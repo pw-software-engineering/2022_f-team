@@ -10,10 +10,12 @@ namespace CateringBackend.Domain.Utilities
     public class ConfigDataSeeder
     {
         private readonly CateringDbContext _context;
+        private readonly MealsAndDietsSeedDataProvider _mealsAndDietsSeedDataProvider;
 
         public ConfigDataSeeder(CateringDbContext context)
         {
             _context = context;
+            _mealsAndDietsSeedDataProvider = new MealsAndDietsSeedDataProvider();
         }
 
         public void SeedConfigData()
@@ -24,7 +26,7 @@ namespace CateringBackend.Domain.Utilities
 
             SeedData(_context.Clients, GetClients(_context.Addresses));
             SeedData(_context.Deliverers, GetDeliverers());
-            SeedData(_context.Diets, GetDiets(_context.Meals));
+            SeedData(_context.Diets, GetDiets());
             SeedData(_context.Producers, GetProducers());
             _context.SaveChanges();
         }
@@ -41,19 +43,9 @@ namespace CateringBackend.Domain.Utilities
             yield return Producer.Create("producer@gmail.com", PasswordManager.Encrypt("producer123"));
         }
 
-        private IEnumerable<Diet> GetDiets(IEnumerable<Meal> meals)
-        {
-            yield return Diet.Create("Dieta chicken", "super kurczak", 589, meals.Skip(2));
-            yield return Diet.Create("Dieta mega chicken", "dużo kurczaka", 987, meals.SkipLast(2));
-        }
+        private IEnumerable<Diet> GetDiets() => _mealsAndDietsSeedDataProvider.DietsToSeed;
 
-        private IEnumerable<Meal> GetMeals()
-        {
-            yield return Meal.Create("Kurczak z ryżem", "kurczak, ryż", "kurczak", 589, false);
-            yield return Meal.Create("Kurczak z kaszą", "kurczak, kasza", String.Empty, 290, false);
-            yield return Meal.Create("Kurczak z niczym", "kurczak", "kurczak", 566, true);
-            yield return Meal.Create("Kurczak z kurczakiem", "kurczak, kurczak", String.Empty, 109, true);
-        }
+        private IEnumerable<Meal> GetMeals() => _mealsAndDietsSeedDataProvider.MealsToSeed;
 
         private IEnumerable<Deliverer> GetDeliverers()
         {
