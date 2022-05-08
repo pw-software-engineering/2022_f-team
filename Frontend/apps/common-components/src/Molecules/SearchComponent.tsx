@@ -6,6 +6,7 @@ import '../styles/DietComponentStyle.css'
 interface SearchComponentProps {
     onSubmitClick: () => void,
     onChange: (value: string) => void,
+    value: string,
     label: string,
 }
 
@@ -28,6 +29,7 @@ const SearchComponent = (props: SearchComponentProps) => {
                         height: '52px',
                     }}
                     type={'search'}
+                    value={props.value}
                     onChange={(e) => {
                         props.onChange(e.target.value);
                     }}

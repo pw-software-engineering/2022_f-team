@@ -98,7 +98,7 @@ const MainPage = (props: MainPageProps) => {
   }, []);
 
   useEffect(() => {
-    if (service.state === ServiceState.Fetched) setDietsList(makeRepeated(service.result, 1));
+    if (service.state === ServiceState.Fetched) setDietsList(makeRepeated(service.result, 10));
     if (service.state === ServiceState.Error) setShowError(true);
 
     if (service.state === ServiceState.Fetched) {
@@ -138,7 +138,7 @@ const MainPage = (props: MainPageProps) => {
         <div>
           <FiltersWrapper
             search={
-              <SearchComponent label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string) => {
+              <SearchComponent value={searchExact ? dietsQuery.Name : dietsQuery.Name_with} label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string) => {
                 if (dietsQuery != undefined) {
                   if (searchExact) {
                     setFields({ 'Name': value, 'Name_with': '' });
@@ -188,7 +188,6 @@ const MainPage = (props: MainPageProps) => {
                       />
                     </div>
                   </div>
-                  {/* <div style={{ width: '56px' }}></div> */}
                   <div style={{
                     flexGrow: 1,
                   }}>
