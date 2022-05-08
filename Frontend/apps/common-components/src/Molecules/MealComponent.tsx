@@ -17,8 +17,8 @@ const MealComponent = (props: MealComponentProps) => {
   }
   return (
     <div>
-      <div className='shadowPanel' />
-      <div className='meal-div'>
+      <div className='shadowPanel' style={{ position: 'fixed', zIndex: 99 }} />
+      <div className='meal-div' style={{ position: 'fixed', zIndex: 100 }}>
         <div className='meal-header-div'>
           {props.meal !== undefined && <h1>{props.meal.name}</h1>}
           {props.meal !== undefined && props.meal.vegan && <VeganMark />}
