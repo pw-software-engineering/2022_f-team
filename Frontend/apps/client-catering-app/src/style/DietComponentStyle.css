@@ -141,7 +141,7 @@
     left:0;
     box-sizing: border-box;
     opacity: 0.5;
-    position: absolute;
+    position: fixed;
 }
 
 .meal-div{
