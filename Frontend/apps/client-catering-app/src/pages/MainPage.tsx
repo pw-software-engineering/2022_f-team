@@ -53,7 +53,6 @@ const MainPage = (props: MainPageProps) => {
   );
 
   const parseFunction = (res: Array<JSON>) => {
-    console.log(res);
     const resultArray: Array<JSON> = [];
     res.forEach((item: JSON) => resultArray.push(item));
     return resultArray;
@@ -82,9 +81,6 @@ const MainPage = (props: MainPageProps) => {
   }
 
   const loadDiets = (query: GetDietsQuery) => {
-    console.log({ query });
-    console.log(userContext?.authApiKey)
-
     const parameters = getParametersFromQuery(query);
     const url = getDietsConfig(userContext?.authApiKey!, parameters);
 
@@ -102,11 +98,6 @@ const MainPage = (props: MainPageProps) => {
   useEffect(() => {
     if (service.state === ServiceState.Fetched) setDietsList(service.result);
     if (service.state === ServiceState.Error) setShowError(true);
-
-    if (service.state === ServiceState.Fetched) {
-      console.log(service.result);
-    }
-
   }, [service.state]);
 
   const getPageCount = () => Math.ceil(dietsList.length / maxItemsPerPage);
@@ -129,7 +120,6 @@ const MainPage = (props: MainPageProps) => {
 
   const setFields = (fields: any) => {
     setDietsQuery({ ...dietsQuery, ...fields });
-    console.log(dietsQuery);
   }
 
   const [searchExact, setSearchExact] = useState<boolean>(false);
