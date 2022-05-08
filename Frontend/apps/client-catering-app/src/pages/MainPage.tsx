@@ -134,6 +134,8 @@ const MainPage = (props: MainPageProps) => {
 
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
+  const [searchValue, setSearchValue] = useState<string>('');
+
   return (
     <div className="page-wrapper">
       {service.state === ServiceState.Fetched &&
@@ -141,7 +143,7 @@ const MainPage = (props: MainPageProps) => {
           <FiltersWrapper
             onClick={() => setShowFilters(!showFilters)}
             search={
-              <SearchComponent value={searchExact ? dietsQuery.Name : dietsQuery.Name_with} label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string) => {
+              <SearchComponent value={searchValue} label={'Diets catalogue' + dietsQuery.Name} onChange={(value: string) => {
                 if (dietsQuery != undefined) {
                   if (searchExact) {
                     setFields({ 'Name': value, 'Name_with': '' });
@@ -150,6 +152,8 @@ const MainPage = (props: MainPageProps) => {
                     setFields({ 'Name': '', 'Name_with': value });
                   }
                 }
+
+                setSearchValue(value);
               }} onSubmitClick={() => {
                 // setDietsQuery(dietsQuery);
                 loadDiets(dietsQuery);
