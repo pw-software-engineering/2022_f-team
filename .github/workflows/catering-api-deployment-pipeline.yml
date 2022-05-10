@@ -20,7 +20,7 @@ env:
   DEPLOYMENT_DIRECTORY: "Backend"
   DEPLOYMENT_FILE_NAME: "catering-api-deployment-spec.yml"
   PATH_TO_DOCKER_FILE: "Backend/Dockerfile"
-  PATH_TO_APP_SRC: "Backend/CateringBackend."
+  PATH_TO_APP_SRC: "Backend/CateringBackend"
   PATH_TO_TEST_PROJECT: "Backend/CateringBackendUnitTests/CateringBackendUnitTests.csproj"
 
 jobs:
