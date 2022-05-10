@@ -1,8 +1,8 @@
 name: DeployCateringApi
 
 on:
-  # repository_dispatch:
-  #   types: [build]
+  repository_dispatch:
+    types: [build]
 
   workflow_dispatch:
 
