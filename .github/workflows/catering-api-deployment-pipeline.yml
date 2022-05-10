@@ -32,9 +32,9 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
-          - name: Test
-            working-directory: ./Backend
-            run: dotnet test --filter FullyQualifiedName!~CateringBackend.CrossTests --no-build --verbosity normal
+      - name: Test
+        working-directory: ./Backend
+        run: dotnet test --filter FullyQualifiedName!~CateringBackend.CrossTests --no-build --verbosity normal
       # - name: Test
       #   run: dotnet test ${{ env.PATH_TO_TEST_PROJECT }} /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
       # - name: TestReporter
