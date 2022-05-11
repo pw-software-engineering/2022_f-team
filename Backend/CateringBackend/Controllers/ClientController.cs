@@ -56,5 +56,17 @@ namespace CateringBackend.Controllers
             var editedSuccessfully = await _mediator.Send(new EditClientWithIdCommand(editClientCommand, userId));
             return editedSuccessfully ? Ok() : BadRequest("Edycja danych nie powiodła się");
         }
+
+        [HttpPost("orders")]
+        [Authorize(Roles = "client")]
+        public async Task<IActionResult> AddOrder([FromBody] AddOrderCommand addOrderCommand)
+        {
+            var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var addedSuccessfully = await _mediator.Send(new AddOrderCommandWithClientId(addOrderCommand, userId));
+            return addedSuccessfully ?
+                CreatedAtAction(nameof(AddOrder), "Zapisano zamówienie") :
+                BadRequest("Zapisanie nie powiodło się");
+
+        }
     }
 }
