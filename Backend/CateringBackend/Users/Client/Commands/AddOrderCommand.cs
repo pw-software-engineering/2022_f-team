@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CateringBackend.Users.Client.Commands
 {
-
     public class AddOrderCommand
     {
         public string[] DietIDs { get; set; }
@@ -66,7 +65,7 @@ namespace CateringBackend.Users.Client.Commands
             _dbContext.Orders.Add(new Order
             {
                 Id = Guid.NewGuid(),
-                Status = OrderStatus.Created,
+                Status = OrderStatus.WaitingForPayment,
                 ClientId = request.ClientId,
                 CommentForDeliverer = request.DeliveryDetails.CommentForDeliverer,
                 DeliveryAddressId = addressInDB.Id,

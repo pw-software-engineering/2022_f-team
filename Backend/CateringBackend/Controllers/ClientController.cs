@@ -66,7 +66,6 @@ namespace CateringBackend.Controllers
             return addedSuccessfully ?
                 CreatedAtAction(nameof(AddOrder), "Zapisano zamówienie") :
                 BadRequest("Zapisanie nie powiodło się");
-
         }
     }
 }
