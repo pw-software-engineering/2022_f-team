@@ -19,7 +19,7 @@ namespace CateringBackend.Users.Client.Commands
         public DateTime EndDate { get; set; }
     }
 
-    public class AddOrderCommandWithClientId : IRequest<bool>
+    public class AddOrderCommandWithClientId : IRequest<string>
     {
         public Guid ClientId { get; set; }
         public string[] DietIDs { get; set; }
@@ -37,7 +37,7 @@ namespace CateringBackend.Users.Client.Commands
         }
     }
 
-    public class AddOrderCommandHandler : IRequestHandler<AddOrderCommandWithClientId, bool>
+    public class AddOrderCommandHandler : IRequestHandler<AddOrderCommandWithClientId, string>
     {
         private readonly CateringDbContext _dbContext;
 
@@ -46,14 +46,14 @@ namespace CateringBackend.Users.Client.Commands
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Handle(AddOrderCommandWithClientId request, CancellationToken cancellationToken)
+        public async Task<string> Handle(AddOrderCommandWithClientId request, CancellationToken cancellationToken)
         {
             if (request.EndDate <= request.StartDate ||
                 request.StartDate <= DateTime.Now)
-                return false;
+                return null;
 
             if (CheckDietIDsNotExists(request.DietIDs))
-                return false;
+                return null;
 
             var addressInDB = await SearchForAddressInDatabase(request.DeliveryDetails.Address);
             if(addressInDB == default)
@@ -62,7 +62,7 @@ namespace CateringBackend.Users.Client.Commands
                 _dbContext.Addresses.Add(addressInDB);
             }
 
-            _dbContext.Orders.Add(new Order
+            var orderToAdd = new Order
             {
                 Id = Guid.NewGuid(),
                 Status = OrderStatus.WaitingForPayment,
@@ -75,10 +75,12 @@ namespace CateringBackend.Users.Client.Commands
                 Diets = new HashSet<Diet>(
                     _dbContext.Diets.Where(d => request.DietIDs.Contains(d.Id.ToString())).ToList()
                     )
-            });
+            };
+
+            _dbContext.Orders.Add(orderToAdd);
 
             await _dbContext.SaveChangesAsync();
-            return true;
+            return orderToAdd.Id.ToString();
         }
 
         private bool CheckDietIDsNotExists(string[] DietIDs) =>
