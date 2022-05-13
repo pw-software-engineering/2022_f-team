@@ -13,13 +13,11 @@ namespace CateringBackend.Users
         public static Address CreateAddressFromDTO(AddressDTO addressDTO)
         {
             return Address.Create(
-                addressDTO.Street,
-                addressDTO.BuildingNumber,
-                addressDTO.ApartmentNumber,
-                addressDTO.PostCode,
-                addressDTO.City);
+                street: addressDTO.Street,
+                buildingNumber: addressDTO.BuildingNumber,
+                apartmentNumber: addressDTO.ApartmentNumber,
+                postCode: addressDTO.PostCode,
+                city: addressDTO.City);
         }
     }
-
-
 }
