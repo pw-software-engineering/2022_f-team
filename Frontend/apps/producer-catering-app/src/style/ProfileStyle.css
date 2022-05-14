@@ -1,0 +1,37 @@
+.buttonNav{
+    margin:  1vh auto 5vh;
+    box-sizing: border-box;
+    width: 60%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+          ". ."; 
+}
+
+.buttonNav button{
+    background-color: #a8dcd9;
+    border:#cceae8 2px solid;
+    border-radius: 5px;
+    height: 5vh;
+    letter-spacing: 0.2vw;
+    font-size: 1.5vw;
+    cursor:pointer;
+}
+
+hr{
+    background-color: #467c7d;
+    height: 2px;
+    border: none;
+    width: 80%;
+    margin: auto;
+}
+
+.onSuccessEdit{
+    text-align: center;
+    margin-top: -5vh;
+    font-size: 1.3vw;
+    letter-spacing: 0.1vw;
+}
