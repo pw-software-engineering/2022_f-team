@@ -34,17 +34,9 @@ namespace CateringBackend.Meals.Commands
             var mealToEdit = await SearchForMealInDatabase(request.MealId, cancellationToken);
 
             if (mealToEdit == default)
-            {
-                Console.WriteLine("not exist");
-
                 return (mealExists: false, mealEdited: false);
-            }
             if (await MealWithGivenNameExists(request.MealId, request.Name, cancellationToken))
-            {
-                Console.WriteLine("name exists");
-
                 return (mealExists: true, mealEdited: false);
-            }
 
             mealToEdit.MakeUnavailable();
             var newMeal = await AddMealToDatabaseAsync(request, cancellationToken);
