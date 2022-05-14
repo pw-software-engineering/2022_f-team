@@ -29,9 +29,7 @@ namespace CateringBackend.Diets.Commands
                 return (dietExists: false, dietDeleted: false);
 
             diet.MakeUnavailable();
-            if ((await _dbContext.SaveChangesAsync(cancellationToken)) == 0)
-                return (dietExists: true, dietDeleted: false);
-
+            await _dbContext.SaveChangesAsync(cancellationToken);
             return (dietExists: true, dietDeleted: true);
         }
     }
