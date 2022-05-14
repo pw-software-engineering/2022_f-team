@@ -19,7 +19,7 @@ namespace CateringBackend.Domain.Entities
         public HashSet<Complaint> Complaints { get; set; }
         public HashSet<Diet> Diets { get; set; }
 
-        protected Order()
+        public Order()
         {
             Complaints = new HashSet<Complaint>();
             Diets = new HashSet<Diet>();
