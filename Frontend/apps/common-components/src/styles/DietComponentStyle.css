@@ -21,19 +21,11 @@
     background-color: white;
     border: solid 3px #539091;
     border-radius: 15px;
-    margin: 3vh auto;
+    margin:auto;
     padding: 2vh 4vw;
     box-sizing: border-box;
 }
-.filter-div{
-    width: 60%;
-    background-color: white;
-    border: solid 3px #539091;
-    border-radius: 15px;
-    margin: 0vh auto;
-    padding: 2vh 4vw;
-    box-sizing: border-box;
-}
+
 .description{
     text-align: justify;
 }
@@ -70,12 +62,6 @@
     border: none;
     cursor: pointer;
     background-color: transparent;
-}
-
-.expandMoreButton:disabled ,
-.expandMoreButton[disabled]{
-  opacity: 0.5;
-  cursor: default;
 }
   
 .addToCartButton{
@@ -149,7 +135,7 @@
     left:0;
     box-sizing: border-box;
     opacity: 0.5;
-    position: fixed;
+    position: absolute;
 }
 
 .meal-div{

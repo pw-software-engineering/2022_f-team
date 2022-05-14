@@ -1,0 +1,29 @@
+.pagination {
+  display: block;
+  text-align: center;
+  width: 60%;
+  background-color: white;
+  border: solid 3px #539091;
+  border-radius: 15px;
+  margin: 3vh auto;
+  box-sizing: border-box;
+}
+
+.textButton {
+  font-size: 25px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transform: translateY(-12px);
+  background-color: transparent;
+  margin: 0 6px;
+}
+.textButton:disabled ,
+.textButton[disabled]{
+  opacity: 0.5;
+  cursor: default;
+}
+
+.selected {
+  text-decoration: underline;
+}
