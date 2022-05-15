@@ -39,19 +39,19 @@ namespace CateringBackend.CrossTests.Client.Tests
         //}
 
         //[Fact]
-        //public async Task GetOrders_ProducerLoggedIn_ReturnsUnauthorized()
+        //public async Task GetOrders_ProducerLoggedIn_ReturnsForbidden()
         //{
         //    await ProducerActions.Authorize(_httpClient);
         //    var getResponse = await ClientActions.GetOrders(_httpClient, false);
-        //    Assert.Equal(HttpStatusCode.Unauthorized, getResponse.StatusCode);
+        //    Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
         //}
 
         //[Fact]
-        //public async Task GetOrders_DelivererLoggedIn_ReturnsUnauthorized()
+        //public async Task GetOrders_DelivererLoggedIn_ReturnsForbidden()
         //{
         //    await DelivererActions.Authorize(_httpClient);
         //    var getResponse = await ClientActions.GetOrders(_httpClient, false);
-        //    Assert.Equal(HttpStatusCode.Unauthorized, getResponse.StatusCode);
+        //    Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
         //}
 
         //[Fact]
@@ -137,35 +137,35 @@ namespace CateringBackend.CrossTests.Client.Tests
         //    Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         //}
 
-        //[Fact]
-        //public async Task PayOrder_NotLoggedIn_Unauthorized()
-        //{
-        //    var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
-        //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        //}
+        [Fact]
+        public async Task PayOrder_NotLoggedIn_ReturnsUnauthorized()
+        {
+            var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task PayOrder_ProducerLoggedIn_Unauthorized()
-        //{
-        //    await ProducerActions.Authorize(_httpClient);
-        //    var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
-        //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        //}
+        [Fact]
+        public async Task PayOrder_ProducerLoggedIn_ReturnsForbidden()
+        {
+            await ProducerActions.Authorize(_httpClient);
+            var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task PayOrder_DelivererLoggedIn_Unauthorized()
-        //{
-        //    await DelivererActions.Authorize(_httpClient);
-        //    var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
-        //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        //}
+        [Fact]
+        public async Task PayOrder_DelivererLoggedIn_ReturnsForbidden()
+        {
+            await DelivererActions.Authorize(_httpClient);
+            var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task PayOrder_InvalidOrderId_ReturnsNotFound()
-        //{
-        //    await ClientActions.CreateOrderAndReturnId(_httpClient);
-        //    var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
-        //    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        //}
+        [Fact]
+        public async Task PayOrder_InvalidOrderId_ReturnsNotFound()
+        {
+            await ClientActions.RegisterAndLogin(_httpClient);
+            var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
     }
 }
