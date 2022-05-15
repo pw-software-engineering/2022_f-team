@@ -34,11 +34,18 @@ https://localhost:5001/swagger/index.html
 
 Any pending migrations are applied inside the constructor of the `CateringDbContext` object. This way any new migrations are applied instantly without the need of restarting the application.
 
+### How to add migration
+
+To add the migration you need to execute the following command inside of the `./Backend/CateringBackend` directory:
+```
+dotnet ef migrations add <migration-name> --project ..\CateringBackend.Domain\CateringBackend.Domain.csproj
+```
+
 ### How to unapply a migration? 
 
 To unapply the migration you need to execute the following command inside of the `./Backend/CateringBackend` directory:
 ```
-dotnet ef database update <previous-migration-name>
+dotnet ef database update <previous-migration-name> --project ..\CateringBackend.Domain\CateringBackend.Domain.csproj
 ```
 
 ### The current state of migrations
