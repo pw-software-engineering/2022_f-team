@@ -1,7 +1,9 @@
 ﻿using CateringBackend.CrossTests.Client;
 using CateringBackend.CrossTests.Deliverer;
+using CateringBackend.CrossTests.Meals.Requests;
 using CateringBackend.CrossTests.Producer;
 using CateringBackend.CrossTests.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,11 +45,18 @@ namespace CateringBackend.CrossTests.Meals.Tests
         public async Task DeleteMeal_ProducerLoggedIn_ReturnsOk()
         {
             await ProducerActions.Authorize(_httpClient);
-            var mealIds = await MealsActions.PostAndGetMealIds(_httpClient);
-            var response = await MealsActions.DeleteMeal(_httpClient, mealIds?.First() ?? TestsConstants.GetDefaultId());
+            var postMeal = MealsRequestsProvider.PrepareMeals(1).SingleOrDefault();
+            var postRequest = ObjectPropertiesMapper.ConvertObject<Meal, PostMealRequest>(postMeal);
+            var body = JsonConvert.SerializeObject(postRequest).ToStringContent();
+            var postResponse = await _httpClient.PostAsync(MealsUrls.GetMealsUrl(), body);
+            var getResponse = await MealsActions.GetMeals(_httpClient);
+            var getContent = await getResponse.Content.ReadAsStringAsync();
+            var meals = JsonConvert.DeserializeObject<IEnumerable<Meal>>(getContent);
+            var meal = meals.SingleOrDefault(x => x.Name == postMeal.Name);
+            var response = await MealsActions.DeleteMeal(_httpClient, meal.MealId ?? TestsConstants.GetDefaultId());
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var mealIdsAfterDelete = await MealsActions.GetMealsIds(_httpClient);
-            Assert.True(!mealIdsAfterDelete.Contains(mealIds.First()));
+            Assert.True(!mealIdsAfterDelete.Contains(meal.MealId));
         }
 
         [Fact]

@@ -8,8 +8,8 @@ namespace CateringBackend.CrossTests.Producer
         {
             var request =  new LoginRequest()
             {
-                Email = "producer@gmail.com",
-                Password = "producer123"
+                Email = "producent@producent.pl",
+                Password = "Producent123!"
             };
             if (!isValid)
                 request.Password = string.Empty;
