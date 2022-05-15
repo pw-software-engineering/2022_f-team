@@ -1,6 +1,7 @@
 ﻿using CateringBackend.CrossTests.Client.Requests;
 using CateringBackend.CrossTests.Utilities;
 using System;
+using System.Linq;
 
 namespace CateringBackend.CrossTests.Client
 {
@@ -62,11 +63,10 @@ namespace CateringBackend.CrossTests.Client
             return fakeAddress.Generate();
         }
 
-        public static PostOrdersRequest PrepareOrdersRequest(bool isValid = true)
+        public static PostOrdersRequest PrepareOrdersRequest( object[] dietIds, bool isValid = true)
         {
-            var dietIds = new string[] { "1", "2" };
             var fakerOrders = FakerHelper.GetFaker<PostOrdersRequest>()
-                .RuleFor(x => x.DietIds, f => dietIds)
+                .RuleFor(x => x.DietIds, f => dietIds.Select(x => (string)x).ToArray())
                 .RuleFor(x => x.StartDate, f => f.Date.Between(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1)))
                 .RuleFor(x => x.EndDate, f => f.Date.Between(new DateTime(2022, 2, 2), new DateTime(2022, 3, 1)));
 
