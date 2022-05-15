@@ -73,5 +73,16 @@ namespace CateringBackend.Controllers
 
             return CreatedAtAction(nameof(PayForOrder), "Opłacono zamówienie");
         }
+
+        [HttpPost("orders")]
+        [Authorize(Roles = "client")]
+        public async Task<IActionResult> AddOrder([FromBody] AddOrderCommand addOrderCommand)
+        {
+            var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var orderId = await _mediator.Send(new AddOrderCommandWithClientId(addOrderCommand, userId));
+            return string.IsNullOrEmpty(orderId) ?
+                BadRequest("Zapisanie nie powiodło się") :
+                CreatedAtAction(nameof(AddOrder), orderId);
+        }
     }
 }
