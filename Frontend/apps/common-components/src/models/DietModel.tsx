@@ -22,3 +22,7 @@ export interface GetDietsQuery {
   Offset?: number
   Limit?: number
 }
+
+export interface GetDietDetailsQuery {
+  dietId: string
+}

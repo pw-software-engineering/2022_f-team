@@ -16,7 +16,7 @@ import Pagination from "../Molecules/Pagination";
 import { ErrorToastComponent } from "../Atoms/ErrorToastComponent";
 
 interface DietListProps {
-    onDietButtonClick: (item: string) => void | null
+    onDietButtonClick: (item: string, diet: DietModel) => any
     userContext: UserContextInterface | null
     dietButtonLabel?: string
 }
@@ -264,7 +264,9 @@ const DietList = (props: DietListProps) => {
                             key={`item-${item.id}${index}`}
                             userContext={props.userContext}
                             diet={item}
-                            onButtonClick={props.onDietButtonClick}
+                            onButtonClick={(value: string) => {
+                                props.onDietButtonClick(value, item)
+                            }}
                             buttonLabel={props.dietButtonLabel}
                         />
                     ))}

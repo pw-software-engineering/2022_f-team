@@ -1,8 +1,10 @@
 import {
   UserContext,
   DietList,
+  EditDietDialog,
+  DietModel,
 } from "common-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import "../style/DietComponentStyle.css";
 import "../style/Pagination.css";
 import "../style/Filter.css";
@@ -14,15 +16,26 @@ interface MainPageProps {
 
 const MainPage = (props: MainPageProps) => {
   const userContext = useContext(UserContext);
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [diet, setDiet] = useState<DietModel | null>(null);
 
-  const openDialog = (value: string) => {
-    console.log({ value });
+  const openDialog = (value: string, diet: DietModel) => {
+    setDiet(diet);
+    setShowModal(true);
   }
 
   return (
-    <DietList onDietButtonClick={openDialog}
-      userContext={userContext}
-      dietButtonLabel={'Edit diet'} />
+    <div>
+      {showModal && diet != null && (
+        <EditDietDialog
+          closeModal={setShowModal}
+          userContext={userContext}
+          diet={diet} />
+      )}
+      <DietList onDietButtonClick={openDialog}
+        userContext={userContext}
+        dietButtonLabel={'Edit diet'} />
+    </div>
   );
 };
 

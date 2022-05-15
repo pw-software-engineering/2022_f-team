@@ -43,3 +43,5 @@ export { default as FilterCheckbox } from './Atoms/FilterCheckbox'
 export { default as Select } from './Atoms/Select'
 
 export { default as DietList } from './Organisms/DietList'
+
+export { default as EditDietDialog } from './Organisms/EditDietDialog'
