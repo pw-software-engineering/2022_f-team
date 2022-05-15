@@ -1,6 +1,7 @@
 ﻿using CateringBackend.CrossTests.Client;
 using CateringBackend.CrossTests.Deliverer;
 using CateringBackend.CrossTests.Producer;
+using CateringBackend.CrossTests.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,14 @@ namespace CateringBackend.CrossTests.Meals.Tests
             var mealIds = await MealsActions.PostAndGetMealIds(_httpClient);
             var response = await MealsActions.GetMeal(_httpClient, mealIds?.First());
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task GetMeal_InvalidId_ReturnsNotFound()
+        {
+            await ClientActions.RegisterAndLogin(_httpClient);
+            var response = await MealsActions.GetMeal(_httpClient, TestsConstants.GetDefaultId());
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 }

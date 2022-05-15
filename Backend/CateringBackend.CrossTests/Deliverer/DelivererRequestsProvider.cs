@@ -11,8 +11,8 @@ namespace CateringBackend.CrossTests.Deliverer
         {
             var request =  new LoginRequest()
             {
-                Email = "deliverer@gmail.com",
-                Password = "deliverer123"
+                Email = "dostawca@dostawca.pl",
+                Password = "Dostawca123!"
             };
 
             if (!isValid)

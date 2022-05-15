@@ -1,4 +1,7 @@
 ﻿using CateringBackend.CrossTests.Client.Requests;
+using CateringBackend.CrossTests.Diets;
+using CateringBackend.CrossTests.Meals;
+using CateringBackend.CrossTests.Producer;
 using CateringBackend.CrossTests.Utilities;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -41,12 +44,15 @@ namespace CateringBackend.CrossTests.Client
             return await httpClient.GetAsync(ClientUrls.GetOrdersUrl());
         }
 
-        public static async Task<HttpResponseMessage> CreateOrders(HttpClient httpClient, bool isValid = true, bool authorize = true)
+        public static async Task<HttpResponseMessage> CreateOrders(HttpClient httpClient, bool isValid = true)
         {
-            if (authorize)
-                await RegisterAndLogin(httpClient);
-            var request = ClientRequestsProvider.PrepareOrdersRequest(isValid);
+            await ProducerActions.Authorize(httpClient);
+            var meals = await MealsActions.PostAndGetMealIds(httpClient);
+            var diets = await DietsActions.PostDiet(httpClient, meals.ToArray());
+            var dietIds = await DietsActions.GetDietsIds(httpClient);
+            var request = ClientRequestsProvider.PrepareOrdersRequest(dietIds.ToArray(), isValid);
             var body = JsonConvert.SerializeObject(request).ToStringContent();
+            await RegisterAndLogin(httpClient);
             return await httpClient.PostAsync(ClientUrls.GetOrdersUrl(), body);
         }
 
@@ -59,14 +65,14 @@ namespace CateringBackend.CrossTests.Client
             return (IEnumerable<int>)(orderIds.Select(x => x.Id));
         }
 
-        public static async Task<HttpResponseMessage> SendComplain(HttpClient httpClient, int orderId)
+        public static async Task<HttpResponseMessage> SendComplain(HttpClient httpClient, object orderId)
         {
             var request = ClientRequestsProvider.PrepareComplainRequest();
             var body = JsonConvert.SerializeObject(request).ToStringContent();
             return await httpClient.PostAsync(ClientUrls.GetOrdersComplainUrl(orderId), body);
         }
 
-        public static async Task<HttpResponseMessage> PayOrder(HttpClient httpClient, int orderId)
+        public static async Task<HttpResponseMessage> PayOrder(HttpClient httpClient, object orderId)
         {
             return await httpClient.PostAsync(ClientUrls.GetOrdersPayUrl(orderId), null);
         }
