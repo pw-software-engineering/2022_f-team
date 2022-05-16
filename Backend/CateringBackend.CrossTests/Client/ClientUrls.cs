@@ -4,7 +4,7 @@ namespace CateringBackend.CrossTests.Client
 {
     public static class ClientUrls
     {
-        public const string BaseClientUrl = TestsConstants.BaseUrl + "/client";
+        public static string BaseClientUrl = UrlProvider.BaseUrl + "/client";
         public static string GetRegisterUrl() => $"{BaseClientUrl}/register";
         public static string GetLoginUrl() => $"{BaseClientUrl}/login";
         public static string GetOrdersUrl() => $"{BaseClientUrl}/orders";
