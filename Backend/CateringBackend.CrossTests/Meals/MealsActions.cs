@@ -16,7 +16,7 @@ namespace CateringBackend.CrossTests.Meals
         {
             return await httpClient.GetAsync(MealsUrls.GetMealsUrl());
         }
-        public static async Task<IEnumerable<string>> GetMealsIds(HttpClient httpClient)
+        public static async Task<IEnumerable<object>> GetMealsIds(HttpClient httpClient)
         {
             var getResponse = await GetMeals(httpClient);
             var getContent = await getResponse.Content.ReadAsStringAsync();
@@ -25,13 +25,13 @@ namespace CateringBackend.CrossTests.Meals
             return diets?.Select(x => x.MealId).ToList();
         }
 
-        public static async Task<IEnumerable<string>> PostAndGetMealIds(HttpClient httpClient)
+        public static async Task<IEnumerable<object>> PostAndGetMealIds(HttpClient httpClient)
         {
-            await PostMeals(httpClient);
+            var postResponse = await PostMeals(httpClient);
             return await GetMealsIds(httpClient);
         }
 
-        public static async Task<HttpResponseMessage> GetMeal(HttpClient httpClient, string mealId)
+        public static async Task<HttpResponseMessage> GetMeal(HttpClient httpClient, object mealId)
         {
             return await httpClient.GetAsync(MealsUrls.GetMealUrl(mealId));
         }
@@ -43,9 +43,9 @@ namespace CateringBackend.CrossTests.Meals
                 return postResponse;
             var mealIds = await GetMealsIds(httpClient);
             var putRequest = MealsRequestsProvider.PrepareMeals(1).First();
-            putRequest.MealId = mealIds.FirstOrDefault();
+            putRequest.MealId = mealIds.FirstOrDefault() as string;
             var putBody = JsonConvert.SerializeObject(putRequest).ToStringContent();
-            var putResponse = await httpClient.PutAsync(MealsUrls.GetMealUrl(mealIds?.FirstOrDefault() ?? new Guid().ToString()), putBody);
+            var putResponse = await httpClient.PutAsync(MealsUrls.GetMealUrl(mealIds?.FirstOrDefault() ?? TestsConstants.GetDefaultId()), putBody);
             return putResponse;
         }
 
@@ -57,7 +57,7 @@ namespace CateringBackend.CrossTests.Meals
             return await httpClient.PostAsync(MealsUrls.GetMealsUrl(), body);
         }
 
-        public static async Task<HttpResponseMessage> DeleteMeal(HttpClient httpClient, string mealId)
+        public static async Task<HttpResponseMessage> DeleteMeal(HttpClient httpClient, object mealId)
         {
             return await httpClient.DeleteAsync(MealsUrls.GetMealUrl(mealId));
         }

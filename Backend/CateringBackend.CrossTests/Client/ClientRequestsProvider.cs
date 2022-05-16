@@ -1,6 +1,7 @@
 ﻿using CateringBackend.CrossTests.Client.Requests;
 using CateringBackend.CrossTests.Utilities;
 using System;
+using System.Linq;
 
 namespace CateringBackend.CrossTests.Client
 {
@@ -13,7 +14,7 @@ namespace CateringBackend.CrossTests.Client
                 .RuleFor(x => x.LastName, f => f.Name.LastName())
                 .RuleFor(x => x.Email, f => f.Internet.Email())
                 .RuleFor(x => x.Password, f => f.Internet.Password())
-                .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber());
+                .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber("#########"));
             var registerRequest = fakerRegister.Generate();
 
             if (isValid)
@@ -39,10 +40,11 @@ namespace CateringBackend.CrossTests.Client
         public static EditClientRequest PrepareEditClientRequest(bool isValid = true)
         {
             var fakerEdit = FakerHelper.GetFaker<EditClientRequest>()
+                .RuleFor(x => x.Email, f => f.Internet.Email())
                 .RuleFor(x => x.Name, f => f.Name.FirstName())
                 .RuleFor(x => x.LastName, f => f.Name.LastName())
                 .RuleFor(x => x.Password, f => f.Internet.Password())
-                .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber());
+                .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber("#########"));
             var editRequest = fakerEdit.Generate();
             editRequest.Address = PrepareAddress();
             if (!isValid)
@@ -62,11 +64,10 @@ namespace CateringBackend.CrossTests.Client
             return fakeAddress.Generate();
         }
 
-        public static PostOrdersRequest PrepareOrdersRequest(bool isValid = true)
+        public static PostOrdersRequest PrepareOrdersRequest( object[] dietIds, bool isValid = true)
         {
-            var dietIds = new string[] { "1", "2" };
             var fakerOrders = FakerHelper.GetFaker<PostOrdersRequest>()
-                .RuleFor(x => x.DietIds, f => dietIds)
+                .RuleFor(x => x.DietIds, f => dietIds.Select(x => (string)x).ToArray())
                 .RuleFor(x => x.StartDate, f => f.Date.Between(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1)))
                 .RuleFor(x => x.EndDate, f => f.Date.Between(new DateTime(2022, 2, 2), new DateTime(2022, 3, 1)));
 
@@ -77,7 +78,7 @@ namespace CateringBackend.CrossTests.Client
                 orderRequest.DeliveryDetails = FakerHelper.GetFaker<DeliveryDetails>()
                     .RuleFor(x => x.Address, f => PrepareAddress())
                     .RuleFor(x => x.CommentForDeliverer, f => f.Lorem.Sentence(5))
-                    .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber())
+                    .RuleFor(x => x.PhoneNumber, f => f.Phone.PhoneNumber("#########"))
                     .Generate();
             }
 

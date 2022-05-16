@@ -9,7 +9,7 @@ namespace CateringBackend.CrossTests.Client
         public static string GetLoginUrl() => $"{BaseClientUrl}/login";
         public static string GetOrdersUrl() => $"{BaseClientUrl}/orders";
         public static string GetAccountUrl() => $"{BaseClientUrl}/account";
-        public static string GetOrdersComplainUrl(int orderId) => $"{BaseClientUrl}/orders/{orderId}/complain";
-        public static string GetOrdersPayUrl(int orderId) => $"{BaseClientUrl}/orders/{orderId}/pay";
+        public static string GetOrdersComplainUrl(object orderId) => $"{BaseClientUrl}/orders/{orderId}/complain";
+        public static string GetOrdersPayUrl(object orderId) => $"{BaseClientUrl}/orders/{orderId}/pay";
     }
 }
