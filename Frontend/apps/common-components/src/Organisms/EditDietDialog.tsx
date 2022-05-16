@@ -109,6 +109,7 @@ const EditDiet = (props: EditDietProps) => {
                 meal={mealToEdit}
                 closeModal={setSubDialogOpened} />)}
             <Dialog title={`Edit diet “${props.diet.name}”`}
+                backdrop={!subDialogOpened}
                 onClose={() => closeModal()}
                 onSubmit={() => { }}
                 style={{ visibility: subDialogOpened ? 'hidden' : 'visible' }}

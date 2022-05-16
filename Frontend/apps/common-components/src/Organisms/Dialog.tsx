@@ -11,13 +11,15 @@ interface DialogProps {
 }
 
 const Dialog = (props: DialogProps) => {
-    const backdrop = props.backdrop ?? true;
+    const backdrop = props.backdrop == undefined ? true : props.backdrop;
 
     return (
         <div>
-            {backdrop && (<div className='shadowPanel' style={{ position: 'fixed', zIndex: 99 }}
-                onClick={() => props.onClose()}
-            />)}
+            <div style={{ opacity: backdrop ? '1' : '0' }}>
+                <div className='shadowPanel' style={{ position: 'fixed', zIndex: 99 }}
+                    onClick={() => props.onClose()}
+                />
+            </div>
             <div style={{
                 position: 'fixed',
                 zIndex: 100,
@@ -44,17 +46,18 @@ const Dialog = (props: DialogProps) => {
                     }}>
                         {props.content}
                     </div>
-                    <div style={{ width: '90%', paddingTop: '3vh', position: 'relative', left: '10%', bottom: 0, textAlign: 'right' }}>
-                        <SubmitButton text={"Save"}
-                            style={{ marginBottom: 0 }}
-                            validateForm={function (): boolean {
-                                return true;
-                            }}
-                            action={
-                                () => { }
-                            }
-                        ></SubmitButton>
-                    </div>
+                </div>
+
+                <div style={{ width: '90%', paddingTop: '3vh', position: 'relative', left: '10%', bottom: 0, textAlign: 'right' }}>
+                    <SubmitButton text={"Save"}
+                        style={{ marginBottom: 0 }}
+                        validateForm={function (): boolean {
+                            return true;
+                        }}
+                        action={
+                            () => { }
+                        }
+                    ></SubmitButton>
                 </div>
             </div>
         </div>

@@ -57,7 +57,7 @@ const EditMealDialog = (props: EditMealProps) => {
                         validationFunc={(x: string) => x.length >= 0}
                     />
                     <div className={'formInputWrapper'} style={{ cursor: 'pointer' }}>
-                        <span style={{ textDecoration: editMealData.vegan ? 'underline' : 'default' }}
+                        <span style={{ textDecoration: 'underline' }}
                             onClick={() => {
                                 changeMealParamterValue('vegan', !editMealData.vegan);
                             }}
