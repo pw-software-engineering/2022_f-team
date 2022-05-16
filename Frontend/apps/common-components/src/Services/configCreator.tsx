@@ -1,4 +1,4 @@
-import { ApiConfig } from "common-components";
+import { ApiConfig } from "./APIutilities";
 import {
   getClientProfileURL,
   getDietDetailsURL,

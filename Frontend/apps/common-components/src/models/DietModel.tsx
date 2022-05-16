@@ -8,6 +8,13 @@ export interface DietModel {
   vegan: boolean
 }
 
+export interface EditDietModel {
+  id: string
+  name: string
+  mealIds: Array<string>
+  price: number
+}
+
 export interface GetDietsQuery {
   Name: string
   Name_with: string
@@ -26,3 +33,4 @@ export interface GetDietsQuery {
 export interface GetDietDetailsQuery {
   dietId: string
 }
+

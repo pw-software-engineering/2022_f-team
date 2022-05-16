@@ -4,11 +4,12 @@ import FormInputComponent from "../Atoms/FormInputComponents";
 import { LoadingComponent } from "../Atoms/LoadingComponent";
 import MealRow from "../Atoms/MealRow";
 import { UserContextInterface } from "../Context/UserContext";
-import { DietModel } from "../models/DietModel";
-import { MealShort } from "../models/MealModel";
+import { DietModel, EditDietModel } from "../models/DietModel";
+import { MealModel, MealShort } from "../models/MealModel";
 import { APIservice } from "../Services/APIservice";
 import { ServiceState } from "../Services/APIutilities";
-import { getDietDetailsConfig } from "../Services/configCreator";
+import { getDietDetailsConfig, getMealDetailsConfig } from "../Services/configCreator";
+import EditMealDialog from "./EditMealDialog";
 
 interface EditDietProps {
     userContext: UserContextInterface | null
@@ -18,37 +19,33 @@ interface EditDietProps {
 
 const EditDiet = (props: EditDietProps) => {
     const service = APIservice();
+    const mealService = APIservice();
 
-    useEffect(() => {
-
-    }, []);
-
-    // let mealService = APIservice();
-
-    const [dietParamters, setDietParameters] = useState<DietModel>(props.diet);
-
+    const [editDietData, setEditDietData] = useState<EditDietModel>({
+        id: props.diet.id,
+        name: props.diet.name,
+        price: props.diet.price,
+        mealIds: [],
+    });
     const [showError, setShowError] = useState<boolean>(false);
     const [meals, setMeals] = useState<Array<MealShort>>([]);
-
-    // const [mealToDisplay, setMealToDisplay] = useState<MealModel | undefined>(
-    //     undefined
-    // );
+    const [subDialogOpened, setSubDialogOpened] = useState<boolean>(false);
+    const [mealToEdit, setMealToEdit] = useState<MealModel>();
 
     const changeDietParamterValue = (label: string, value: string) => {
-        setDietParameters({
-            ...dietParamters,
+        setEditDietData({
+            ...editDietData,
             [label]: value,
         });
-
-        console.log({
-            ...dietParamters,
-            [label]: value,
-        })
     };
 
     const mealsParseFunction = (res: any) => {
         const resultArray: Array<JSON> = [];
-        res.meals.forEach((item: any) => resultArray.push(item));
+
+        res.meals.forEach((item: any) => {
+            resultArray.push(item);
+        });
+
         return resultArray;
     };
 
@@ -69,27 +66,59 @@ const EditDiet = (props: EditDietProps) => {
         if (service.state === ServiceState.Error) setShowError(true);
     }, [service.state]);
 
-    // const queryForMeal = (mealId: string) => {
-    //     mealService.execute!(
-    //         getMealDetailsConfig(props.userContext?.authApiKey!, mealId),
-    //         {}
-    //     );
-    // };
+    useEffect(() => {
+        const mealIds = Array<string>();
+        meals.forEach((meal) => mealIds.push(meal.id));
+        setEditDietData({ ...editDietData, 'mealIds': mealIds });
+        console.log(mealIds);
+    }, [meals]);
 
-    // useEffect(() => {
-    //     if (mealService.state === ServiceState.Fetched)
-    //         setMealToDisplay(mealService.result);
-    //     if (mealService.state === ServiceState.Error) setShowError(true);
-    // }, [mealService.state]);
+
+    useEffect(() => {
+        if (mealService.state === ServiceState.Fetched) {
+            setMealToEdit(mealService.result);
+            setSubDialogOpened(true);
+        }
+        if (mealService.state === ServiceState.Error) {
+            setShowError(true);
+            setSubDialogOpened(true);
+        }
+    }, [mealService.state]);
 
     const closeModal = () => {
         props.closeModal(false)
     }
 
+    const onMealEditClick = (meal: MealShort) => {
+        mealService.execute!(
+            getMealDetailsConfig(props.userContext?.authApiKey!, meal.id),
+            {}
+        );
+    }
+
+    const onMealDeleteClick = (meal: MealShort) => {
+        const mealIds = editDietData.mealIds.filter((mealId) => mealId != meal.id)
+        setEditDietData({ ...editDietData, 'mealIds': mealIds });
+    }
+
     return (
         <div>
-            <div className='shadowPanel' style={{ position: 'fixed', zIndex: 99 }} />
+            <div className='shadowPanel' style={{ position: 'fixed', zIndex: 99 }}
+                onClick={() => {
+                    if (!subDialogOpened) {
+                        closeModal();
+                    } else {
+                        setSubDialogOpened(false);
+                    }
+                }}
+            />
+            {subDialogOpened && mealToEdit != undefined &&
+                (<EditMealDialog
+                    userContext={props.userContext}
+                    meal={mealToEdit}
+                    closeModal={setSubDialogOpened} />)}
             <div style={{
+                visibility: subDialogOpened ? 'hidden' : 'visible',
                 position: 'fixed',
                 zIndex: 100,
                 backgroundColor: '#ffffff',
@@ -99,66 +128,67 @@ const EditDiet = (props: EditDietProps) => {
                 left: '25%',
                 top: '20%',
                 padding: '3vh 4vw',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
             }}>
-                <div className='meal-header-div'>
-                    <span style={{ fontSize: '30px' }}>Edit diet “{props.diet.name}”</span>
-                    <button onClick={() => closeModal()}>X</button>
-                </div>
-                <FormInputComponent
-                    value={dietParamters.name}
-                    label='name'
-                    name='Name'
-                    onValueChange={changeDietParamterValue}
-                    type='text'
-                    validationText='Diet must have a name.'
-                    validationFunc={(x: string) => x.length >= 0}
-                />
-                <FormInputComponent
-                    // value={dietParamters.vegan}
-                    label='vegan'
-                    name='Vegan'
-                    onValueChange={changeDietParamterValue}
-                    type='checkbox'
-                    validationText='Is it vegan?'
-                    validationFunc={(_: string) => true}
-                />
-                <FormInputComponent
-                    value={`${dietParamters.price}`}
-                    label='price'
-                    name='Price'
-                    onValueChange={changeDietParamterValue}
-                    type='number'
-                    validationText='Provide valid price.'
-                    validationFunc={(x: string) => x.length >= 0}
-                />
-                <div className="orderCommentInput">
-                    <label>Description:</label>
-                    <textarea
-                        style={{
-                            width: '100%',
-                            marginTop: '20px',
-                        }}
-                        value={dietParamters.description}
-                        onChange={(e) => changeDietParamterValue("description", e.target.value)}
-                    />
-                </div>
-                {showError && service.state === ServiceState.Error && (
-                    <ErrorToastComponent
-                        message={service.error?.message!}
-                        closeToast={setShowError}
-                    />
-                )}
-                <div className='mealsDiv'>
-                    <h2>Meals:</h2>
-                    {meals.length === 0 && <LoadingComponent />}
-                    {meals.map((meal: MealShort) => (
-                        <MealRow meal={meal} setMealToQuery={() => { }} />
-                    ))}
+                <div style={{ width: '80%', position: 'relative', left: '10%' }}>
+                    <div className='meal-header-div'>
+                        <span style={{ fontSize: '30px' }}>Edit diet “{props.diet.name}”</span>
+                        <button onClick={() => closeModal()}>X</button>
+                    </div>
+                    <div style={{
+                        height: '80%',
+                        overflowX: 'hidden',
+                        overflowY: 'auto',
+                    }}>
+                        <FormInputComponent
+                            value={editDietData.name}
+                            label='name'
+                            name='Name'
+                            onValueChange={changeDietParamterValue}
+                            type='text'
+                            validationText='Diet must have a name.'
+                            validationFunc={(x: string) => x.length >= 0}
+                        />
+                        <FormInputComponent
+                            value={`${editDietData.price}`}
+                            label='price'
+                            name='Price'
+                            onValueChange={changeDietParamterValue}
+                            type='number'
+                            validationText='Provide valid price.'
+                            validationFunc={(x: string) => x.length >= 0}
+                        />
+                        {
+                            showError && service.state === ServiceState.Error && (
+                                <ErrorToastComponent
+                                    message={service.error?.message!}
+                                    closeToast={setShowError}
+                                />
+                            )
+                        }
+                        <span style={{ fontSize: '25px' }}>Meals:</span>
+                        {meals.length === 0 && <LoadingComponent />}
+                        {meals.filter((meal) => editDietData.mealIds.includes(meal.id)).map((meal: MealShort) => (
+                            <MealRow size="15px" meal={meal}
+                                setMealToQuery={() => { }}
+                                onEditClick={onMealEditClick}
+                                onDeleteClick={onMealDeleteClick} />
+
+                        ))}
+                        <button
+                            className='meal-row'
+                            style={{ cursor: 'pointer', textAlign: 'center', display: 'block' }}
+                            onClick={() => { }}
+                        >
+                            <span style={{ fontSize: '20px' }}>Add meal to diet</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
+
+
 
 export default EditDiet;
