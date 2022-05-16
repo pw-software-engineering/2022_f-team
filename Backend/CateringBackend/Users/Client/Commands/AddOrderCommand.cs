@@ -27,6 +27,7 @@ namespace CateringBackend.Users.Client.Commands
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+        public AddOrderCommandWithClientId() { }
         public AddOrderCommandWithClientId(AddOrderCommand addOrderCommand, Guid clientId)
         {
             ClientId = clientId;
@@ -52,7 +53,8 @@ namespace CateringBackend.Users.Client.Commands
                 request.StartDate <= DateTime.Now)
                 return null;
 
-            if (CheckDietIDsNotExists(request.DietIDs))
+            if (CheckDietIDsNotExists(request.DietIDs) ||
+                request.DietIDs.Length == 0)
                 return null;
 
             var addressInDB = await GetDeliveryAddressForOrder(request);
@@ -66,7 +68,7 @@ namespace CateringBackend.Users.Client.Commands
                 DeliveryAddressId = addressInDB.Id,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
-                Price = AccumulateDietsPrice(dietsInOrder),
+                Price = AccumulateDietsPrice(dietsInOrder) * (int)(request.EndDate - request.StartDate).TotalDays,
                 Diets = new HashSet<Diet>(dietsInOrder)
             };
 
