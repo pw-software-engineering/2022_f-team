@@ -42,23 +42,42 @@ const Dialog = (props: DialogProps) => {
                         height: '40vh',
                         overflowX: 'hidden',
                         overflowY: 'auto',
-                        padding: '20px'
+                        padding: '2vw'
                     }}>
                         {props.content}
                     </div>
+                    <div style={{
+                        width: '100%',
+                        padding: '0 2vw',
+                        paddingTop: '3vh',
+                        position: 'relative',
+                        bottom: 0,
+                        textAlign: 'right',
+                        gridTemplateColumns: 'calc(48% - 2vw) 4% calc(48% - 2vw)',
+                        display: 'grid',
+                    }}>
+                        <SubmitButton text={"Save"}
+                            style={{ marginBottom: 0, width: '100%' }}
+                            validateForm={function (): boolean {
+                                return true;
+                            }}
+                            action={
+                                () => { }
+                            }
+                        ></SubmitButton>
+                        <div></div>
+                        <SubmitButton text={"Cancel"}
+                            style={{ marginBottom: 0, width: '100%' }}
+                            validateForm={function (): boolean {
+                                return true;
+                            }}
+                            action={
+                                () => { }
+                            }
+                        ></SubmitButton>
+                    </div>
                 </div>
 
-                <div style={{ width: '90%', paddingTop: '3vh', position: 'relative', left: '10%', bottom: 0, textAlign: 'right' }}>
-                    <SubmitButton text={"Save"}
-                        style={{ marginBottom: 0 }}
-                        validateForm={function (): boolean {
-                            return true;
-                        }}
-                        action={
-                            () => { }
-                        }
-                    ></SubmitButton>
-                </div>
             </div>
         </div>
     );

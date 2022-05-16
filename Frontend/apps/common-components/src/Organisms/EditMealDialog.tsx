@@ -56,16 +56,25 @@ const EditMealDialog = (props: EditMealProps) => {
                         validationText='Provide valid calories.'
                         validationFunc={(x: string) => x.length >= 0}
                     />
-                    <div className={'formInputWrapper'} style={{ cursor: 'pointer' }}>
-                        <span style={{ textDecoration: 'underline' }}
-                            onClick={() => {
-                                changeMealParamterValue('vegan', !editMealData.vegan);
-                            }}
-                        >{editMealData.vegan ? 'Vegan 🌱' : 'Not Vegan'}</span>
+                    <div
+                        onClick={() => {
+                            changeMealParamterValue('vegan', !editMealData.vegan);
+                        }}
+                        className={'formInputWrapper'}
+                        style={{ cursor: 'pointer', gridTemplateColumns: '50% 50%' }}
+                    >
+                        <span>Vegan:</span>
+
+                        <span style={{ textAlign: 'right' }}
+
+                        >{editMealData.vegan ? 'Vegan ✔️' : 'Not Vegan ❌'}</span>
+
+
                     </div>
                     <div className={'formInputWrapper'} style={{ columnCount: 2, gridTemplateColumns: '50% 50%' }}>
                         <div >
                             <IngedientList
+                                title={'Ingedients'}
                                 onAddItem={(item) => {
                                     const ingredientList = [...editMealData.ingredientList, item];
                                     changeMealParamterValue('ingredientList', ingredientList);
@@ -79,6 +88,7 @@ const EditMealDialog = (props: EditMealProps) => {
                         </div>
                         <div >
                             <IngedientList
+                                title={'Allergens'}
                                 onAddItem={(item) => {
                                     const allergenList = [...editMealData.allergenList, item];
                                     changeMealParamterValue('allergenList', allergenList);
@@ -102,6 +112,7 @@ interface IngedientListProps {
     items: Array<string>,
     onDelete: (item: string) => any,
     onAddItem: (item: string) => any,
+    title?: string,
 }
 
 const IngedientList = (props: IngedientListProps) => {
@@ -109,13 +120,15 @@ const IngedientList = (props: IngedientListProps) => {
     const [itemName, setItemName] = useState<string>('');
 
     return (<div>
+        <h3 style={{ padding: '10px 0' }}>{props.title}</h3>
+
         {props.items.map((item) => (
-            <div style={{ display: 'grid', gridTemplateColumns: '50% 50%', padding: '5px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '50% 50%', padding: '5px 0' }}>
                 <span style={{ wordWrap: 'break-word', textAlign: 'left', }}>{item}</span>
                 <span style={{ textAlign: 'center', cursor: 'pointer', textDecoration: 'underline' }} onClick={() => props.onDelete(item)}>Delete</span>
             </div>
         ))}
-        <div style={{ display: 'grid', gridTemplateColumns: '50% 50%', padding: '5px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '50% 50%', paddingTop: '5px' }}>
             <div >
                 <input style={{ width: '100%' }} value={itemName} onChange={(e) => setItemName(e.target.value)}>
                 </input>
