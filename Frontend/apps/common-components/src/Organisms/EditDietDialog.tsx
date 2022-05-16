@@ -9,6 +9,7 @@ import { MealModel, MealShort } from "../models/MealModel";
 import { APIservice } from "../Services/APIservice";
 import { ServiceState } from "../Services/APIutilities";
 import { getDietDetailsConfig, getMealDetailsConfig } from "../Services/configCreator";
+import Dialog from "./Dialog";
 import EditMealDialog from "./EditMealDialog";
 
 interface EditDietProps {
@@ -102,44 +103,17 @@ const EditDiet = (props: EditDietProps) => {
     }
 
     return (
-        <div>
-            <div className='shadowPanel' style={{ position: 'fixed', zIndex: 99 }}
-                onClick={() => {
-                    if (!subDialogOpened) {
-                        closeModal();
-                    } else {
-                        setSubDialogOpened(false);
-                    }
-                }}
-            />
-            {subDialogOpened && mealToEdit != undefined &&
-                (<EditMealDialog
-                    userContext={props.userContext}
-                    meal={mealToEdit}
-                    closeModal={setSubDialogOpened} />)}
-            <div style={{
-                visibility: subDialogOpened ? 'hidden' : 'visible',
-                position: 'fixed',
-                zIndex: 100,
-                backgroundColor: '#ffffff',
-                border: 'solid 2px #539091',
-                borderRadius: '15px',
-                width: '50%',
-                left: '25%',
-                top: '20%',
-                padding: '3vh 4vw',
-                boxSizing: 'border-box',
-            }}>
-                <div style={{ width: '80%', position: 'relative', left: '10%' }}>
-                    <div className='meal-header-div'>
-                        <span style={{ fontSize: '30px' }}>Edit diet “{props.diet.name}”</span>
-                        <button onClick={() => closeModal()}>X</button>
-                    </div>
-                    <div style={{
-                        height: '80%',
-                        overflowX: 'hidden',
-                        overflowY: 'auto',
-                    }}>
+        <div>{subDialogOpened && mealToEdit != undefined &&
+            (<EditMealDialog
+                userContext={props.userContext}
+                meal={mealToEdit}
+                closeModal={setSubDialogOpened} />)}
+            <Dialog title={`Edit diet “${props.diet.name}”`}
+                onClose={() => closeModal()}
+                onSubmit={() => { }}
+                style={{ visibility: subDialogOpened ? 'hidden' : 'visible' }}
+                content={
+                    <div>
                         <FormInputComponent
                             value={editDietData.name}
                             label='name'
@@ -183,8 +157,8 @@ const EditDiet = (props: EditDietProps) => {
                             <span style={{ fontSize: '20px' }}>Add meal to diet</span>
                         </button>
                     </div>
-                </div>
-            </div>
+                }
+            />
         </div>
     );
 }
