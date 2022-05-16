@@ -26,7 +26,6 @@ const OrderForm = (props: OrderFormProps) => {
   const userContext = useContext(UserContext);
   const [dietNames, setDietNames] = useState<string>("");
   const [showError, setShowError] = useState<boolean>(false);
-  const [price, setPrice] = useState<number>(0);
   const orderService = APIservice();
 
   const [orderData, setOrderData] = useState({
@@ -50,7 +49,6 @@ const OrderForm = (props: OrderFormProps) => {
       ...orderData,
       [label]: value,
     });
-    if (label === "From" || label === "To") recalculatePrice(label, value);
   };
 
   useEffect(() => {
@@ -113,20 +111,17 @@ const OrderForm = (props: OrderFormProps) => {
     }
   }, [orderService.state]);
 
-  const recalculatePrice = (label: string, value: string) => {
-    if (!validateForm()) return;
+  const recalculatePrice = () => {
+    if (!validateForm()) return 0;
     let temp = 0;
     props.cartItems.forEach((element) => {
       temp += Number(element.split(":")[2]);
     });
-    if (label === "From") {
-      if (findDayDifference(value, orderData.To) <= 0) setPrice(0);
-      else setPrice(temp * findDayDifference(value, orderData.To));
-    } else {
-      if (findDayDifference(orderData.From, value) <= 0) setPrice(0);
-      else setPrice(temp * findDayDifference(orderData.From, value));
-    }
+    if (findDayDifference(orderData.From, orderData.To) <= 0) return 0;
+      else return temp * findDayDifference(orderData.From, orderData.To);
   };
+
+  const price = recalculatePrice();
 
   const GetDietNames = () => {
     let temp = "";
