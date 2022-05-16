@@ -26,6 +26,10 @@ const Root = () => {
     setCartItems([...cartItems, itemID]);
   };
 
+  const ClearCartItems = () => {
+    setCartItems([]);
+  };
+
   return (
     <BrowserRouter>
       <Link to="/">
@@ -80,7 +84,10 @@ const Root = () => {
           path="/order"
           element={
             <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
-              <OrderPage cartItems={cartItems} />
+              <OrderPage
+                cartItems={cartItems}
+                clearCartItems={ClearCartItems}
+              />
             </PrivateRoute>
           }
         />

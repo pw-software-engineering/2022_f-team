@@ -59,3 +59,40 @@ select{
     width: 10vw;
     text-align: center;
 }
+
+.payForOrderDiv{
+    border: solid 3px #539091;
+    border-radius: 15px;
+    width: 50%;
+    background-color: white;
+    padding: 6vh 4vw;
+    box-sizing: border-box;
+    margin: auto;
+    text-align: center;
+}
+
+.payForOrderDiv h1{
+    margin-bottom: 2vh;
+}
+
+.payForOrderDiv button{
+    padding: 1vh 1vw;
+    font-size: 2vh;
+    border: solid 3px #539091;
+    border-radius: 15px;
+    background-color: #539091;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+    width: max-content;
+    grid-column: 3;
+}
+
+.payForOrderDiv button:hover{
+    letter-spacing: 0.1vw;
+}
+
+.payForOrderDiv div{
+    margin: 3vw;
+}
