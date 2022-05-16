@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FormInputComponent from "../Atoms/FormInputComponents";
 import { UserContextInterface } from "../Context/UserContext";
 import { MealModel } from "../models/MealModel";
+import Dialog from "./Dialog";
 
 interface EditMealProps {
     userContext: UserContextInterface | null
@@ -33,38 +34,19 @@ const EditMealDialog = (props: EditMealProps) => {
     console.log(props.meal);
 
     return (
-        <div style={{
-            position: 'fixed',
-            zIndex: 100,
-            backgroundColor: '#ffffff',
-            border: 'solid 2px #539091',
-            borderRadius: '15px',
-            width: '50%',
-            height: '50%',
-            left: '25%',
-            top: '20%',
-            padding: '3vh 4vw',
-            boxSizing: 'border-box',
-        }}>
-            <div style={{ width: '80%', position: 'relative', left: '10%' }}>
-                <div className='meal-header-div'>
-                    <span style={{ fontSize: '30px' }}>Edit meal “{props.meal.name}”</span>
-                    <button onClick={() => closeModal()}>X</button>
-                </div>
-                <div style={{
-                    height: '80%',
-                    overflowX: 'hidden',
-                    overflowY: 'auto',
-                }}>
-                    <FormInputComponent
-                        value={editMealData.name}
-                        label='name'
-                        name='Name'
-                        onValueChange={changeMealParamterValue}
-                        type='text'
-                        validationText='Meal must have a name.'
-                        validationFunc={(x: string) => x.length >= 0}
-                    />
+        <Dialog title={`Edit meal “${props.meal.name}”`}
+            onClose={() => closeModal()}
+            onSubmit={() => { }}
+            content={
+                <div><FormInputComponent
+                    value={editMealData.name}
+                    label='name'
+                    name='Name'
+                    onValueChange={changeMealParamterValue}
+                    type='text'
+                    validationText='Meal must have a name.'
+                    validationFunc={(x: string) => x.length >= 0}
+                />
                     <FormInputComponent
                         value={`${editMealData.calories}`}
                         label='calories'
@@ -110,8 +92,8 @@ const EditMealDialog = (props: EditMealProps) => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            }
+        />
     )
 
 }

@@ -5,17 +5,19 @@ interface DialogProps {
     title: string,
     onClose: () => any,
     onSubmit: () => any,
-    style: React.CSSProperties | undefined,
+    style?: React.CSSProperties | undefined,
     content: ReactNode,
+    backdrop?: boolean
 }
 
 const Dialog = (props: DialogProps) => {
+    const backdrop = props.backdrop ?? true;
 
     return (
         <div>
-            <div className='shadowPanel' style={{ position: 'fixed', zIndex: 99 }}
+            {backdrop && (<div className='shadowPanel' style={{ position: 'fixed', zIndex: 99 }}
                 onClick={() => props.onClose()}
-            />
+            />)}
             <div style={{
                 position: 'fixed',
                 zIndex: 100,
