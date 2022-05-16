@@ -30,7 +30,7 @@ namespace CateringBackend.Users.Client.Commands
         public AddOrderCommandWithClientId(AddOrderCommand addOrderCommand, Guid clientId)
         {
             ClientId = clientId;
-            DietIDs = addOrderCommand.DietIDs[..];
+            DietIDs = addOrderCommand.DietIDs == null ? new Guid[0] : addOrderCommand.DietIDs[..];
             DeliveryDetails = addOrderCommand.DeliveryDetails;
             StartDate = addOrderCommand.StartDate;
             EndDate = addOrderCommand.EndDate;
