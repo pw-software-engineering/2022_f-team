@@ -32,15 +32,10 @@ namespace CateringBackend.Users.Client.Queries
             throw new NotImplementedException();
         }
     }
-    public class GetOrdersQueryWithUserId : BaseSearchQuery<Order>, IRequest<IEnumerable<OrderDTO>>
+
+    public class GetOrdersQueryWithUserId : GetOrdersQuery, IRequest<IEnumerable<OrderDTO>>
     {
         public Guid UserId { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public int? Price { get; set; }
-        public int? Price_lt { get; set; }
-        public int? Price_ht { get; set; }
-        public OrderStatus? Status { get; set; }
 
         public GetOrdersQueryWithUserId(GetOrdersQuery query, Guid userId)
         {
@@ -84,6 +79,7 @@ namespace CateringBackend.Users.Client.Queries
                 _ => throw new ArgumentOutOfRangeException(nameof(Sort))
             };
     }
+
     public class OrderDTO
     {
         public Guid Id { get; set; }
@@ -149,6 +145,7 @@ namespace CateringBackend.Users.Client.Queries
 
         }
     }
+
     public class GetOrdersQueryWithUserIdHandler : IRequestHandler<GetOrdersQueryWithUserId, IEnumerable<OrderDTO>>
     {
         private readonly CateringDbContext _dbContext;
