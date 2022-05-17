@@ -9,6 +9,7 @@ namespace CateringBackend.Domain.Entities
         public Guid OrderId { get; set; }
         public Order Order { get; set; }
         public string Description { get; set; }
+        public string Answer { get; set; }
         public DateTime CreatedDate { get; set; }
         public ComplaintStatus Status { get; set; }
 

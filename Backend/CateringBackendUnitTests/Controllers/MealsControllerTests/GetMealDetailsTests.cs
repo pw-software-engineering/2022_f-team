@@ -49,7 +49,7 @@ namespace CateringBackendUnitTests.Controllers.MealsControllerTests
             // Arrange
             _mockedMediator
                 .Setup(x => x.Send(It.IsAny<GetMealDetailsQuery>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(new MealDetailsDTO(new Meal())))
+                .Returns(Task.FromResult(new MealDTO(new Meal())))
                 .Verifiable("GetMealDetailsQuery was not sent");
 
             // Act 
@@ -67,7 +67,7 @@ namespace CateringBackendUnitTests.Controllers.MealsControllerTests
             // Arrange
             _mockedMediator
                 .Setup(x => x.Send(It.IsAny<GetMealDetailsQuery>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult((MealDetailsDTO)null))
+                .Returns(Task.FromResult((MealDTO)null))
                 .Verifiable("GetMealDetailsQuery was not sent");
 
             // Act 

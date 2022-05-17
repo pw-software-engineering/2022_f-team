@@ -4,7 +4,7 @@ using CateringBackend.Utilities.Extensions;
 
 namespace CateringBackend.Meals
 {
-    public record MealDetailsDTO
+    public record MealDTO
     {
         public Guid MealId { get; set; }
         public string Name { get; set; }
@@ -13,7 +13,7 @@ namespace CateringBackend.Meals
         public int Calories { get; set; }
         public bool Vegan { get; set; }
 
-        public MealDetailsDTO(Meal meal)
+        public MealDTO(Meal meal)
         {
             MealId = meal.Id;
             Name = meal.Name;
