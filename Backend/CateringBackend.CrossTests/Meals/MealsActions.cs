@@ -45,7 +45,7 @@ namespace CateringBackend.CrossTests.Meals
             var putRequest = MealsRequestsProvider.PrepareMeals(1).First();
             putRequest.MealId = mealIds.FirstOrDefault() as string;
             var putBody = JsonConvert.SerializeObject(putRequest).ToStringContent();
-            var putResponse = await httpClient.PutAsync(MealsUrls.GetMealUrl(mealIds?.FirstOrDefault() ?? TestsConstants.GetDefaultId()), putBody);
+            var putResponse = await httpClient.PutAsync(MealsUrls.GetMealUrl(mealIds?.FirstOrDefault() ?? new Guid().ToString()), putBody);
             return putResponse;
         }
 

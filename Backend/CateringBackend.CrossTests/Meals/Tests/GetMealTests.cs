@@ -61,7 +61,7 @@ namespace CateringBackend.CrossTests.Meals.Tests
         public async Task GetMeal_InvalidId_ReturnsNotFound()
         {
             await ClientActions.RegisterAndLogin(_httpClient);
-            var response = await MealsActions.GetMeal(_httpClient, TestsConstants.GetDefaultId());
+            var response = await MealsActions.GetMeal(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }
