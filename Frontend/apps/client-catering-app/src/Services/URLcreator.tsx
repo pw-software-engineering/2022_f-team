@@ -13,3 +13,8 @@ export const getMealDetailsURL = (mealId: string): string =>
   apiUrl + "/Meals/" + mealId;
 
 export const getClientProfileURL = (): string => apiUrl + "/Client/account";
+
+export const postClientOrderURL = (): string => apiUrl + "/Client/orders";
+
+export const postPayForOrderURL = (orderId: string) =>
+  apiUrl + "/Client/orders/" + orderId + "/pay";
