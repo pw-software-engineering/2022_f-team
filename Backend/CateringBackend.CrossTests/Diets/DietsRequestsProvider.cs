@@ -11,7 +11,7 @@ namespace CateringBackend.CrossTests.Diets
 {
     public static class DietsRequestsProvider
     {
-        public static PostDietRequest PreparePostDietRequest(IEnumerable<Meal> meals, bool isValid = true)
+        public static PostDietRequest PreparePostDietRequest(object[] mealIds, bool isValid = true)
         {
             var diet = FakerHelper.GetFaker<PostDietRequest>()
                 .RuleFor(x => x.Name, f => f.Lorem.Word())
@@ -19,7 +19,7 @@ namespace CateringBackend.CrossTests.Diets
                 .Generate();
 
             if (isValid)
-                diet.MealIds = meals.Select(x => x.MealId).ToArray();
+                diet.MealIds = mealIds.Select( x => (string)x).ToArray();
 
             return diet;
         }

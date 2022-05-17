@@ -34,7 +34,11 @@ export { default as Pagination } from './Molecules/Pagination'
 
 export { default as SearchComponent } from './Molecules/SearchComponent'
 
-export { FiltersComponent, RangeFilter, RangeFilterOnChangeProps } from './Molecules/AdvancedFilters'
+export {
+  FiltersComponent,
+  RangeFilter,
+  RangeFilterOnChangeProps
+} from './Molecules/AdvancedFilters'
 
 export { default as FiltersWrapper } from './Molecules/FiltersWrapper'
 
@@ -47,3 +51,8 @@ export { default as DietList } from './Organisms/DietList'
 export { default as EditDietDialog } from './Organisms/EditDietDialog'
 
 export { putDietDetailsConfig } from './Services/configCreator'
+
+export {
+  DeliveryDetailsModel,
+  AddressModel
+} from './models/DeliveryDetailsModel'

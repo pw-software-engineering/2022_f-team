@@ -6,6 +6,8 @@ import {
   getLoginClientURL,
   getMealDetailsURL,
   getRegisterClientURL,
+  postClientOrderURL,
+  postPayForOrderURL,
 } from "./URLcreator";
 
 export const getRegisterConfig = (): ApiConfig =>
@@ -47,4 +49,18 @@ export const putClientProfileDataConfig = (key: string) =>
     method: "put",
     header: { Authorization: "Bearer " + key },
     url: getClientProfileURL(),
+  } as ApiConfig);
+
+export const postClientOrderConfig = (key: string) =>
+  ({
+    method: "post",
+    header: { Authorization: "Bearer " + key },
+    url: postClientOrderURL(),
+  } as ApiConfig);
+
+export const postPayForOrderConfig = (key: string, orderId: string) =>
+  ({
+    method: "post",
+    header: { Authorization: "Bearer " + key },
+    url: postPayForOrderURL(orderId),
   } as ApiConfig);

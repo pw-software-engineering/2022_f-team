@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CateringBackend.AuthUtilities;
 using CateringBackend.Users.Client.Commands;
 using CateringBackend.Users.Client.Queries;
+using System;
 
 namespace CateringBackend.Controllers
 {
@@ -57,6 +58,22 @@ namespace CateringBackend.Controllers
             return editedSuccessfully ? Ok() : BadRequest("Edycja danych nie powiodła się");
         }
 
+        [HttpPost("orders/{orderId}/pay")]
+        [Authorize(Roles = "client")]
+        public async Task<IActionResult> PayForOrder([FromRoute] Guid orderId)
+        {
+            var clientId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var (orderExists, paidForOrder) = await _mediator.Send(new PayForOrderCommand() { ClientId = clientId, OrderId = orderId });
+
+            if (!orderExists)
+                return NotFound("Podane zamówienie nie istnieje");
+            
+            if (!paidForOrder)
+                return BadRequest("Opłacenie zamówienia nie powiodło się");
+
+            return CreatedAtAction(nameof(PayForOrder), "Opłacono zamówienie");
+        }
+
         [HttpPost("orders")]
         [Authorize(Roles = "client")]
         public async Task<IActionResult> AddOrder([FromBody] AddOrderCommand addOrderCommand)
@@ -66,6 +83,15 @@ namespace CateringBackend.Controllers
             return string.IsNullOrEmpty(orderId) ?
                 BadRequest("Zapisanie nie powiodło się") :
                 CreatedAtAction(nameof(AddOrder), orderId);
+        }
+
+        [HttpGet("orders")]
+        [Authorize(Roles = "client")]
+        public async Task<IActionResult> GetOrders([FromQuery] GetOrdersQuery getOrdersQuery)
+        {
+            var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var orders = await _mediator.Send(new GetOrdersQueryWithUserId(getOrdersQuery, userId));
+            return orders == default ? BadRequest("Pobranie nie powiodło się") : Ok(orders);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CateringBackend.CrossTests.Client;
 using CateringBackend.CrossTests.Deliverer;
 using CateringBackend.CrossTests.Producer;
+using CateringBackend.CrossTests.Utilities;
 using ExpectedObjects;
 using Newtonsoft.Json;
 using System;
@@ -53,5 +54,18 @@ namespace CateringBackend.CrossTests.Meals.Tests
             var response = await MealsActions.PutMeal(_httpClient);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
+
+        [Fact]
+        public async Task PutMeal_InvalidId_ReturnsNotFound()
+        {
+            await ProducerActions.Authorize(_httpClient);
+            var putRequest = MealsRequestsProvider.PrepareMeals(1).First();
+            putRequest.MealId = (string)new Guid().ToString();
+            var putBody = JsonConvert.SerializeObject(putRequest).ToStringContent();
+            var response = await _httpClient.PutAsync(MealsUrls.GetMealUrl(new Guid().ToString()), putBody);
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        
     }
 }
