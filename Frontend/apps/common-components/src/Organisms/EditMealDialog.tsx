@@ -23,10 +23,6 @@ const EditMealDialog = (props: EditMealProps) => {
     }
 
     const changeMealParamterValue = (label: string, value: any) => {
-        console.log({
-            ...editMealData,
-            [label]: value,
-        });
         setEditMealData({
             ...editMealData,
             [label]: value,

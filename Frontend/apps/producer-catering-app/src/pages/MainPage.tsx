@@ -37,11 +37,6 @@ const MainPage = (props: MainPageProps) => {
     setShowModal(false);
   }
 
-  useEffect(() => {
-    if (service.state === ServiceState.Fetched) console.log('success');
-    if (service.state === ServiceState.Error) console.log('error', service.error);
-  }, [service.state]);
-
   return (
     <div>
       {showModal && diet != null && (
