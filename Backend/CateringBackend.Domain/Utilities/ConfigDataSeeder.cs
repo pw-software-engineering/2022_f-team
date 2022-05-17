@@ -40,7 +40,7 @@ namespace CateringBackend.Domain.Utilities
 
         private IEnumerable<Producer> GetProducers()
         {
-            yield return Producer.Create("producer@gmail.com", PasswordManager.Encrypt("producer123"));
+            yield return Producer.Create("producent@producent.pl", PasswordManager.Encrypt("Producent123!"));
         }
 
         private IEnumerable<Diet> GetDiets() => _mealsAndDietsSeedDataProvider.DietsToSeed;
@@ -49,12 +49,12 @@ namespace CateringBackend.Domain.Utilities
 
         private IEnumerable<Deliverer> GetDeliverers()
         {
-            yield return Deliverer.Create("deliverer@gmail.com", PasswordManager.Encrypt("deliverer123"));
+            yield return Deliverer.Create("dostawca@dostawca.pl", PasswordManager.Encrypt("Dostawca123!"));
         }
 
         private IEnumerable<Client> GetClients(IEnumerable<Address> addresses)
         {
-            yield return Client.Create("client@gmail.com", PasswordManager.Encrypt("client123"), "Mr.", "Client", "123456789", addresses.First().Id);
+            yield return Client.Create("klient@klient.pl", PasswordManager.Encrypt("Klient123!"), "Mr.", "Client", "123456789", addresses.First().Id);
         }
 
         private IEnumerable<Address> GetAddresses()
