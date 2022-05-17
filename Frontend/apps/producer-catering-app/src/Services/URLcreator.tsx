@@ -9,3 +9,9 @@ export const getDietDetailsURL = (dietId: string): string =>
 
 export const getMealDetailsURL = (mealId: string): string =>
     apiUrl + "/Meals/" + mealId;
+
+export const putDietDetailsURL = (dietId: string): string =>
+    apiUrl + "/Diets/" + dietId;
+
+export const putMealDetailsURL = (mealId: string): string =>
+    apiUrl + "/Meals/" + mealId;

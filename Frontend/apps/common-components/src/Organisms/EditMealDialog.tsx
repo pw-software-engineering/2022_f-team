@@ -8,15 +8,18 @@ interface EditMealProps {
     userContext: UserContextInterface | null
     meal: MealModel
     closeModal: (res: any) => void
+    onSubmit: (meal: MealModel) => any
 }
 
 const EditMealDialog = (props: EditMealProps) => {
-    // const service = APIservice();
-
     const [editMealData, setEditMealData] = useState<MealModel>(props.meal);
 
     const closeModal = () => {
         props.closeModal(false);
+    }
+
+    const onSubmit = () => {
+        props.onSubmit(editMealData);
     }
 
     const changeMealParamterValue = (label: string, value: any) => {
@@ -36,7 +39,7 @@ const EditMealDialog = (props: EditMealProps) => {
     return (
         <Dialog title={`Edit meal “${props.meal.name}”`}
             onClose={() => closeModal()}
-            onSubmit={() => { }}
+            onSubmit={() => onSubmit()}
             content={
                 <div><FormInputComponent
                     value={editMealData.name}

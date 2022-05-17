@@ -61,9 +61,7 @@ const Dialog = (props: DialogProps) => {
                             validateForm={function (): boolean {
                                 return true;
                             }}
-                            action={
-                                () => { }
-                            }
+                            action={() => { props.onSubmit(); }}
                         ></SubmitButton>
                         <div></div>
                         <SubmitButton text={"Cancel"}
@@ -71,9 +69,7 @@ const Dialog = (props: DialogProps) => {
                             validateForm={function (): boolean {
                                 return true;
                             }}
-                            action={
-                                () => { }
-                            }
+                            action={() => props.onClose()}
                         ></SubmitButton>
                     </div>
                 </div>

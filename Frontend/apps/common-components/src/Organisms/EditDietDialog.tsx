@@ -8,19 +8,23 @@ import { DietModel, EditDietModel } from "../models/DietModel";
 import { MealModel, MealShort } from "../models/MealModel";
 import { APIservice } from "../Services/APIservice";
 import { ServiceState } from "../Services/APIutilities";
-import { getDietDetailsConfig, getMealDetailsConfig } from "../Services/configCreator";
+import { getDietDetailsConfig, getMealDetailsConfig, getMealsConfig, putMealDetailsConfig } from "../Services/configCreator";
 import Dialog from "./Dialog";
 import EditMealDialog from "./EditMealDialog";
+import SelectMealsDialog from "./SelectMeals";
 
 interface EditDietProps {
     userContext: UserContextInterface | null
     diet: DietModel
     closeModal: (res: any) => void
+    onSubmit: (selectedMeals: EditDietModel) => any
 }
 
 const EditDiet = (props: EditDietProps) => {
     const service = APIservice();
     const mealService = APIservice();
+    const editMealService = APIservice();
+    const mealsService = APIservice();
 
     const [editDietData, setEditDietData] = useState<EditDietModel>({
         id: props.diet.id,
@@ -30,10 +34,12 @@ const EditDiet = (props: EditDietProps) => {
     });
     const [showError, setShowError] = useState<boolean>(false);
     const [meals, setMeals] = useState<Array<MealShort>>([]);
-    const [subDialogOpened, setSubDialogOpened] = useState<boolean>(false);
+    const [allMeals, setAllMeals] = useState<Array<MealModel>>([]);
+    const [editMealDialogOpened, setEditMealDialogOpened] = useState<boolean>(false);
+    const [selectMealsDialogOpened, setSelectMealsDialogOpened] = useState<boolean>(false);
     const [mealToEdit, setMealToEdit] = useState<MealModel>();
 
-    const changeDietParamterValue = (label: string, value: string) => {
+    const changeDietParamterValue = (label: string, value: any) => {
         setEditDietData({
             ...editDietData,
             [label]: value,
@@ -63,6 +69,10 @@ const EditDiet = (props: EditDietProps) => {
     }, []);
 
     useEffect(() => {
+        setSelectMealsDialogOpened(false);
+    }, [editDietData.mealIds]);
+
+    useEffect(() => {
         if (service.state === ServiceState.Fetched) setMeals(service.result);
         if (service.state === ServiceState.Error) setShowError(true);
     }, [service.state]);
@@ -71,23 +81,24 @@ const EditDiet = (props: EditDietProps) => {
         const mealIds = Array<string>();
         meals.forEach((meal) => mealIds.push(meal.id));
         setEditDietData({ ...editDietData, 'mealIds': mealIds });
-        console.log(mealIds);
     }, [meals]);
-
 
     useEffect(() => {
         if (mealService.state === ServiceState.Fetched) {
             setMealToEdit(mealService.result);
-            setSubDialogOpened(true);
+            setEditMealDialogOpened(true);
         }
         if (mealService.state === ServiceState.Error) {
             setShowError(true);
-            setSubDialogOpened(true);
         }
     }, [mealService.state]);
 
     const closeModal = () => {
         props.closeModal(false)
+    }
+
+    const onSubmit = () => {
+        props.onSubmit(editDietData);
     }
 
     const onMealEditClick = (meal: MealShort) => {
@@ -98,20 +109,67 @@ const EditDiet = (props: EditDietProps) => {
     }
 
     const onMealDeleteClick = (meal: MealShort) => {
-        const mealIds = editDietData.mealIds.filter((mealId) => mealId != meal.id)
-        setEditDietData({ ...editDietData, 'mealIds': mealIds });
+        const newMeals = meals.filter((innerMeal) => innerMeal.id != meal.id);
+        setMeals(newMeals);
     }
 
+    const parseFunction = (res: Array<JSON>) => {
+        const resultArray: Array<JSON> = [];
+        res.forEach((item: JSON) => resultArray.push(item));
+        return resultArray;
+    };
+
+    const onSelectMealsClick = () => {
+        mealsService.execute!(
+            getMealsConfig(props.userContext?.authApiKey!, ''),
+            {},
+            parseFunction
+        );
+    }
+
+    useEffect(() => {
+        if (mealsService.state === ServiceState.Fetched) {
+            setAllMeals(mealsService.result);
+            setSelectMealsDialogOpened(true);
+        }
+        if (mealsService.state === ServiceState.Error) setShowError(true);
+    }, [mealsService.state]);
+
+    const onSelectedMealsSubmit = (selectedMeals: Array<MealShort>) => {
+        changeDietParamterValue('mealIds', selectedMeals.map((meal) => meal.id));
+
+        setMeals(selectedMeals);
+    }
+
+    const onMealEditSubmit = (editedMeal: MealModel) => {
+        editMealService.execute!(putMealDetailsConfig(props.userContext?.authApiKey!, editedMeal.mealId),
+            editedMeal,
+        );
+        setEditMealDialogOpened(false);
+    }
+
+    const subDialogOpened = editMealDialogOpened || selectMealsDialogOpened;
+
     return (
-        <div>{subDialogOpened && mealToEdit != undefined &&
+        <div>{editMealDialogOpened && mealToEdit != undefined &&
             (<EditMealDialog
                 userContext={props.userContext}
                 meal={mealToEdit}
-                closeModal={setSubDialogOpened} />)}
+                closeModal={setEditMealDialogOpened}
+                onSubmit={onMealEditSubmit}
+            />)}
+            {selectMealsDialogOpened && allMeals.length > 0 &&
+                (<SelectMealsDialog
+                    userContext={props.userContext}
+                    meals={allMeals}
+                    selectedMeals={meals}
+                    closeModal={setSelectMealsDialogOpened}
+                    onSubmit={onSelectedMealsSubmit}
+                />)}
             <Dialog title={`Edit diet “${props.diet.name}”`}
                 backdrop={!subDialogOpened}
                 onClose={() => closeModal()}
-                onSubmit={() => { }}
+                onSubmit={() => onSubmit()}
                 style={{ visibility: subDialogOpened ? 'hidden' : 'visible' }}
                 content={
                     <div>
@@ -153,7 +211,7 @@ const EditDiet = (props: EditDietProps) => {
                         <button
                             className='meal-row'
                             style={{ cursor: 'pointer', textAlign: 'center', display: 'block' }}
-                            onClick={() => { }}
+                            onClick={() => onSelectMealsClick()}
                         >
                             <span style={{ fontSize: '20px' }}>Add meal to diet</span>
                         </button>

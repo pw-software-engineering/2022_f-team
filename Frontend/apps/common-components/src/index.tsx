@@ -9,7 +9,7 @@ export { default as DietComponent } from './Molecules/DietComponent'
 
 export { default as MealComponent } from './Molecules/MealComponent'
 
-export { DietModel, GetDietsQuery } from './models/DietModel'
+export { DietModel, GetDietsQuery, EditDietModel } from './models/DietModel'
 
 export { MealModel, MealShort } from './models/MealModel'
 
@@ -45,3 +45,5 @@ export { default as Select } from './Atoms/Select'
 export { default as DietList } from './Organisms/DietList'
 
 export { default as EditDietDialog } from './Organisms/EditDietDialog'
+
+export { putDietDetailsConfig } from './Services/configCreator'
