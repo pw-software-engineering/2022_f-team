@@ -34,10 +34,19 @@ export { default as Pagination } from './Molecules/Pagination'
 
 export { default as SearchComponent } from './Molecules/SearchComponent'
 
-export { FiltersComponent, RangeFilter, RangeFilterOnChangeProps } from './Molecules/AdvancedFilters'
+export {
+  FiltersComponent,
+  RangeFilter,
+  RangeFilterOnChangeProps
+} from './Molecules/AdvancedFilters'
 
 export { default as FiltersWrapper } from './Molecules/FiltersWrapper'
 
 export { default as FilterCheckbox } from './Atoms/FilterCheckbox'
 
 export { default as Select } from './Atoms/Select'
+
+export {
+  DeliveryDetailsModel,
+  AddressModel
+} from './models/DeliveryDetailsModel'
