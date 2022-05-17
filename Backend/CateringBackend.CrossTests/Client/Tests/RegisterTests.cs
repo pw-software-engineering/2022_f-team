@@ -22,13 +22,14 @@ namespace CateringBackend.CrossTests.Client.Tests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
 
-        //[Fact]
-        //public async void RegisterClient_HasNoAddress_ReturnsBadRequest()
-        //{
-        //    var request = ClientHelpers.PrepareRegisterRequest(false);
-        //    var response = await ClientHelpers.Register(_httpClient, request);
+        [Fact]
+        public async void RegisterClient_HasIncompleteData_ReturnsBadRequest()
+        {
+            var request = ClientRequestsProvider.PrepareRegisterRequest();
+            request.Email = string.Empty;
+            var response = await ClientActions.Register(_httpClient, request);
 
-        //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        //}
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
     }
 }
