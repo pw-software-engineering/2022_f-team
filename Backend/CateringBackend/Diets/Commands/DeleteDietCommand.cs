@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CateringBackend.Diets.Commands
 {
-    public record DeleteDietCommand(Guid DietId) : IRequest<(bool, bool)>;
+    public record DeleteDietCommand(Guid DietId) : IRequest<(bool dietDeleted, string errorMessage)>;
 
-    public class DeleteDietCommandHandler : IRequestHandler<DeleteDietCommand, (bool dietExists, bool dietDeleted)>
+    public class DeleteDietCommandHandler : IRequestHandler<DeleteDietCommand, (bool dietDeleted, string errorMessage)>
     {
         private readonly CateringDbContext _dbContext;
 
@@ -19,18 +19,18 @@ namespace CateringBackend.Diets.Commands
             _dbContext = dbContext;
         }
 
-        public async Task<(bool dietExists, bool dietDeleted)> Handle(DeleteDietCommand request, CancellationToken cancellationToken)
+        public async Task<(bool dietDeleted, string errorMessage)> Handle(DeleteDietCommand request, CancellationToken cancellationToken)
         {
             var diet = await _dbContext.Diets
                 .Where(d => d.IsAvailable)
                 .FirstOrDefaultAsync(d => d.Id == request.DietId, cancellationToken);
 
             if (diet == default)
-                return (dietExists: false, dietDeleted: false);
+                return (dietDeleted: false, errorMessage: $"Nie istnieje dostępna dieta o id '{request.DietId}'");
 
             diet.MakeUnavailable();
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return (dietExists: true, dietDeleted: true);
+            await _dbContext.SaveChangesAsync(cancellationToken); ;
+            return (true, null);
         }
     }
 }
