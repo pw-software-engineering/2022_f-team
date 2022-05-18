@@ -98,15 +98,5 @@ namespace CateringBackend.CrossTests.Client.Tests
             var response = await _httpClient.PutAsync(ClientUrls.GetAccountUrl(), null);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
-
-        //[Fact]
-        //public async void UpdateClientDetails_ProvidedInCompleteData_ReturnsBadRequest()
-        //{
-        //    await ClientHelpers.RegisterAndLogin(_httpClient);
-        //    var request = ClientHelpers.PrepareEditClientRequest(false);
-        //    var body = JsonConvert.SerializeObject(request).ToStringContent();
-        //    var response = await _httpClient.PutAsync(ClientHelpers.GetAccountUrl(), body);
-        //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        //}
     }
 }
