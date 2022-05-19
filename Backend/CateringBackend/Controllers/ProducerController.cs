@@ -24,5 +24,13 @@ namespace CateringBackend.Controllers
             var result = await _mediator.Send(loginQuery);
             return string.IsNullOrWhiteSpace(result) ? BadRequest("Niepowodzenie logowania") : Ok(result);
         }
+
+        [HttpGet("orders/complaints")]
+        [Authorize(Roles = "producer")]
+        public async Task<IActionResult> GetOrdersComplaints()
+        {
+            var result = await _mediator.Send(new GetOrdersComplaintsQuery());
+            return Ok(result);
+        }
     }
 }
