@@ -2,6 +2,7 @@ using System.Text;
 using CateringBackend.AuthUtilities;
 using CateringBackend.Domain.Data;
 using CateringBackend.Utilities.Extensions;
+using CateringBackend.Utilities.HostedServices;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -98,6 +99,7 @@ namespace CateringBackend
             services.AddSingleton<IUserIdFromTokenProvider, UserIdFromTokenProvider>();
             services.AddDbContext<CateringDbContext>();
             services.AddMediatR(typeof(Startup));
+            services.AddHostedService<UpdateOrdersStatusHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
