@@ -38,6 +38,9 @@ namespace CateringBackend.Utilities.HostedServices
                    order.StartDate.Date >= DateTime.Today)
                     order.Status = OrderStatus.ToRealized;
 
+                if (order.Status == OrderStatus.Delivered)
+                    order.Status = OrderStatus.ToRealized;
+
                 if (order.EndDate.Date < DateTime.Today)
                     order.Status = OrderStatus.Finished;
             }
