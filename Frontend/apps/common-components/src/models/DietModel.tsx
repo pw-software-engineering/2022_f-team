@@ -1,3 +1,4 @@
+import { MealModel } from "./MealModel"
 
 export interface DietModel {
   id: string
@@ -6,6 +7,15 @@ export interface DietModel {
   calories: number
   price: number
   vegan: boolean
+}
+
+export interface DietFullModel{
+  dietId: string
+  name: string
+  description?: string
+  price: number
+  vegan: boolean
+  meals: Array<MealModel>
 }
 
 export interface EditDietModel {

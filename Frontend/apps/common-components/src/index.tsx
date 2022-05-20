@@ -56,3 +56,8 @@ export {
   DeliveryDetailsModel,
   AddressModel
 } from './models/DeliveryDetailsModel'
+
+export { OrderModel, OrderQuery } from './models/OrderModel'
+
+export { default as OrderComponent } from './Molecules/OrderComponent'
+
