@@ -10,12 +10,13 @@ import { LoadingComponent } from '../Atoms/LoadingComponent'
 
 interface DietComponentProps {
   diet: DietModel
-  addToCartFunction: (dietId: string) => void
+  onButtonClick: (dietId: string) => void
   getMeals: (dietId: string) => void
   meals: Array<MealShort>
   setMealToDisplay: (res: any) => void
   mealToDisplay: MealModel | undefined
   queryForMeal: (res: string) => void
+  buttonLabel?: string
 }
 
 const DietComponent = (props: DietComponentProps) => {
@@ -27,6 +28,8 @@ const DietComponent = (props: DietComponentProps) => {
     }
     setShowMeals(!showMeals)
   }
+
+  console.log(props.buttonLabel)
 
   const displayMealModal = (id: string) => {
     props.queryForMeal(id)
@@ -45,12 +48,12 @@ const DietComponent = (props: DietComponentProps) => {
         <button
           className='addToCartButton'
           onClick={() =>
-            props.addToCartFunction(
+            props.onButtonClick(
               props.diet.id + ':' + props.diet.name + ':' + props.diet.price
             )
           }
         >
-          Add to cart
+          {props.buttonLabel}
         </button>
       </div>
       <ExpandMoreButton onClick={toogleShowMeals} />
@@ -74,4 +77,4 @@ const DietComponent = (props: DietComponentProps) => {
   )
 }
 
-export default DietComponent
+export default DietComponent;

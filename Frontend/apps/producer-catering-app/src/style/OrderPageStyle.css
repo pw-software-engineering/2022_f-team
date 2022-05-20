@@ -1,0 +1,61 @@
+.page-wrapper{
+    background-color: #eff8f8;
+    min-height: 100vh;
+    min-width: 100vw;
+    padding-top: 10vh;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    -moz-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+    box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
+}
+
+form{
+    border: solid 3px #539091;
+    border-radius: 15px;
+    width: 50%;
+    background-color: white;
+    padding: 6vh 4vw;
+    box-sizing: border-box;
+    margin: auto;
+}
+
+.dateWrapper{
+    margin: 2vh 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0 2vw;
+    grid-auto-flow: row;
+    grid-template-areas:
+          ". . ."; 
+}
+
+.orderCommentInput{
+    margin-top: 2vh;
+}
+
+.orderCommentInput textarea{
+    width: 100%;
+    display: block;
+    margin: 0.5vw 0;
+    min-height: 5vh;
+    max-width: 100%;
+}
+
+.buttonWrapper{
+    text-align: center;
+}
+
+.price{
+    font-weight: 600;
+    font-size: 1.5vw;
+    text-align: center;
+    margin-bottom: 3vh;
+    margin-top: 2vh;
+}
+
+select{
+    margin-left: 2vw;
+    width: 10vw;
+    text-align: center;
+}
