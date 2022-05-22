@@ -41,15 +41,15 @@ namespace CateringBackendUnitTests.Controllers.DietsControllerTests
         }
 
         [Theory]
-        [InlineData(false, false, HttpStatusCode.NotFound)]
-        [InlineData(true, false, HttpStatusCode.BadRequest)]
-        [InlineData(true, true, HttpStatusCode.OK)]
-        public async void GivenValueReturnedByMediator_WhenDeleteDiet_ThenReturnProperStatusCode(bool dietExists, bool dietDeleted, HttpStatusCode expectedStatusCode)
+        [InlineData(false, "", HttpStatusCode.NotFound)]
+        [InlineData(true, "", HttpStatusCode.OK)]
+        public async void GivenValueReturnedByMediator_WhenDeleteDiet_ThenReturnProperStatusCode(
+            bool dietExists, string errorMessage, HttpStatusCode expectedStatusCode)
         {
             // Arrange
             _mockedMediator
                 .Setup(x => x.Send(It.IsAny<DeleteDietCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((dietExists, dietDeleted));
+                .ReturnsAsync((dietExists, errorMessage));
 
             // Act 
             var result = await _dietsController.DeleteDiet(Guid.NewGuid());

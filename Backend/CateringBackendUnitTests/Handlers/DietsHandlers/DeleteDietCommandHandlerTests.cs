@@ -31,12 +31,10 @@ namespace CateringBackendUnitTests.Handlers.DietsHandlers
             var deleteDietCommand = new DeleteDietCommand(Guid.NewGuid());
 
             // Act
-            var (dietExists, dietDeleted) = await _deleteDietCommandHandler.Handle(deleteDietCommand, CancellationToken.None);
+            var (dietExists, errorMessage) = await _deleteDietCommandHandler.Handle(deleteDietCommand, CancellationToken.None);
 
             // Assert
-            Assert.False(dietExists);
-            Assert.False(dietDeleted);
-        }
+            Assert.False(dietExists);        }
 
         [Fact]
         public async Task GivenDietIdThatIsUnavailable_WhenHandleDeleteDietCommand_ThenReturnsDietExistsFalse()
@@ -54,11 +52,10 @@ namespace CateringBackendUnitTests.Handlers.DietsHandlers
             var deleteDietCommand = new DeleteDietCommand(dietToAddToDatabase.Id);
 
             // Act
-            var (dietExists, dietDeleted) = await _deleteDietCommandHandler.Handle(deleteDietCommand, CancellationToken.None);
+            var (dietExists, errorMessage) = await _deleteDietCommandHandler.Handle(deleteDietCommand, CancellationToken.None);
 
             // Assert
             Assert.False(dietExists);
-            Assert.False(dietDeleted);
         }
     
         [Theory]
@@ -82,7 +79,7 @@ namespace CateringBackendUnitTests.Handlers.DietsHandlers
         [Theory]
         [MemberData(nameof(DeleteDietCommandHandlerTestsData.GetDeleteDietCommandAndDiet),
             MemberType = typeof(DeleteDietCommandHandlerTestsData))]
-        public async Task GivenCorrectDeleteDietCommand_WhenHandle_ThenReturnsDietExistsAndDietDeletedAsTrue(
+        public async Task GivenCorrectDeleteDietCommand_WhenHandle_ThenReturnsDietExistsAsTrue(
             DeleteDietCommand deleteDietCommand, Diet dietToAddToDatabase)
         {
             // Arrange
@@ -90,11 +87,10 @@ namespace CateringBackendUnitTests.Handlers.DietsHandlers
             await _dbContext.SaveChangesAsync();
 
             // Act
-            var (dietExists, dietDeleted) = await _deleteDietCommandHandler.Handle(deleteDietCommand, CancellationToken.None);
+            var (dietExists, errorMessage) = await _deleteDietCommandHandler.Handle(deleteDietCommand, CancellationToken.None);
 
             // Assert
             Assert.True(dietExists);
-            Assert.True(dietDeleted);
         }
     }
 }
