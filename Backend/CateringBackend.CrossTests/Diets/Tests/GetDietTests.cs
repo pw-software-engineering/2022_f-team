@@ -24,7 +24,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         [Fact]
         public async Task GetDiet_NotLoggedIn_ReturnsUnauthorized()
         {
-            var response = await DietsActions.GetDiet(_httpClient, TestsConstants.GetDefaultId());
+            var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -32,7 +32,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         public async Task GetDiet_DelivererLoggedIn_ReturnsForbidden()
         {
             await DelivererActions.Authorize(_httpClient);
-            var response = await DietsActions.GetDiet(_httpClient, TestsConstants.GetDefaultId());
+            var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -40,7 +40,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         public async Task GetDiet_InvalidId_ReturnsNotFound()
         {
             await ProducerActions.Authorize(_httpClient);
-            var response = await DietsActions.GetDiet(_httpClient, TestsConstants.GetDefaultId());
+            var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
@@ -48,7 +48,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         //public async Task GetDiet_ProducerLoggedIn_ReturnsOk()
         //{
         //    await ProducerActions.Authorize(_httpClient);
-        //    var response = await DietsActions.GetDiet(_httpClient, TestsConstants.GetDefaultId());
+        //    var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
         //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         //}
 
@@ -56,7 +56,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         //public async Task GetDiet_ClientLoggedIn_ReturnsOk()
         //{
         //    await ClientActions.RegisterAndLogin(_httpClient);
-        //    var response = await DietsActions.GetDiet(_httpClient, TestsConstants.GetDefaultId());
+        //    var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
         //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         //}
     }

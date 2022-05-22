@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  sql:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    environment:
+      SA_PASSWORD: Test1234!
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+  backend:
+    image: powoeuwcrossteamacr.azurecr.io/d_backend:1.0
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      SQL_SERVER: sql
+      SQL_DB_NAME: BackendDB
+      SQL_USER: sa
+      SQL_PASSWORD: Test1234!
+      JWT_SIGNING_KEY: verySecretJwtSigningKey
+      JWT_ISSUER: backend:5000
+      JWT_AUDIENCE: backend:5000
+      PAYMENT_CRON: "* * * * *"
+    depends_on:
+      - sql

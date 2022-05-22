@@ -25,7 +25,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         [Fact]
         public async Task DeleteDiet_NotLoggedIn_ReturnsUnauthorized()
         {
-            var response = await DietsActions.DeleteDiet(_httpClient, TestsConstants.GetDefaultId());
+            var response = await DietsActions.DeleteDiet(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -33,7 +33,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         public async Task DeleteDiet_DelivererLoggedIn_ReturnsForbidden()
         {
             await DelivererActions.Authorize(_httpClient);
-            var response = await DietsActions.DeleteDiet(_httpClient, TestsConstants.GetDefaultId());
+            var response = await DietsActions.DeleteDiet(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -52,7 +52,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         public async Task DeleteDiet_ClientLoggedIn_ReturnsForbidden()
         {
             await ClientActions.RegisterAndLogin(_httpClient);
-            var response = await DietsActions.DeleteDiet(_httpClient, TestsConstants.GetDefaultId());
+            var response = await DietsActions.DeleteDiet(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -60,7 +60,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         public async Task DeleteDiet_InvalidId_ReturnsNotFound()
         {
             await ProducerActions.Authorize(_httpClient);
-            var response = await DietsActions.DeleteDiet(_httpClient, TestsConstants.GetDefaultId());
+            var response = await DietsActions.DeleteDiet(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }

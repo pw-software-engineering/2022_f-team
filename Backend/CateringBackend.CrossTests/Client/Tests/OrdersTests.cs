@@ -1,4 +1,5 @@
-﻿using CateringBackend.CrossTests.Deliverer;
+﻿using System;
+using CateringBackend.CrossTests.Deliverer;
 using CateringBackend.CrossTests.Producer;
 using CateringBackend.CrossTests.Utilities;
 using Newtonsoft.Json;
@@ -100,7 +101,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         //[Fact]
         //public async Task SendComplain_NotLoggedIn_ReturnsUnauthorized()
         //{
-        //    var response = await ClientActions.SendComplain(_httpClient, TestsConstants.GetDefaultId());
+        //    var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
         //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         //}
 
@@ -108,7 +109,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         //public async Task SendComplain_ProducerLoggedIn_ReturnsUnauthorized()
         //{
         //    await ProducerActions.Authorize(_httpClient);
-        //    var response = await ClientActions.SendComplain(_httpClient, TestsConstants.GetDefaultId());
+        //    var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
         //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         //}
 
@@ -116,7 +117,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         //public async Task SendComplain_DelivererLoggedIn_ReturnsUnauthorized()
         //{
         //    await DelivererActions.Authorize(_httpClient);
-        //    var response = await ClientActions.SendComplain(_httpClient, TestsConstants.GetDefaultId());
+        //    var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
         //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         //}
 
@@ -125,7 +126,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         //{
         //    await ClientActions.CreateOrderAndReturnId(_httpClient);
 
-        //    var response = await ClientActions.SendComplain(_httpClient, TestsConstants.GetDefaultId());
+        //    var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
         //    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         //}
 
@@ -140,7 +141,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         [Fact]
         public async Task PayOrder_NotLoggedIn_ReturnsUnauthorized()
         {
-            var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
+            var response = await ClientActions.PayOrder(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -148,7 +149,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         public async Task PayOrder_ProducerLoggedIn_ReturnsForbidden()
         {
             await ProducerActions.Authorize(_httpClient);
-            var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
+            var response = await ClientActions.PayOrder(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -156,7 +157,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         public async Task PayOrder_DelivererLoggedIn_ReturnsForbidden()
         {
             await DelivererActions.Authorize(_httpClient);
-            var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
+            var response = await ClientActions.PayOrder(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -164,7 +165,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         public async Task PayOrder_InvalidOrderId_ReturnsNotFound()
         {
             await ClientActions.RegisterAndLogin(_httpClient);
-            var response = await ClientActions.PayOrder(_httpClient, TestsConstants.GetDefaultId());
+            var response = await ClientActions.PayOrder(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }

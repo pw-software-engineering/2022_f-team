@@ -60,9 +60,9 @@ namespace CateringBackend.CrossTests.Meals.Tests
         {
             await ProducerActions.Authorize(_httpClient);
             var putRequest = MealsRequestsProvider.PrepareMeals(1).First();
-            putRequest.MealId = (string)TestsConstants.GetDefaultId();
+            putRequest.MealId = (string)new Guid().ToString();
             var putBody = JsonConvert.SerializeObject(putRequest).ToStringContent();
-            var response = await _httpClient.PutAsync(MealsUrls.GetMealUrl(TestsConstants.GetDefaultId()), putBody);
+            var response = await _httpClient.PutAsync(MealsUrls.GetMealUrl(new Guid().ToString()), putBody);
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
