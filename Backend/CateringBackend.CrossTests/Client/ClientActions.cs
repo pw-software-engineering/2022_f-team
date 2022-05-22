@@ -38,11 +38,11 @@ namespace CateringBackend.CrossTests.Client
             return registerRequest;
         }
 
-        public static async Task<HttpResponseMessage> GetOrders(HttpClient httpClient, bool authorize = true)
+        public static async Task<HttpResponseMessage> GetOrders(HttpClient httpClient, bool authorize = true, string status = null)
         {
             if (authorize)
                 await RegisterAndLogin(httpClient);
-            return await httpClient.GetAsync(ClientUrls.GetOrdersUrl());
+            return await httpClient.GetAsync(ClientUrls.GetOrdersUrl(status));
         }
 
         public static async Task<HttpResponseMessage> CreateOrders(HttpClient httpClient, bool isValid = true)
@@ -57,10 +57,10 @@ namespace CateringBackend.CrossTests.Client
             return await httpClient.PostAsync(ClientUrls.GetOrdersUrl(), body);
         }
 
-        public static async Task<IEnumerable<Guid>> CreateOrderAndReturnId(HttpClient httpClient)
+        public static async Task<IEnumerable<Guid>> CreateOrderAndReturnId(HttpClient httpClient, string status = null)
         {
             var postResponse = await CreateOrders(httpClient);
-            var ordersResponse = await GetOrders(httpClient, false);
+            var ordersResponse = await GetOrders(httpClient, false, status);
             var ordersContent = await ordersResponse.Content.ReadAsStringAsync();
             var orderIds = JsonConvert.DeserializeObject<IEnumerable<Order>>(ordersContent);
             return orderIds.Select(x => x.Id);

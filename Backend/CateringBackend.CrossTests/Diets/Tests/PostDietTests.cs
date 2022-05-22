@@ -48,13 +48,11 @@ namespace CateringBackend.CrossTests.Diets.Tests
         }
 
         [Fact]
-        public async Task PostDiet_ClientLoggedIn_ReturnsCreated()
+        public async Task PostDiet_ClientLoggedIn_ReturnsForbidden()
         {
             await ClientActions.RegisterAndLogin(_httpClient);
-            var response = await DietsActions.PostDietWithMeals(_httpClient);
-            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-            var diets = await DietsActions.GetDietsIds(_httpClient);
-            Assert.NotEmpty(diets);
+            var response = await DietsActions.PostDiet(_httpClient, Array.Empty<object>());
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CateringBackend.CrossTests.Client.Requests;
+using CateringBackend.CrossTests.Producer.Requests;
 
 namespace CateringBackend.CrossTests.Producer
 {
@@ -14,6 +15,15 @@ namespace CateringBackend.CrossTests.Producer
             if (!isValid)
                 request.Password = string.Empty;
 
+            return request;
+        }
+
+        public static AnswerComplaintRequest PrepareAnswerComplaintRequest()
+        {
+            var request = new AnswerComplaintRequest()
+            {
+                Compliant_answer = "Ok"
+            };
             return request;
         }
     }
