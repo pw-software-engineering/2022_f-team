@@ -5,7 +5,12 @@ namespace CateringBackend.CrossTests.Meals
     public static class MealsUrls
     {
         public static string BaseMealsUrl = UrlProvider.BaseUrl + "/meals";
-        public static string GetMealsUrl() => BaseMealsUrl;
+        public static string GetMealsUrl(string name = null)
+        {
+            if (!string.IsNullOrEmpty(name))
+                return $"{BaseMealsUrl}?Name={name}";
+            return BaseMealsUrl;
+        }
         public static string GetMealUrl(object mealId) => $"{BaseMealsUrl}/{mealId}";
     }
 }

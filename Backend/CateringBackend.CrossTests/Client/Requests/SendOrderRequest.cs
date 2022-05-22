@@ -4,7 +4,7 @@ namespace CateringBackend.CrossTests.Client.Requests
 {
     public class PostOrdersRequest
     {
-        public string[] DietIds { get; set; }
+        public Guid[] DietIDs { get; set; }
         public DeliveryDetails DeliveryDetails { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
