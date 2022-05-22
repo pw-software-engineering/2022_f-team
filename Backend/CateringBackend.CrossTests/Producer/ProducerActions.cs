@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -23,6 +24,14 @@ namespace CateringBackend.CrossTests.Producer
             var loginRequest = ProducerRequestsProvider.PrepareLoginRequest(isValid);
             var body = JsonConvert.SerializeObject(loginRequest).ToStringContent();
             return await httpClient.PostAsync(ProducerUrls.GetLoginUrl(), body);
+        }
+
+        public static async Task<IEnumerable<Guid>> GetComplaintIds(HttpClient httpClient)
+        {
+            var response = await httpClient.GetAsync(ProducerUrls.GetComplaintsUrl());
+            var content = await response.Content.ReadAsStringAsync();
+            var complaintIds = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(content);
+            return complaintIds.Select(x => (Guid)x.Id);
         }
     }
 }

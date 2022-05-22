@@ -38,17 +38,17 @@ namespace CateringBackend.CrossTests.Diets.Tests
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
-        [Fact]
-        public async Task PutDiet_ProducerLoggedIn_ReturnsOk()
-        {
-            await ProducerActions.Authorize(_httpClient);
-            var response = await DietsActions.PutDiet(_httpClient);
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var getResponse = await DietsActions.GetDiets(_httpClient);
-            var getContent = await getResponse.Content.ReadAsStringAsync();
-            var diets = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getContent);
-            Assert.NotEmpty(diets);
-        }
+        //[Fact]
+        //public async Task PutDiet_ProducerLoggedIn_ReturnsOk()
+        //{
+        //    await ProducerActions.Authorize(_httpClient);
+        //    var response = await DietsActions.PutDiet(_httpClient);
+        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //    var getResponse = await DietsActions.GetDiets(_httpClient);
+        //    var getContent = await getResponse.Content.ReadAsStringAsync();
+        //    var diets = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getContent);
+        //    Assert.NotEmpty(diets);
+        //}
 
         [Fact]
         public async Task PutDiet_ClientLoggedIn_ReturnsForbidden()

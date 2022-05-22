@@ -7,7 +7,7 @@ namespace CateringBackend.CrossTests.Diets
         public static string BaseDietsUrl = UrlProvider.BaseUrl + "/diets";
         public static string GetDietsUrl(string name = null)
         {
-            if (!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrWhiteSpace(name))
                 return $"{BaseDietsUrl}?Name={name}";
             return BaseDietsUrl;
         }
