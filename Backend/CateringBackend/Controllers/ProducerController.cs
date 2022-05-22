@@ -37,5 +37,14 @@ namespace CateringBackend.Controllers
             if (!result.orderCompleted) return BadRequest("Niepowodzenie potwierdzenia wykonania zamówienia");
             return Ok("Powodzenie potwierdzenia wykonania zamówienia");
         }
+
+        [HttpGet("orders/complaints")]
+        [Authorize(Roles = "producer")]
+        public async Task<IActionResult> GetOrdersComplaints()
+        {
+            var result = await _mediator.Send(new GetOrdersComplaintsQuery());
+            return Ok(result);
+
+        }
     }
 }
