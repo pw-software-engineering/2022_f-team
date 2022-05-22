@@ -13,6 +13,8 @@ namespace CateringBackend.Users
         public AddressDTO() { }
         public AddressDTO(Address address)
         {
+            if (address == null) return;
+
             Street = address.Street;
             BuildingNumber = address.BuildingNumber;
             ApartmentNumber = address.ApartmentNumber;
