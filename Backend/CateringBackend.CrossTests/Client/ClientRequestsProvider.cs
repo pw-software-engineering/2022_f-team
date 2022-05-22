@@ -64,12 +64,12 @@ namespace CateringBackend.CrossTests.Client
             return fakeAddress.Generate();
         }
 
-        public static PostOrdersRequest PrepareOrdersRequest( object[] dietIds, bool isValid = true)
+        public static PostOrdersRequest PrepareOrdersRequest( Guid[] dietIds, bool isValid = true)
         {
             var fakerOrders = FakerHelper.GetFaker<PostOrdersRequest>()
-                .RuleFor(x => x.DietIds, f => dietIds.Select(x => (string)x).ToArray())
-                .RuleFor(x => x.StartDate, f => f.Date.Between(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1)))
-                .RuleFor(x => x.EndDate, f => f.Date.Between(new DateTime(2022, 2, 2), new DateTime(2022, 3, 1)));
+                .RuleFor(x => x.DietIDs, f => dietIds.Select(x => x).ToArray())
+                .RuleFor(x => x.StartDate, f => f.Date.Between(new DateTime(2023, 1, 1), new DateTime(2023, 2, 1)))
+                .RuleFor(x => x.EndDate, f => f.Date.Between(new DateTime(2023, 2, 2), new DateTime(2023, 3, 1)));
 
             var orderRequest = fakerOrders.Generate();
 

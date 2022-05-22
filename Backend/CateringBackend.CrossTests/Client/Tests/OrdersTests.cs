@@ -23,48 +23,48 @@ namespace CateringBackend.CrossTests.Client.Tests
             _httpClient = new HttpClient();
         }
 
-        //[Fact]
-        //public async Task GetOrders_IsLoggedIn_ReturnsOK()
-        //{
-        //    var getResponse = await ClientActions.GetOrders(_httpClient);
-        //    Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
-        //    var orders = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getResponse.Content.ReadAsStringAsync().Result);
-        //    Assert.Empty(orders);
-        //}
+        [Fact]
+        public async Task GetOrders_IsLoggedIn_ReturnsOK()
+        {
+            var getResponse = await ClientActions.GetOrders(_httpClient);
+            Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
+            var orders = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getResponse.Content.ReadAsStringAsync().Result);
+            Assert.Empty(orders);
+        }
 
-        //[Fact]
-        //public async Task GetOrders_NotLoggedIn_ReturnsUnauthorized()
-        //{
-        //    var getResponse = await ClientActions.GetOrders(_httpClient, false);
-        //    Assert.Equal(HttpStatusCode.Unauthorized, getResponse.StatusCode);
-        //}
+        [Fact]
+        public async Task GetOrders_NotLoggedIn_ReturnsUnauthorized()
+        {
+            var getResponse = await ClientActions.GetOrders(_httpClient, false);
+            Assert.Equal(HttpStatusCode.Unauthorized, getResponse.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task GetOrders_ProducerLoggedIn_ReturnsForbidden()
-        //{
-        //    await ProducerActions.Authorize(_httpClient);
-        //    var getResponse = await ClientActions.GetOrders(_httpClient, false);
-        //    Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
-        //}
+        [Fact]
+        public async Task GetOrders_ProducerLoggedIn_ReturnsForbidden()
+        {
+            await ProducerActions.Authorize(_httpClient);
+            var getResponse = await ClientActions.GetOrders(_httpClient, false);
+            Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task GetOrders_DelivererLoggedIn_ReturnsForbidden()
-        //{
-        //    await DelivererActions.Authorize(_httpClient);
-        //    var getResponse = await ClientActions.GetOrders(_httpClient, false);
-        //    Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
-        //}
+        [Fact]
+        public async Task GetOrders_DelivererLoggedIn_ReturnsForbidden()
+        {
+            await DelivererActions.Authorize(_httpClient);
+            var getResponse = await ClientActions.GetOrders(_httpClient, false);
+            Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task SendOrders_ProvidedCompleteData_ReturnsOK()
-        //{
-        //    var postResponse = await ClientActions.CreateOrders(_httpClient);
-        //    Assert.Equal(HttpStatusCode.Created, postResponse.StatusCode);
+        [Fact]
+        public async Task SendOrders_ProvidedCompleteData_ReturnsOK()
+        {
+            var postResponse = await ClientActions.CreateOrders(_httpClient);
+            Assert.Equal(HttpStatusCode.Created, postResponse.StatusCode);
 
-        //    var getResponse = await ClientActions.GetOrders(_httpClient, false);
-        //    var orders = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getResponse.Content.ReadAsStringAsync().Result);
-        //    Assert.NotEmpty(orders);
-        //}
+            var getResponse = await ClientActions.GetOrders(_httpClient, false);
+            var orders = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getResponse.Content.ReadAsStringAsync().Result);
+            Assert.NotEmpty(orders);
+        }
 
         [Fact]
         public async Task SendOrders_NotLoggedIn_ReturnsUnauthorized()
@@ -130,13 +130,13 @@ namespace CateringBackend.CrossTests.Client.Tests
         //    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         //}
 
-        //[Fact]
-        //public async Task PayOrder_ValidOrderId_ReturnsCreated()
-        //{
-        //    var orderIds = await ClientActions.CreateOrderAndReturnId(_httpClient);
-        //    var response = await ClientActions.PayOrder(_httpClient, orderIds.First());
-        //    Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        //}
+        [Fact]
+        public async Task PayOrder_ValidOrderId_ReturnsCreated()
+        {
+            var orderIds = await ClientActions.CreateOrderAndReturnId(_httpClient);
+            var response = await ClientActions.PayOrder(_httpClient, orderIds.First());
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
 
         [Fact]
         public async Task PayOrder_NotLoggedIn_ReturnsUnauthorized()
