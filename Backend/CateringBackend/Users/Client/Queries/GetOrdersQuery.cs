@@ -23,6 +23,7 @@ namespace CateringBackend.Users.Client.Queries
         public int? Price_ht { get; set; }
         public OrderStatus? Status { get; set; }
 
+        public GetOrdersQuery() { }
         protected override IQueryable<Order> GetFiltered(IQueryable<Order> collectionToFilter)
         {
             throw new NotImplementedException();
@@ -37,6 +38,7 @@ namespace CateringBackend.Users.Client.Queries
     {
         public Guid UserId { get; set; }
 
+        public GetOrdersQueryWithUserId() { }
         public GetOrdersQueryWithUserId(GetOrdersQuery query, Guid userId)
         {
             UserId = userId;
