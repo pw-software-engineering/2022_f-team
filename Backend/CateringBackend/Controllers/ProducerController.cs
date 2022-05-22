@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using CateringBackend.Users.Producer.Queries;
+using System;
+using CateringBackend.Users.Producer.Commands;
 
 namespace CateringBackend.Controllers
 {
@@ -25,12 +27,24 @@ namespace CateringBackend.Controllers
             return string.IsNullOrWhiteSpace(result) ? BadRequest("Niepowodzenie logowania") : Ok(result);
         }
 
+        [HttpPost("orders/{orderId}/complete")]
+        [Authorize(Roles = "producer")]
+        public async Task<IActionResult> CompleteOrder([FromRoute] Guid orderId)
+        {
+            var result = await _mediator.Send(new CompleteOrderCommand(orderId));
+
+            if (!result.orderExists) return NotFound("Podane zamównienie nie istnieje");
+            if (!result.orderCompleted) return BadRequest("Niepowodzenie potwierdzenia wykonania zamówienia");
+            return Ok("Powodzenie potwierdzenia wykonania zamówienia");
+        }
+
         [HttpGet("orders/complaints")]
         [Authorize(Roles = "producer")]
         public async Task<IActionResult> GetOrdersComplaints()
         {
             var result = await _mediator.Send(new GetOrdersComplaintsQuery());
             return Ok(result);
+
         }
     }
 }
