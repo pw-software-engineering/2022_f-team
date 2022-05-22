@@ -1,4 +1,5 @@
 ﻿using CateringBackend.Domain.Data;
+using CateringBackend.Domain.Entities.Enums;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -42,11 +43,12 @@ namespace CateringBackend.Users.Producer.Commands
                 return (complaintExists: false, complaintAnswered: false, 
                     errorMessage: $"Complaint o Id {request.ComplaintId} nie istnieje");
 
-            if (!string.IsNullOrEmpty(complaint.Answer))
+            if (complaint.Status == ComplaintStatus.Closed)
                 return (complaintExists: true, complaintAnswered: false,
                     errorMessage: "Complaint ma już odpowiedź");
 
             complaint.Answer = request.Compliant_answer;
+            complaint.Status = ComplaintStatus.Closed;
             await _dbContext.SaveChangesAsync(cancellationToken);
             return (complaintExists: true, complaintAnswered: true,
                 errorMessage: string.Empty); 
