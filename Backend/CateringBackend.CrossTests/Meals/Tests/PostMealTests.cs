@@ -55,13 +55,5 @@ namespace CateringBackend.CrossTests.Meals.Tests
             var response = await MealsActions.PostMeals(_httpClient);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
-
-        //[Fact]
-        //public async Task PostMeal_MealsWithNoId_ReturnsBadRequest()
-        //{
-        //    await ProducerActions.Login(_httpClient);
-        //    var response = await MealsActions.PostMeals(_httpClient, false);
-        //    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        //}
     }
 }

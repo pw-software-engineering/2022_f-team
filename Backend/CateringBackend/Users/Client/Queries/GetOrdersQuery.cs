@@ -144,7 +144,6 @@ namespace CateringBackend.Users.Client.Queries
                 Date = complaint.CreatedDate;
                 Status = complaint.Status;
             }
-
         }
     }
 

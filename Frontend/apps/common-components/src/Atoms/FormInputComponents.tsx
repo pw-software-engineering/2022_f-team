@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 interface FormInputComponentProps {
   label: string
+  name?: string
   optional?: true
   type: string
   validationText: string
@@ -28,7 +29,7 @@ const FormInputComponent = (props: FormInputComponentProps) => {
   return (
     <div className='formInputWrapper'>
       <label id={createAriaLabel()}>
-        {props.label}:{' '}
+        {props.name == null ? props.label : props.name}:{' '}
         {props.optional === undefined && <p className='requiredInput'>*</p>}
       </label>
       <input

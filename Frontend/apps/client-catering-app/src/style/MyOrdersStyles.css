@@ -1,0 +1,104 @@
+
+
+.orderComponentWrapper{
+    width: 60%;
+    background-color: white;
+    border: solid 3px #539091;
+    border-radius: 15px;
+    margin: 3vh auto;
+    padding: 2vh 4vw;
+    box-sizing: border-box;
+}
+
+.orderComponentWrapper h5{
+    font-size: 3vh;
+    text-align: center;
+    margin: 1vh auto;
+}
+
+.dietRowDiv{
+    background-color: #c3dfdf;
+    margin-bottom: 1vh;
+    padding: 0.5vw;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ordersDateDiv{
+    display: grid;
+    grid-template-columns: 1fr, 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: ". .";
+    margin-top: 2vh;
+}
+
+.ordersDateDiv p{
+    text-align: center;
+}
+
+.ordersDeliveryDetails{
+    margin-top: 2vh;
+    border: 1px solid lightgray;
+    padding: 1vw;
+    margin-bottom: 1vh;
+}
+
+.ordersFilterDiv{
+    width: 60%;
+    background-color: white;
+    border: solid 3px #539091;
+    border-radius: 15px;
+    padding: 2vw;
+    box-sizing: border-box;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr, 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: ". .";
+    text-align: center;
+}
+
+.ordersFilterDiv input{
+    width: 12vw;
+}
+
+.orderPayButton{
+    text-align: right;
+}
+
+.shadowCover{
+    background-color: black;
+    opacity: 0.4;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top:0;
+    left:0;
+}
+
+.dietRowModal{
+    width: 40%;
+    background-color: white;
+    border: solid 3px #539091;
+    border-radius: 15px;
+    padding: 2vh 4vw;
+    box-sizing: border-box;
+    position: fixed;
+    top: 30%;
+    left: 30%;
+}
+
+.dietRowModal button{
+    position: absolute;
+    right: 2vw;
+    top: 2vw;
+    width: 3vw;
+    height: 3vw;
+    font-size: 1.8vw;
+    font-weight: 600;
+    background-color: transparent;
+    border: #539091 solid 2px;
+    border-radius: 50%;
+    color: #539091;
+    cursor: pointer;
+}
