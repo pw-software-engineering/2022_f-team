@@ -49,10 +49,10 @@ namespace CateringBackend.CrossTests.Meals.Tests
             var postRequest = ObjectPropertiesMapper.ConvertObject<Meal, PostMealRequest>(postMeal);
             var body = JsonConvert.SerializeObject(postRequest).ToStringContent();
             var postResponse = await _httpClient.PostAsync(MealsUrls.GetMealsUrl(), body);
-            var getResponse = await MealsActions.GetMeals(_httpClient);
+            var getResponse = await MealsActions.GetMeals(_httpClient, postMeal.Name);
             var getContent = await getResponse.Content.ReadAsStringAsync();
             var meals = JsonConvert.DeserializeObject<IEnumerable<Meal>>(getContent);
-            var meal = meals.SingleOrDefault(x => x.Name == postMeal.Name);
+            var meal = meals.SingleOrDefault();
             var response = await MealsActions.DeleteMeal(_httpClient, meal.MealId ?? new Guid().ToString());
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var mealIdsAfterDelete = await MealsActions.GetMealsIds(_httpClient);
