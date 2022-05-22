@@ -47,8 +47,8 @@ namespace CateringBackend.Controllers
 
             if (!result.complaintExists) return NotFound($"Podanana reklamacja nie istnieje - {result.errorMessage}");
             if (!result.complaintAnswered) return BadRequest($"Zapisanie nie powiodło się - {result.errorMessage}");
-            return CreatedAtAction(nameof(AnswerComplaint),"Zapisano odpowiedź do reklamacji");
-         }
+            return CreatedAtAction(nameof(AnswerComplaint), "Zapisano odpowiedź do reklamacji");
+        }
 
         [HttpGet("orders/complaints")]
         [Authorize(Roles = "producer")]
@@ -57,14 +57,13 @@ namespace CateringBackend.Controllers
             var result = await _mediator.Send(new GetOrdersComplaintsQuery());
             return Ok(result);
         }
-        
-                [HttpGet("orders")]
+
+        [HttpGet("orders")]
         [Authorize(Roles = "producer")]
         public async Task<IActionResult> GetOrders([FromQuery] GetOrdersQuery getOrdersQuery)
         {
             var result = await _mediator.Send(getOrdersQuery);
-
-            if (result == null) BadRequest("Pobieranie nie powiodło się");
             return Ok(result);
+        }
     }
 }
