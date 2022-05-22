@@ -4,6 +4,7 @@ using CateringBackend.CrossTests.Meals;
 using CateringBackend.CrossTests.Producer;
 using CateringBackend.CrossTests.Utilities;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -56,13 +57,13 @@ namespace CateringBackend.CrossTests.Client
             return await httpClient.PostAsync(ClientUrls.GetOrdersUrl(), body);
         }
 
-        public static async Task<IEnumerable<int>> CreateOrderAndReturnId(HttpClient httpClient)
+        public static async Task<IEnumerable<Guid>> CreateOrderAndReturnId(HttpClient httpClient)
         {
-            await CreateOrders(httpClient);
+            var postResponse = await CreateOrders(httpClient);
             var ordersResponse = await GetOrders(httpClient, false);
             var ordersContent = await ordersResponse.Content.ReadAsStringAsync();
-            var orderIds = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(ordersContent);
-            return (IEnumerable<int>)(orderIds.Select(x => x.Id));
+            var orderIds = JsonConvert.DeserializeObject<IEnumerable<Order>>(ordersContent);
+            return orderIds.Select(x => x.Id);
         }
 
         public static async Task<HttpResponseMessage> SendComplain(HttpClient httpClient, object orderId)

@@ -13,7 +13,6 @@ namespace CateringBackend.CrossTests.Meals
             }
             return BaseMealsUrl;
         }
-
         public static string GetMealUrl(object mealId) => $"{BaseMealsUrl}/{mealId}";
     }
 }

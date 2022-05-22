@@ -13,60 +13,48 @@ using Xunit;
 
 namespace CateringBackend.CrossTests.Diets.Tests
 {
-    //public class PostDietTests
-    //{
-    //    private readonly HttpClient _httpClient;
+    public class PostDietTests
+    {
+        private readonly HttpClient _httpClient;
 
-    //    public PostDietTests()
-    //    {
-    //        _httpClient = new HttpClient();
-    //    }
+        public PostDietTests()
+        {
+            _httpClient = new HttpClient();
+        }
 
-    //    [Fact]
-    //    public async Task PostDiet_NotLoggedIn_ReturnsUnauthorized()
-    //    {
-    //        var response = await DietsActions.PostDietWithMeals(_httpClient);
-    //        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-    //    }
+        [Fact]
+        public async Task PostDiet_NotLoggedIn_ReturnsUnauthorized()
+        {
+            var response = await DietsActions.PostDiet(_httpClient, Array.Empty<object>());
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
 
-    //    [Fact]
-    //    public async Task PostDiet_DelivererLoggedIn_ReturnsUnauthorized()
-    //    {
-    //        await DelivererActions.Login(_httpClient);
-    //        var response = await DietsActions.PostDietWithMeals(_httpClient);
-    //        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-    //    }
+        [Fact]
+        public async Task PostDiet_DelivererLoggedIn_ReturnsForbidden()
+        {
+            await DelivererActions.Authorize(_httpClient);
+            var response = await DietsActions.PostDiet(_httpClient, Array.Empty<object>());
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
 
-    //    [Fact]
-    //    public async Task PostDiet_ProducerLoggedIn_ReturnsOk()
-    //    {
-    //        await ProducerActions.Login(_httpClient);
-    //        var response = await DietsActions.PostDietWithMeals(_httpClient);
-    //        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    //        var getResponse = await DietsActions.GetDiets(_httpClient);
-    //        var getContent = await getResponse.Content.ReadAsStringAsync();
-    //        var diets = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getContent);
-    //        Assert.NotEmpty(diets);
-    //    }
+        [Fact]
+        public async Task PostDiet_ProducerLoggedIn_ReturnsCreated()
+        {
+            await ProducerActions.Authorize(_httpClient);
+            var response = await DietsActions.PostDietWithMeals(_httpClient);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            var diets = await DietsActions.GetDietsIds(_httpClient);
+            Assert.NotEmpty(diets);
+        }
 
-    //    [Fact]
-    //    public async Task PostDiet_ClientLoggedIn_ReturnsOk()
-    //    {
-    //        await ClientActions.RegisterAndLogin(_httpClient);
-    //        var response = await DietsActions.PostDietWithMeals(_httpClient);
-    //        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    //        var getResponse = await DietsActions.GetDiets(_httpClient);
-    //        var getContent = await getResponse.Content.ReadAsStringAsync();
-    //        var diets = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getContent);
-    //        Assert.NotEmpty(diets);
-    //    }
-
-    //    [Fact]
-    //    public async Task PostDiet_DietWithNoMeals_ReturnsBadRequest()
-    //    {
-    //        await ProducerActions.Login(_httpClient);
-    //        var response = await DietsActions.PostDietWithMeals(_httpClient, false);
-    //        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-    //    }
-    //}
+        [Fact]
+        public async Task PostDiet_ClientLoggedIn_ReturnsCreated()
+        {
+            await ClientActions.RegisterAndLogin(_httpClient);
+            var response = await DietsActions.PostDietWithMeals(_httpClient);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            var diets = await DietsActions.GetDietsIds(_httpClient);
+            Assert.NotEmpty(diets);
+        }
+    }
 }
