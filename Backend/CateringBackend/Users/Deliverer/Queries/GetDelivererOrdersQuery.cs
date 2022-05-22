@@ -22,6 +22,8 @@ namespace CateringBackend.Users.Deliverer.Queries
         {
             var orders = await _dbContext.Orders
                 .Where(x => x.Status == Domain.Entities.Enums.OrderStatus.Prepared)
+                .Include(x => x.Client)
+                .ThenInclude(x => x.Address)
                 .Select(x => new OrderDeliveryDetailsDTO(x))
                 .ToListAsync(cancellationToken);
 
