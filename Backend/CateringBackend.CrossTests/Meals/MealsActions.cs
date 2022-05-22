@@ -12,9 +12,9 @@ namespace CateringBackend.CrossTests.Meals
 {
     public static class MealsActions
     {
-        public static async Task<HttpResponseMessage> GetMeals(HttpClient httpClient)
+        public static async Task<HttpResponseMessage> GetMeals(HttpClient httpClient, string name = null)
         {
-            return await httpClient.GetAsync(MealsUrls.GetMealsUrl());
+            return await httpClient.GetAsync(MealsUrls.GetMealsUrl(name));
         }
         public static async Task<IEnumerable<object>> GetMealsIds(HttpClient httpClient)
         {
