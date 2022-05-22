@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CateringBackend.Meals.Queries
 {
-    public record GetMealDetailsQuery(Guid MealId) : IRequest<MealDetailsDTO>;
+    public record GetMealDetailsQuery(Guid MealId) : IRequest<MealDTO>;
 
-    public class GetMealDetailsQueryHandler : IRequestHandler<GetMealDetailsQuery, MealDetailsDTO>
+    public class GetMealDetailsQueryHandler : IRequestHandler<GetMealDetailsQuery, MealDTO>
     {
         private readonly CateringDbContext _dbContext;
 
@@ -18,7 +18,7 @@ namespace CateringBackend.Meals.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<MealDetailsDTO> Handle(GetMealDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<MealDTO> Handle(GetMealDetailsQuery request, CancellationToken cancellationToken)
         {
             var meal = await _dbContext.Meals.FirstOrDefaultAsync(meal => meal.Id == request.MealId, cancellationToken);
             
@@ -27,7 +27,7 @@ namespace CateringBackend.Meals.Queries
                 return null;
             }
 
-            return new MealDetailsDTO(meal);
+            return new MealDTO(meal);
         }
     }
 }

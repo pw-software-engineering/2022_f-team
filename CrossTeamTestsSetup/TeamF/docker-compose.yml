@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  sql:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    environment:
+      SA_PASSWORD: Test1234!
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+  backend:
+    depends_on:
+      - sql
+    image: powoeuwcrossteamacr.azurecr.io/f_catering-api:1.0
+    ports:
+      - "5012:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__CateringDatabase: Server=sql;Database=CateringDatabase;User Id=sa;Password=Test1234!;

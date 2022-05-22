@@ -84,5 +84,14 @@ namespace CateringBackend.Controllers
                 BadRequest("Zapisanie nie powiodło się") :
                 CreatedAtAction(nameof(AddOrder), orderId);
         }
+
+        [HttpGet("orders")]
+        [Authorize(Roles = "client")]
+        public async Task<IActionResult> GetOrders([FromQuery] GetOrdersQuery getOrdersQuery)
+        {
+            var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var orders = await _mediator.Send(new GetOrdersQueryWithUserId(getOrdersQuery, userId));
+            return orders == default ? BadRequest("Pobranie nie powiodło się") : Ok(orders);
+        }
     }
 }
