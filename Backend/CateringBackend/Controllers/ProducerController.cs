@@ -37,5 +37,17 @@ namespace CateringBackend.Controllers
             if (!result.orderCompleted) return BadRequest("Niepowodzenie potwierdzenia wykonania zamówienia");
             return Ok("Powodzenie potwierdzenia wykonania zamówienia");
         }
+
+        [HttpPost("orders/{complaintId}/answer-complaint")]
+        [Authorize(Roles = "producer")]
+        public async Task<IActionResult> AnswerComplaint([FromRoute] Guid complaintId,
+            [FromBody] AnswerComplaintCommand answerComplaintCommand)
+        {
+            var result = await _mediator.Send(new AnswerComplaintWithIdCommand(answerComplaintCommand, complaintId));
+
+            if (!result.complaintExists) return NotFound($"Podanana reklamacja nie istnieje - {result.errorMessage}");
+            if (!result.complaintAnswered) return BadRequest($"Zapisanie nie powiodło się - {result.errorMessage}");
+            return CreatedAtAction(nameof(AnswerComplaint),"Zapisano odpowiedź do reklamacji");
+        }
     }
 }
