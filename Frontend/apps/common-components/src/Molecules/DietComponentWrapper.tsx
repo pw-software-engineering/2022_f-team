@@ -1,29 +1,28 @@
-import {
-  DietComponent,
-  DietModel,
-  ErrorToastComponent,
-  MealModel,
-  MealShort,
-  ServiceState,
-  UserContext,
-} from "common-components";
-import { useContext, useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
+import { ErrorToastComponent } from "../Atoms/ErrorToastComponent";
+import { UserContextInterface } from "../Context/UserContext";
+import { DietModel } from "../models/DietModel";
+import { MealModel, MealShort } from "../models/MealModel";
 import { APIservice } from "../Services/APIservice";
+import { ServiceState } from "../Services/APIutilities";
 import {
   getDietDetailsConfig,
   getMealDetailsConfig,
 } from "../Services/configCreator";
+import DietComponent from "./DietComponent";
 
 interface DietComponentWrapperProps {
-  diet: DietModel;
-  onButtonClick: (dietId: string) => void;
+  diet: DietModel
+  userContext: UserContextInterface | null
+  onButtonClick: (dietId: string) => void
+  buttonLabel?: string
 }
 
 const DietComponentWrapper = (props: DietComponentWrapperProps) => {
   const service = APIservice();
   let mealService = APIservice();
 
-  const userContext = useContext(UserContext);
   const [showError, setShowError] = useState<boolean>(false);
   const [meals, setMeals] = useState<Array<MealShort>>([]);
 
@@ -39,7 +38,7 @@ const DietComponentWrapper = (props: DietComponentWrapperProps) => {
 
   const getMeals = (dietId: string) => {
     service.execute!(
-      getDietDetailsConfig(userContext?.authApiKey!, dietId),
+      getDietDetailsConfig(props.userContext?.authApiKey!, dietId),
       {},
       mealsParseFunction
     );
@@ -52,7 +51,7 @@ const DietComponentWrapper = (props: DietComponentWrapperProps) => {
 
   const queryForMeal = (mealId: string) => {
     mealService.execute!(
-      getMealDetailsConfig(userContext?.authApiKey!, mealId),
+      getMealDetailsConfig(props.userContext?.authApiKey!, mealId),
       {}
     );
   };
@@ -73,6 +72,7 @@ const DietComponentWrapper = (props: DietComponentWrapperProps) => {
         queryForMeal={queryForMeal}
         mealToDisplay={mealToDisplay}
         setMealToDisplay={setMealToDisplay}
+        buttonLabel={props.buttonLabel}
       />
       {showError && service.state === ServiceState.Error && (
         <ErrorToastComponent
