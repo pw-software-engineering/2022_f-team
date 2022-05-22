@@ -28,8 +28,7 @@ namespace CateringBackend.Controllers
         }
 
         [HttpGet("orders")]
-        [AllowAnonymous]
-        //[Authorize(Roles = "deliverer")]
+        [Authorize(Roles = "deliverer")]
         public async Task<IActionResult> GetOrders()
         {
             var result = await _mediator.Send(new GetDelivererOrdersQuery());
@@ -37,8 +36,7 @@ namespace CateringBackend.Controllers
         }
 
         [HttpPost("orders/{orderId}/deliver")]
-        [AllowAnonymous]
-        //[Authorize(Roles = "deliverer")]
+        [Authorize(Roles = "deliverer")]
         public async Task<IActionResult> DeliverOrder([FromRoute] Guid orderId)
         {
             var orderDelivered = await _mediator.Send(new DeliverOrderCommand() { OrderId = orderId});
