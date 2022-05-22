@@ -3,7 +3,8 @@ import React from 'react'
 interface SubmitButtonProps {
   text: string
   validateForm: () => boolean
-  action: (e: any) => void
+  action: (e: any) => void,
+  style?: React.CSSProperties | undefined
 }
 
 const SubmitButton = (props: SubmitButtonProps) => {
@@ -24,6 +25,7 @@ const SubmitButton = (props: SubmitButtonProps) => {
         fontWeight: '600',
         marginBottom: '2vh',
         cursor: disabled ? 'default' : 'pointer',
+        ...props.style,
       }}
     >
       {props.text}

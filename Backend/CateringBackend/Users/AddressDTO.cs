@@ -19,6 +19,7 @@ namespace CateringBackend.Users
             PostCode = address.PostCode;
             City = address.City;
         }
+
         public static Address CreateAddressFromDTO(AddressDTO addressDTO)
         {
             return Address.Create(

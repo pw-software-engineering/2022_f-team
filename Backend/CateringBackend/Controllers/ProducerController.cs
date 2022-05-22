@@ -48,6 +48,14 @@ namespace CateringBackend.Controllers
             if (!result.complaintExists) return NotFound($"Podanana reklamacja nie istnieje - {result.errorMessage}");
             if (!result.complaintAnswered) return BadRequest($"Zapisanie nie powiodło się - {result.errorMessage}");
             return CreatedAtAction(nameof(AnswerComplaint),"Zapisano odpowiedź do reklamacji");
+         }
+
+        [HttpGet("orders/complaints")]
+        [Authorize(Roles = "producer")]
+        public async Task<IActionResult> GetOrdersComplaints()
+        {
+            var result = await _mediator.Send(new GetOrdersComplaintsQuery());
+            return Ok(result);
         }
     }
 }
