@@ -1,5 +1,6 @@
 import { useState } from "react";
 import EditProfile from "../components/EditProfile";
+import MyOrdersList from "../components/MyOrdersList";
 import "../style/ProfileStyle.css";
 
 const MyProfilePage = () => {
@@ -15,7 +16,10 @@ const MyProfilePage = () => {
           Your Orders{!editProfileActive && <hr />}
         </button>
       </div>
-      <div>{editProfileActive && <EditProfile />}</div>
+      <div>
+        {editProfileActive && <EditProfile />}
+        {!editProfileActive && <MyOrdersList />}
+      </div>
     </div>
   );
 };

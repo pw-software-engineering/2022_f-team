@@ -16,10 +16,11 @@ namespace CateringBackend.CrossTests.Diets
             var diet = FakerHelper.GetFaker<PostDietRequest>()
                 .RuleFor(x => x.Name, f => f.Lorem.Word())
                 .RuleFor(x => x.Price, f => f.Finance.Amount(1, 1000))
+                .RuleFor(x => x.Description, f => f.Lorem.Word())
                 .Generate();
 
             if (isValid)
-                diet.MealIds = mealIds.Select( x => (string)x).ToArray();
+                diet.MealIds = mealIds?.Select( x => new Guid(x.ToString()))?.ToArray();
 
             return diet;
         }

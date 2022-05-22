@@ -6,6 +6,8 @@ export const getLoginClientURL = (): string => apiUrl + "/Client/login";
 
 export const getDietsURL = (): string => apiUrl + "/Diets";
 
+export const getOrdersURL = (): string => apiUrl + "/Client/orders";
+
 export const getDietDetailsURL = (dietId: string): string =>
   apiUrl + "/Diets/" + dietId;
 

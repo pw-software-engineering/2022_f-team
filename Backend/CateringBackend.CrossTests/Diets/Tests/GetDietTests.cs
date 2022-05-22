@@ -4,6 +4,7 @@ using CateringBackend.CrossTests.Producer;
 using CateringBackend.CrossTests.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -44,20 +45,24 @@ namespace CateringBackend.CrossTests.Diets.Tests
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
-        //[Fact]
-        //public async Task GetDiet_ProducerLoggedIn_ReturnsOk()
-        //{
-        //    await ProducerActions.Authorize(_httpClient);
-        //    var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //}
+        [Fact]
+        public async Task GetDiet_ProducerLoggedIn_ReturnsOk()
+        {
+            await ProducerActions.Authorize(_httpClient);
+            var diet = await DietsActions.PostDietWithMeals(_httpClient);
+            var dietIds = await DietsActions.GetDietsIds(_httpClient);
+            var response = await DietsActions.GetDiet(_httpClient, dietIds.First());
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task GetDiet_ClientLoggedIn_ReturnsOk()
-        //{
-        //    await ClientActions.RegisterAndLogin(_httpClient);
-        //    var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //}
+        [Fact]
+        public async Task GetDiet_ClientLoggedIn_ReturnsOk()
+        {
+            await ClientActions.RegisterAndLogin(_httpClient);
+            var diet = await DietsActions.PostDietWithMeals(_httpClient);
+            var dietIds = await DietsActions.GetDietsIds(_httpClient);
+            var response = await DietsActions.GetDiet(_httpClient, dietIds.First());
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
     }
 }

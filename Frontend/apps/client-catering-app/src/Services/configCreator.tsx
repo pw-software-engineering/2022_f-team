@@ -5,6 +5,7 @@ import {
   getDietsURL,
   getLoginClientURL,
   getMealDetailsURL,
+  getOrdersURL,
   getRegisterClientURL,
   postClientOrderURL,
   postPayForOrderURL,
@@ -21,6 +22,13 @@ export const getDietsConfig = (key: string, parameters: string) =>
     method: "get",
     header: { Authorization: "Bearer " + key },
     url: getDietsURL() + (parameters.length > 0 ? "?" + parameters : ""),
+  } as ApiConfig);
+
+export const getOrdersConfig = (key: string, parameters: string) =>
+  ({
+    method: "get",
+    header: { Authorization: "Bearer " + key },
+    url: getOrdersURL() + (parameters.length > 0 ? "?" + parameters : ""),
   } as ApiConfig);
 
 export const getDietDetailsConfig = (key: string, dietId: string) =>

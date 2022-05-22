@@ -16,7 +16,7 @@ import {
 
 interface DietComponentWrapperProps {
   diet: DietModel;
-  addToCartFunction: (dietId: string) => void;
+  onButtonClick: (dietId: string) => void;
 }
 
 const DietComponentWrapper = (props: DietComponentWrapperProps) => {
@@ -67,7 +67,7 @@ const DietComponentWrapper = (props: DietComponentWrapperProps) => {
     <div>
       <DietComponent
         diet={props.diet}
-        addToCartFunction={props.addToCartFunction}
+        onButtonClick={props.onButtonClick}
         getMeals={getMeals}
         meals={meals}
         queryForMeal={queryForMeal}
