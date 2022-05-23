@@ -145,6 +145,7 @@ const DietList = (props: DietListProps) => {
                 setSearchValue(value)
               }}
               onSubmitClick={() => {
+                setCurrentPageIndex(0);
                 loadDiets(dietsQuery)
               }}
             />
@@ -173,7 +174,6 @@ const DietList = (props: DietListProps) => {
                     </span>
                     <div
                       style={{
-                        // display: 'inline-block',
                         width: '100%',
                         paddingTop: '10px',
                         display: 'flex',
