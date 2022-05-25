@@ -29,6 +29,7 @@ const DietList = (props: DietListProps) => {
   const maxItemsPerPage = 5
 
   const service = APIservice()
+  const countService = APIservice();
   const userContext = props.userContext
   const [showError, setShowError] = useState<boolean>(false)
   const [dietsList, setDietsList] = useState<Array<DietModel>>([])
@@ -45,7 +46,7 @@ const DietList = (props: DietListProps) => {
     Price_ht: undefined,
     Price_lt: undefined,
     Sort: 'title(asc)',
-    Limit: undefined
+    Limit: maxItemsPerPage
   })
 
   const parseFunction = (res: Array<JSON>) => {
@@ -78,29 +79,56 @@ const DietList = (props: DietListProps) => {
     return parameters
   }
 
-  const loadDiets = (query: GetDietsQuery) => {
-    const parameters = getParametersFromQuery(query)
+  const loadDiets = () => {
+    const parameters = getParametersFromQuery(dietsQuery)
     const url = getDietsConfig(userContext?.authApiKey!, parameters)
-    service.execute!(url, query, parseFunction)
+    service.execute!(url, dietsQuery, parseFunction)
   }
 
+  const getElementsCount = () =>{
+    const query:GetDietsQuery={
+      Name: dietsQuery.Name,
+    Name_with: dietsQuery.Name_with,
+    Vegan: dietsQuery.Vegan,
+    Calories: dietsQuery.Calories,
+    Calories_ht: dietsQuery.Calories_ht,
+    Calories_lt: dietsQuery.Calories_lt,
+    Price: dietsQuery.Price,
+    Price_ht: dietsQuery.Price_ht,
+    Price_lt: dietsQuery.Price_lt,
+    Sort: dietsQuery.Sort,
+    Limit: undefined
+    }
+    countService.execute!(
+      getDietsConfig(
+        userContext?.authApiKey!,
+        getParametersFromQuery(query)
+      ),
+      query,
+      parseFunction
+    );
+      }
+
   useEffect(() => {
-    loadDiets(dietsQuery)
-  }, [currentPageIndex])
+    if(maxListLength === 0) getElementsCount();
+    else loadDiets();
+  }, [currentPageIndex]);
+
 
   useEffect(() => {
     if (service.state === ServiceState.Fetched) {
-      if (maxListLength === 0) {
-        setMaxListLength(service.result.length)
-        setFields({ Limit: maxItemsPerPage })
-      } else setDietsList(service.result)
+      setDietsList(service.result);
     }
-    if (service.state === ServiceState.Error) setShowError(true)
-  }, [service.state])
+    if (service.state === ServiceState.Error) setShowError(true);
+  }, [service.state]);
 
-  useEffect(() => {
-    if (dietsQuery.Limit !== undefined) loadDiets(dietsQuery);
-  }, [dietsQuery.Limit]);
+  useEffect(()=>{
+    if (countService.state === ServiceState.Fetched) {
+      setMaxListLength(countService.result.length);
+      loadDiets();
+    }
+    if (countService.state === ServiceState.Error) setShowError(true);
+  }, [countService.state]);
 
   const getPageCount = () => Math.ceil(maxListLength / maxItemsPerPage)
 
@@ -118,6 +146,12 @@ const DietList = (props: DietListProps) => {
 
   const setFields = (fields: any) => {
     setDietsQuery({ ...dietsQuery, ...fields })
+  }
+
+  const resetAll = () =>{
+    setMaxListLength(0);
+    setCurrentPageIndex(0);
+    getElementsCount();
   }
 
   const [searchExact, setSearchExact] = useState<boolean>(false)
@@ -145,8 +179,7 @@ const DietList = (props: DietListProps) => {
                 setSearchValue(value)
               }}
               onSubmitClick={() => {
-                setCurrentPageIndex(0);
-                loadDiets(dietsQuery)
+                resetAll();
               }}
             />
           }
@@ -285,11 +318,17 @@ const DietList = (props: DietListProps) => {
           onNumberClick={onNumberPageClick}
         />
       </div>
-      {(dietsQuery.Limit === undefined ||
+      {(countService.state === ServiceState.InProgress||
         service.state === ServiceState.InProgress) && <LoadingComponent />}
-      {showError && (
+      {showError && service.state === ServiceState.Error && (
         <ErrorToastComponent
           message={service.error?.message!}
+          closeToast={setShowError}
+        />
+      )}
+      {showError && countService.state === ServiceState.Error && (
+        <ErrorToastComponent
+          message={countService.error?.message!}
           closeToast={setShowError}
         />
       )}
