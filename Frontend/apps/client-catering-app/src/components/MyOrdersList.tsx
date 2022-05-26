@@ -18,6 +18,7 @@ const MyOrdersList = () => {
   const userContext = useContext(UserContext);
   const [showError, setShowError] = useState<boolean>(false);
   const service = APIservice();
+  const countService = APIservice();
 
   const maxItemsPerPage = 5;
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
@@ -32,7 +33,7 @@ const MyOrdersList = () => {
     Price_lt: undefined,
     Price_ht: undefined,
     Offset: currentPageIndex * maxItemsPerPage,
-    Limit: undefined,
+    Limit: maxItemsPerPage,
     Sort: "startDate(asc)",
     Status: undefined,
   });
@@ -78,23 +79,48 @@ const MyOrdersList = () => {
       parseFunction
     );
 
+  const getElementsCount = () =>{
+    const query:OrderQuery={
+      StartDate: ordersQuery.StartDate,
+      EndDate: ordersQuery.EndDate,
+      Price: ordersQuery.Price,
+      Price_lt: ordersQuery.Price_lt,
+      Price_ht: ordersQuery.Price_ht,
+      Offset: 0,
+      Limit: undefined,
+      Sort: ordersQuery.Sort,
+      Status: ordersQuery.Status,
+    }
+    countService.execute!(
+      getOrdersConfig(
+        userContext?.authApiKey!,
+        getParametersFromQuery(query)
+      ),
+      query,
+      parseFunction
+    );
+      }
+
   useEffect(() => {
-    loadOrders();
+    if(maxOrdersLength === 0) getElementsCount();
+    else loadOrders();
   }, [currentPageIndex]);
+
 
   useEffect(() => {
     if (service.state === ServiceState.Fetched) {
-      if (maxOrdersLength === 0) {
-        setMaxOrdersLength(service.result.length);
-        setFields({ Limit: maxItemsPerPage });
-      } else setOrdersList(service.result);
+      setOrdersList(service.result);
     }
     if (service.state === ServiceState.Error) setShowError(true);
   }, [service.state]);
 
-  useEffect(() => {
-    if (ordersQuery.Limit !== undefined) loadOrders();
-  }, [ordersQuery.Limit]);
+  useEffect(()=>{
+    if (countService.state === ServiceState.Fetched) {
+      setMaxOrdersLength(countService.result.length);
+      loadOrders();
+    }
+    if (countService.state === ServiceState.Error) setShowError(true);
+  }, [countService.state]);
 
   const getPageCount = () => Math.ceil(maxOrdersLength / maxItemsPerPage);
 
@@ -113,6 +139,12 @@ const MyOrdersList = () => {
   const setFields = (fields: any) => {
     setOrdersQuery({ ...ordersQuery, ...fields });
   };
+
+  const resetAll = () =>{
+    setMaxOrdersLength(0);
+    setCurrentPageIndex(0);
+    getElementsCount();
+  }
 
   return (
     <div>
@@ -195,8 +227,7 @@ const MyOrdersList = () => {
               text={"Search"}
               validateForm={() => true}
               action={(e: any) => {
-                setCurrentPageIndex(0);
-                loadOrders();
+                resetAll()
               }}
               style={{
                 height: "auto",
@@ -230,14 +261,20 @@ const MyOrdersList = () => {
             onNextClick={onNextPageClick}
             onNumberClick={onNumberPageClick}
           />
-          {(ordersQuery.Limit === undefined ||
+          {(countService.state === ServiceState.InProgress||
             service.state === ServiceState.InProgress) && <LoadingComponent />}
-          {showError && (
+          {showError && service.state === ServiceState.Error && (
             <ErrorToastComponent
               message={service.error?.message!}
               closeToast={setShowError}
             />
           )}
+          {showError && countService.state === ServiceState.Error && (
+        <ErrorToastComponent
+          message={countService.error?.message!}
+          closeToast={setShowError}
+        />
+      )}
         </div>
       )}
       {goToPayment !== undefined && <PayForOrder orderID={goToPayment} />}
