@@ -1,0 +1,17 @@
+FROM node:alpine
+ 
+WORKDIR /app
+COPY package.json ./
+COPY ./apps/common-components ./apps/common-components
+COPY ./apps/client-catering-app ./apps/client-catering-app
+
+WORKDIR /app
+RUN yarn install
+
+WORKDIR /app/apps/common-components
+RUN yarn build
+
+EXPOSE 3000
+
+WORKDIR /app/apps/client-catering-app
+ENTRYPOINT yarn start-production

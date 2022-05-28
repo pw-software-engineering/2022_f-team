@@ -9,32 +9,24 @@ on:
   push:
     branches: [main]
     paths:
-      - "Backend/CateringBackend/**"
-      - "Backend/CateringBackend.Domain/**"
-      - "Backend/Dockerfile"
+      - "Frontend/apps/common-components/**"
+      - "Frontend/apps/client-catering-app/**"
+      - "Frontend/Dockerfile-client"
 
 env:
   ACR_URL: "powoeuwacr.azurecr.io"
   NAMESPACE: "f"
-  APP_NAME: "catering-api"
-  DEPLOYMENT_DIRECTORY: "Backend"
-  DEPLOYMENT_FILE_NAME: "catering-api-deployment-spec.yml"
-  PATH_TO_DOCKER_FILE: "Backend/Dockerfile"
-  PATH_TO_APP_SRC: "./Backend"
-  PATH_TO_TEST_PROJECT: "Backend/CateringBackendUnitTests/CateringBackendUnitTests.csproj"
+  APP_NAME: "catering-client-app"
+  DEPLOYMENT_DIRECTORY: "Frontend"
+  DEPLOYMENT_FILE_NAME: "catering-client-app-deployment-spec.yml"
+  PATH_TO_DOCKER_FILE: "Frontend/Dockerfile-client"
+  PATH_TO_APP_SRC: "./Frontend"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET version
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.x
-      - name: Test
-        working-directory: ./Backend
-        run: dotnet test --filter FullyQualifiedName!~CateringBackend.CrossTests --no-build --verbosity normal
       - name: Set IMAGE_ID as env variable
         run: echo "IMAGE_ID=${{ env.ACR_URL }}/${{ env.APP_NAME }}:v${{ github.run_number }}" >> $GITHUB_ENV
       - name: Print IMAGE_ID
