@@ -31,7 +31,6 @@ namespace CateringBackendUnitTests.Handlers.DietsHandlers
         public async Task GivenDietWithNameThatIsAlreadyAvailable_WhenHandleAddDietCommand_ThenReturnsDietAddedAsFalse()
         {
             // Arrange
-
             _dbContext.Diets.Add(new Diet
             {
                 Title = "Diet",
