@@ -1,4 +1,4 @@
-name: DeployCateringApi
+name: Deploy-client-app
 
 on:
   repository_dispatch:

@@ -59,7 +59,7 @@ spec:
     - host: ${NAMESPACE}.client.${DOMAIN}
       http:
         paths:
-          - client-app:
+          - backend:
               serviceName: catering-client-app
               servicePort: 80
             path: /
