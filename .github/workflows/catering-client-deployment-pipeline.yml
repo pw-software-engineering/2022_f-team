@@ -11,7 +11,7 @@ on:
     paths:
       - "Frontend/apps/common-components/**"
       - "Frontend/apps/client-catering-app/**"
-      - "Frontend/Dockerfile-client"
+      - "Frontend/client.Dockerfile"
 
 env:
   ACR_URL: "powoeuwacr.azurecr.io"
@@ -19,7 +19,7 @@ env:
   APP_NAME: "catering-client-app"
   DEPLOYMENT_DIRECTORY: "Frontend"
   DEPLOYMENT_FILE_NAME: "catering-client-app-deployment-spec.yml"
-  PATH_TO_DOCKER_FILE: "Frontend/Dockerfile-client"
+  PATH_TO_DOCKER_FILE: "Frontend/client.Dockerfile"
   PATH_TO_APP_SRC: "./Frontend"
 
 jobs:
