@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace CateringBackend.Users.Deliverer.Commands
 {
-    public class DeliverOrderCommand : IRequest<bool>
+    public class DeliverOrderCommand : IRequest<(bool orderExists, bool orderDelivered)>
     {
         public Guid OrderId { get; set; }
     }
 
-    public class DeliverOrderCommandHandler : IRequestHandler<DeliverOrderCommand, bool>
+    public class DeliverOrderCommandHandler : IRequestHandler<DeliverOrderCommand, (bool orderExists, bool orderDelivered)>
     {
         private readonly CateringDbContext _dbContext;
 
@@ -21,18 +21,21 @@ namespace CateringBackend.Users.Deliverer.Commands
             _dbContext = dbContext;
         }
 
-        public async Task<bool> Handle(DeliverOrderCommand request, CancellationToken cancellationToken)
+        public async Task<(bool orderExists, bool orderDelivered)> Handle(DeliverOrderCommand request, CancellationToken cancellationToken)
         {
             var order = await _dbContext.Orders
-                .FirstOrDefaultAsync(x => x.Id == request.OrderId && x.Status == Domain.Entities.Enums.OrderStatus.Prepared, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
 
             if (order == default)
-                return false;
+                return (false, false);
+
+            if (order.Status != Domain.Entities.Enums.OrderStatus.Prepared)
+                return (true, false);
 
             order.Status = Domain.Entities.Enums.OrderStatus.Delivered;
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return true;
+            return (true, true);
         }
     }
 }
