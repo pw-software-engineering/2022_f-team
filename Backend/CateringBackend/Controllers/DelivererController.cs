@@ -32,17 +32,19 @@ namespace CateringBackend.Controllers
         public async Task<IActionResult> GetOrders()
         {
             var result = await _mediator.Send(new GetDelivererOrdersQuery());
-            return result == default ? NotFound("Pobranie danych nie powiodło się") : Ok(result);
+            return result == default ? BadRequest("Pobranie danych nie powiodło się") : Ok(result);
         }
 
         [HttpPost("orders/{orderId}/deliver")]
         [Authorize(Roles = "deliverer")]
         public async Task<IActionResult> DeliverOrder([FromRoute] Guid orderId)
         {
-            var orderDelivered = await _mediator.Send(new DeliverOrderCommand() { OrderId = orderId});
-            if (!orderDelivered)
+            var (orderExists, orderDelivered) = await _mediator.Send(new DeliverOrderCommand() { OrderId = orderId});
+            if (!orderExists)
                 return NotFound("Podane zamówienie nie istnieje");
-            return CreatedAtAction(nameof(DeliverOrder), "Dostarczono zamówienie");
+            if (!orderDelivered)
+                return BadRequest("Niepowodzenia dostarczenia zamówienia");
+            return Ok("Powodzenie potwierdzenia dostawy");
         }
     }
 }

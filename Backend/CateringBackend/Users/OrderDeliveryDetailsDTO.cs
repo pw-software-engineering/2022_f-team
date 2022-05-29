@@ -14,8 +14,8 @@ namespace CateringBackend.Users
         public OrderDeliveryDetailsDTO(Order order)
         {
             OrderId = order.Id;
-            Address = new AddressDTO(order.Client.Address);
-            PhoneNumber = order.Client.PhoneNumber;
+            Address = new AddressDTO(order.Client?.Address);
+            PhoneNumber = order.Client?.PhoneNumber;
             CommentForDeliverer = order.CommentForDeliverer;
         }
     }
