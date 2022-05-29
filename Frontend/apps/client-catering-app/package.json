@@ -22,7 +22,8 @@
     "start": "set PORT=3003 && react-scripts start",
     "build": "set PORT=3003 && react-scripts build",
     "test": "set PORT=3003 && react-scripts test",
-    "eject": "set PORT=3003  && react-scripts eject"
+    "eject": "set PORT=3003  && react-scripts eject",
+    "start-production": "react-scripts start"
   },
   "browserslist": {
     "production": [

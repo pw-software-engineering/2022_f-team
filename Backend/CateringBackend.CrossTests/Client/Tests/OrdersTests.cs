@@ -121,19 +121,19 @@ namespace CateringBackend.CrossTests.Client.Tests
         //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         //}
 
-        //[Fact]
-        //public async Task SendComplain_InvalidOrderId_ReturnsNotFound()
-        //{
-        //    await ClientActions.CreateOrderAndReturnId(_httpClient);
+        [Fact]
+        public async Task SendComplain_InvalidOrderId_ReturnsNotFound()
+        {
+            await ClientActions.CreateOrderAndReturnId(_httpClient);
 
-        //    var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
-        //    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        //}
+            var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
 
         [Fact]
         public async Task PayOrder_ValidOrderId_ReturnsCreated()
         {
-            var orderIds = await ClientActions.CreateOrderAndReturnId(_httpClient);
+            var orderIds = await ClientActions.CreateOrderAndReturnId(_httpClient, "WaitingForPayment");
             var response = await ClientActions.PayOrder(_httpClient, orderIds.First());
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
