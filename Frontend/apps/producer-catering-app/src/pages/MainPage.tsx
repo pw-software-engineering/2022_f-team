@@ -138,105 +138,105 @@ const MainPage = () => {
     getElementsCount();
   };
 
-  const completeOrder=(orderId:string)=>{
-    completeService.execute!(postOrderCompleteConfig(userContext!.authApiKey,orderId))
+  const completeOrder = (orderId: string) => {
+    completeService.execute!(postOrderCompleteConfig(userContext!.authApiKey, orderId))
   }
 
   return (
     <div className="page-wrapper">
-        <div className="ordersFilterDiv">
-          <FormInputComponent
-            label={"Start date"}
-            type={"date"}
-            validationText={""}
-            validationFunc={(x: string) => true}
-            value={ordersQuery.StartDate}
-            onValueChange={(label: string, value: string) =>
-              setFields({ StartDate: value })
-            }
-          />
-          <FormInputComponent
-            label={"End date"}
-            type={"date"}
-            validationText={""}
-            validationFunc={() => true}
-            value={ordersQuery.EndDate}
-            onValueChange={(label: string, value: string) =>
-              setFields({ EndDate: value })
-            }
-          />
-          <div className="selectInOrder">
-            <label>Sort:</label>
-            <select
-              onChange={(e) => setFields({ Sort: e.target.value })}
-              value={ordersQuery.Sort}
-            >
-              <option value="startDate(asc)">startDate(asc)</option>
-              <option value="startDate(desc)">startDate(desc)</option>
-              <option value="endDate(asc)">endDate(asc)</option>
-              <option value="endDate(asc)">endDate(desc)</option>
-              <option value="orderId(asc)">orderId(asc)</option>
-              <option value="orderId(desc)">orderId(desc)</option>
-            </select>
-          </div>
-          <SubmitButton
-            text={"Search"}
-            validateForm={() => true}
-            action={(e: any) => {
-              resetAll();
-            }}
-            style={{
-              height: "auto",
-              padding: "1vh 2vw",
-              fontSize: "1.8vh",
-              color: "white",
-              fontWeight: "600",
-              marginBottom: "0.5vh",
-              marginTop: "3vh",
-              gridColumn: "1/3",
-            }}
-          />
-        </div>
-
-        {ordersQuery.Limit !== undefined &&
-          service.state == ServiceState.Fetched && (
-            <div>
-              {ordersList.map((order: OrderProducerModel) => (
-                <OrderProducerComponent
-                  order={order}
-                  handleOnClick={(e: any, value: string) =>
-                    completeOrder(value)}
-                />
-              ))}
-            </div>
-          )}
-        <Pagination
-          index={currentPageIndex}
-          pageCount={getPageCount()}
-          onPreviousClick={onPreviousPageClick}
-          onNextClick={onNextPageClick}
-          onNumberClick={onNumberPageClick}
+      <div className="ordersFilterDiv">
+        <FormInputComponent
+          label={"Start date"}
+          type={"date"}
+          validationText={""}
+          validationFunc={(x: string) => true}
+          value={ordersQuery.StartDate}
+          onValueChange={(label: string, value: string) =>
+            setFields({ StartDate: value })
+          }
         />
-        {(countService.state === ServiceState.InProgress ||
-          service.state === ServiceState.InProgress) && <LoadingComponent />}
-        {showError && service.state === ServiceState.Error && (
-          <ErrorToastComponent
-            message={service.error?.message!}
-            closeToast={setShowError}
-          />
+        <FormInputComponent
+          label={"End date"}
+          type={"date"}
+          validationText={""}
+          validationFunc={() => true}
+          value={ordersQuery.EndDate}
+          onValueChange={(label: string, value: string) =>
+            setFields({ EndDate: value })
+          }
+        />
+        <div className="selectInOrder">
+          <label>Sort:</label>
+          <select
+            onChange={(e) => setFields({ Sort: e.target.value })}
+            value={ordersQuery.Sort}
+          >
+            <option value="startDate(asc)">startDate(asc)</option>
+            <option value="startDate(desc)">startDate(desc)</option>
+            <option value="endDate(asc)">endDate(asc)</option>
+            <option value="endDate(asc)">endDate(desc)</option>
+            <option value="orderId(asc)">orderId(asc)</option>
+            <option value="orderId(desc)">orderId(desc)</option>
+          </select>
+        </div>
+        <SubmitButton
+          text={"Search"}
+          validateForm={() => true}
+          action={(e: any) => {
+            resetAll();
+          }}
+          style={{
+            height: "auto",
+            padding: "1vh 2vw",
+            fontSize: "1.8vh",
+            color: "white",
+            fontWeight: "600",
+            marginBottom: "0.5vh",
+            marginTop: "3vh",
+            gridColumn: "1/3",
+          }}
+        />
+      </div>
+
+      {ordersQuery.Limit !== undefined &&
+        service.state == ServiceState.Fetched && (
+          <div>
+            {ordersList.map((order: OrderProducerModel) => (
+              <OrderProducerComponent
+                order={order}
+                handleOnClick={(e: any, value: string) =>
+                  completeOrder(value)}
+              />
+            ))}
+          </div>
         )}
-        {showError && countService.state === ServiceState.Error && (
-          <ErrorToastComponent
-            message={countService.error?.message!}
-            closeToast={setShowError}
-          />
-        )}
-        {showError && completeService.state === ServiceState.Error && (
-          <ErrorToastComponent
-            message={completeService.error?.message!}
-            closeToast={setShowError}
-          />
-        )}
+      <Pagination
+        index={currentPageIndex}
+        pageCount={getPageCount()}
+        onPreviousClick={onPreviousPageClick}
+        onNextClick={onNextPageClick}
+        onNumberClick={onNumberPageClick}
+      />
+      {(countService.state === ServiceState.InProgress ||
+        service.state === ServiceState.InProgress) && <LoadingComponent />}
+      {showError && service.state === ServiceState.Error && (
+        <ErrorToastComponent
+          message={service.error?.message!}
+          closeToast={setShowError}
+        />
+      )}
+      {showError && countService.state === ServiceState.Error && (
+        <ErrorToastComponent
+          message={countService.error?.message!}
+          closeToast={setShowError}
+        />
+      )}
+      {showError && completeService.state === ServiceState.Error && (
+        <ErrorToastComponent
+          message={completeService.error?.message!}
+          closeToast={setShowError}
+        />
+      )}
     </div>
   );
 };

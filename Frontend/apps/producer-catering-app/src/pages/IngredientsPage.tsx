@@ -40,13 +40,6 @@ const IngredientsPage = (props: IngredientsPageProps) => {
 
     return (
         <div>
-            {showModal && diet != null && (
-                <EditDietDialog
-                    closeModal={setShowModal}
-                    userContext={userContext}
-                    onSubmit={onSubmitDiet}
-                    diet={diet} />
-            )}
             <IngredientsList onDietButtonClick={openDialog}
                 userContext={userContext}
                 dietButtonLabel={'Edit diet'} />
