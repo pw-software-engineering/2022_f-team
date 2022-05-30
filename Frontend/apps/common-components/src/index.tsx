@@ -51,6 +51,8 @@ export { default as DietList } from './Organisms/DietList'
 
 export { default as EditDietDialog } from './Organisms/EditDietDialog'
 
+export { default as IngredientsList } from './Organisms/IngredientsList'
+
 export { putDietDetailsConfig } from './Services/configCreator'
 
 export {

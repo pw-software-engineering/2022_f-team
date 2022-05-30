@@ -4,6 +4,7 @@ import {
     EditDietDialog,
     DietModel,
     ServiceState,
+    IngredientsList,
 } from "common-components";
 import { useContext, useEffect, useState } from "react";
 import "../style/DietComponentStyle.css";
@@ -46,7 +47,7 @@ const IngredientsPage = (props: IngredientsPageProps) => {
                     onSubmit={onSubmitDiet}
                     diet={diet} />
             )}
-            <DietList onDietButtonClick={openDialog}
+            <IngredientsList onDietButtonClick={openDialog}
                 userContext={userContext}
                 dietButtonLabel={'Edit diet'} />
         </div>
