@@ -40,9 +40,9 @@ const IngredientsPage = (props: IngredientsPageProps) => {
 
     return (
         <div>
-            <IngredientsList onDietButtonClick={openDialog}
+            <IngredientsList
                 userContext={userContext}
-                dietButtonLabel={'Edit diet'} />
+            />
         </div>
     );
 };
