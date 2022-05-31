@@ -1,28 +1,31 @@
 # docker build -f client.Dockerfile -t client-app .
-# docker run -itp 3000:3000 client-app
+# docker run -itp 3000:80 client-app
 
+# download base image
 FROM node:alpine as build
 
-WORKDIR /app
+# copy common-components and client-app
 COPY package.json ./
 COPY ./apps/common-components ./apps/common-components
 COPY ./apps/client-catering-app ./apps/client-catering-app
 
-WORKDIR /app
+# install in root dir
 RUN yarn install
 
-WORKDIR /app/apps/common-components
+# build cc
+WORKDIR /apps/common-components
 RUN yarn build
 
+# build client
+WORKDIR /apps/client-catering-app
+RUN yarn build
+
+# configure nginx
 FROM nginx:latest
-
-COPY --from=build ./apps/client-catering-app/build /usr/share/nginx/html
-
+WORKDIR /
+COPY --from=build /apps/client-catering-app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Expose port and start nginx
 EXPOSE 80
-
 CMD ["nginx", "-g", "daemon off;"]
-
-# WORKDIR /app/apps/client-catering-app
-# ENTRYPOINT yarn start
