@@ -29,9 +29,6 @@ const EditMealDialog = (props: EditMealProps) => {
         });
     };
 
-
-    console.log(props.meal);
-
     return (
         <Dialog title={`Edit meal “${props.meal.name}”`}
             onClose={() => closeModal()}
