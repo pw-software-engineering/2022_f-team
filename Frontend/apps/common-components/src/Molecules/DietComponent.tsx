@@ -29,8 +29,6 @@ const DietComponent = (props: DietComponentProps) => {
     setShowMeals(!showMeals)
   }
 
-  console.log(props.buttonLabel)
-
   const displayMealModal = (id: string) => {
     props.queryForMeal(id)
     setShowModal(true)

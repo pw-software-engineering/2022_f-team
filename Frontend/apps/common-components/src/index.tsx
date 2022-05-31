@@ -18,6 +18,7 @@ export { default as CartIcon } from './Atoms/CartIcon'
 export { default as MyProfileIcon } from './Atoms/MyProfileIcon'
 
 export { default as LogoutIcon } from './Atoms/LogoutIcon'
+export { default as IngredientIcon } from './Atoms/IngredientIcon'
 
 export { default as Logo } from './Atoms/Logo'
 
@@ -49,6 +50,8 @@ export { default as Select } from './Atoms/Select'
 export { default as DietList } from './Organisms/DietList'
 
 export { default as EditDietDialog } from './Organisms/EditDietDialog'
+
+export { default as IngredientsList } from './Organisms/IngredientsList'
 
 export { putDietDetailsConfig } from './Services/configCreator'
 
