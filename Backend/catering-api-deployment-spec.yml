@@ -62,4 +62,4 @@ spec:
           - backend:
               serviceName: catering-api
               servicePort: 80
-            path: /
+            path: /api

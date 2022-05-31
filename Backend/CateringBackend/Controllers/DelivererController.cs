@@ -9,7 +9,7 @@ using CateringBackend.Users.Deliverer.Commands;
 namespace CateringBackend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class DelivererController : ControllerBase
     {
         private readonly IMediator _mediator;

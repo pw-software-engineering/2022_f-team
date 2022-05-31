@@ -9,7 +9,7 @@ using CateringBackend.Diets.Queries;
 namespace CateringBackend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class DietsController : ControllerBase
     {
         private readonly IMediator _mediator;
