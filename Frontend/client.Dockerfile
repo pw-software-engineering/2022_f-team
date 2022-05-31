@@ -1,7 +1,7 @@
 # docker build -f client.Dockerfile -t client-app .
 # docker run -itp 3000:3000 client-app
 
-FROM node:alpine
+FROM node:alpine as build
 
 WORKDIR /app
 COPY package.json ./
@@ -14,7 +14,15 @@ RUN yarn install
 WORKDIR /app/apps/common-components
 RUN yarn build
 
-EXPOSE 3000
+FROM nginx:latest
 
-WORKDIR /app/apps/client-catering-app
-ENTRYPOINT yarn start-production
+COPY --from=build /usr/local/app/dist/frontend /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+# WORKDIR /app/apps/client-catering-app
+# ENTRYPOINT yarn start
