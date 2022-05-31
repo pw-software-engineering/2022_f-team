@@ -66,8 +66,6 @@ const IngredientsList = (props: IngredientsListProps) => {
             const { diets } = ordersList[i];
 
             for (var j = 0; j < diets.length; j++) {
-
-                console.log({ diet: diets[j] })
                 const { meals } = diets[j];
 
                 for (var k = 0; k < meals.length; k++) {
@@ -94,7 +92,6 @@ const IngredientsList = (props: IngredientsListProps) => {
             return b.count - a.count || a.name.localeCompare(b.name);
         });
 
-        console.log({ result });
         setTotalIngredientsList(result);
     }
 
