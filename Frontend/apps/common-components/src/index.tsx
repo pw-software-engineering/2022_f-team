@@ -61,9 +61,12 @@ export {
   OrderModel,
   OrderQuery,
   OrderProducerModel,
+  OrderDelivererModel,
   OrderProducerQuery
 } from './models/OrderModel'
 
 export { default as OrderComponent } from './Molecules/OrderComponent'
 
 export { default as OrderProducerComponent } from './Molecules/OrderProducerComponent'
+
+export { default as OrderDelivererComponent } from './Molecules/OrderDelivererComponent'

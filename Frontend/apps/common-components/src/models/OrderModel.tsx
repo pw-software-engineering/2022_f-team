@@ -1,4 +1,4 @@
-import { DeliveryDetailsModel } from './DeliveryDetailsModel'
+import { AddressModel, DeliveryDetailsModel } from './DeliveryDetailsModel'
 import { DietFullModel } from './DietModel'
 
 export interface OrderModel {
@@ -41,4 +41,11 @@ export interface OrderProducerModel {
   price: number
   status: string
   complaint: any
+}
+
+export interface OrderDelivererModel {
+  orderId: string
+  address: AddressModel
+  phoneNumber: number
+  commentForDeliverer: string
 }
