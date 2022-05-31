@@ -24,7 +24,10 @@ RUN yarn build
 FROM nginx:latest
 WORKDIR /
 COPY --from=build /apps/client-catering-app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# needed this to make React Router work properly 
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d
 
 # Expose port and start nginx
 EXPOSE 80
