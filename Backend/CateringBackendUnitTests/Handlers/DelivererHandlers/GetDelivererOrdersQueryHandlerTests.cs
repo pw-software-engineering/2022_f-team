@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -53,12 +52,17 @@ namespace CateringBackendUnitTests.Handlers.DelivererHandlers
         public async Task GivenGetDelivererOrdersQueryWithStatusToDeliver_WhenHandle_ThenReturnAllOrders()
         {
             // Arrange
+            var clientToAdd = new Client
+            {
+                Id = Guid.NewGuid()
+            };
             var ordersToAdd = new List<Order>
             {
-                new() { Status = CateringBackend.Domain.Entities.Enums.OrderStatus.Prepared, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1) },
-                new() { Status = CateringBackend.Domain.Entities.Enums.OrderStatus.Prepared, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1)  },
-                new() { Status = CateringBackend.Domain.Entities.Enums.OrderStatus.Prepared, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1)  },
+                new() { Status = CateringBackend.Domain.Entities.Enums.OrderStatus.Prepared, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), ClientId = clientToAdd.Id },
+                new() { Status = CateringBackend.Domain.Entities.Enums.OrderStatus.Prepared, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), ClientId = clientToAdd.Id  },
+                new() { Status = CateringBackend.Domain.Entities.Enums.OrderStatus.Prepared, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), ClientId = clientToAdd.Id  },
             };
+            _dbContext.Clients.Add(clientToAdd);
             _dbContext.Orders.AddRange(ordersToAdd);
             await _dbContext.SaveChangesAsync();
 

@@ -17,6 +17,7 @@ namespace CateringBackend.Users.Deliverer.Queries
         public Guid OrderId { get; set; }
         public DeliveryDetailsDTO DeliveryDetails { get; set; }
 
+        public DelivererOrdersQueryDTO() { }
         public DelivererOrdersQueryDTO(Order o)
         {
             OrderId = o.Id;
