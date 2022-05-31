@@ -107,6 +107,9 @@ const MainPage = () => {
 
   return (
     <div className="page-wrapper">
+      <div className="ordersFilterDiv">
+        <h1 style={{ textAlign: 'left' }}>Orders to deliver</h1>
+      </div>
       {service.state == ServiceState.Fetched && (
         <div>
           {pageOrdersList.map((order: OrderDelivererModel) => (
