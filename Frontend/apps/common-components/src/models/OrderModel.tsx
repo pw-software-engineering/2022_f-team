@@ -42,3 +42,8 @@ export interface OrderProducerModel {
   status: string
   complaint: any
 }
+
+export interface OrderDelivererModel {
+  orderId: string;
+  deliveryDetails: DeliveryDetailsModel;
+}
