@@ -12,15 +12,21 @@ const OrderDelivererComponent = (props: OrderDelivererComponentProps) => {
     <div className='orderComponentWrapper'>
       <h5>Order id: {props.order.orderId}</h5>
       <div className='ordersDeliveryDetails'>
-        <p>Phone: {props.order.phoneNumber}</p>
+        <p>Phone: {props.order.deliveryDetails.phoneNumber}</p>
         <p>
-          Address: {props.order.address.buildingNumber}
-          {props.order.address.apartmentNumber.length > 0 && (
-            <p>/{props.order.address.apartmentNumber}</p>
+          Address: {props.order.deliveryDetails.address.buildingNumber}
+          {props.order.deliveryDetails.address.apartmentNumber.length > 0 && (
+            <p>/{props.order.deliveryDetails.address.apartmentNumber}</p>
           )}{' '}
-          {props.order.address.street}
+          {props.order.deliveryDetails.address.street}
           {', '}
-          {props.order.address.city}
+          {props.order.deliveryDetails.address.city}
+        </p>
+        <br />
+        <p>Additional delivery information:</p>
+        <br />
+        <p>
+          {props.order.deliveryDetails.commentForDeliverer}
         </p>
       </div>
       <div className='orderPayButton'>
@@ -32,7 +38,7 @@ const OrderDelivererComponent = (props: OrderDelivererComponentProps) => {
           }}
         />
       </div>
-    </div>
+    </div >
   )
 }
 
