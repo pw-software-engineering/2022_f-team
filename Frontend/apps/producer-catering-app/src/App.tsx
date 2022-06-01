@@ -8,11 +8,13 @@ import {
   UserType,
   UserContext,
   LogoutIcon,
+  IngredientIcon,
 } from "common-components";
 import "./style/NavbarStyle.css";
 import { useContext } from "react";
 import { PrivateRoute } from "./Routes/PrivateRoute";
 import { PublicRoute } from "./Routes/PublicRoute";
+import IngredientsPage from "./pages/IngredientsPage";
 
 const Root = () => {
   const userContext = useContext(UserContext);
@@ -26,6 +28,9 @@ const Root = () => {
         <div>
           <Link to="#">
             <MyProfileIcon />
+          </Link>
+          <Link to="/ingredients">
+            <IngredientIcon />
           </Link>
           <button
             className="logoutButton"
@@ -42,6 +47,14 @@ const Root = () => {
           element={
             <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
               <MainPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/ingredients"
+          element={
+            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
+              <IngredientsPage />
             </PrivateRoute>
           }
         />
