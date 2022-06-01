@@ -15,6 +15,13 @@ namespace CateringBackend.CrossTests.Deliverer
         {
             var response = await Login(httpClient, isValid);
             var bearer = await response.Content.ReadAsStringAsync();
+
+            if (bearer.Contains("token"))
+            {
+                bearer = bearer.Substring(10);
+                bearer = bearer.Substring(0, bearer.Length - 2);
+            }
+
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
         }
 
