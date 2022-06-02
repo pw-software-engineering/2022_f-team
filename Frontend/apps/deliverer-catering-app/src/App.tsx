@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import {
+  MyProfileIcon,
   Logo,
   UserProvider,
   UserType,
@@ -22,12 +23,17 @@ const Root = () => {
         <Logo />
       </Link>
       {userContext?.isAuthenticated! && (
-        <button
-          className="logoutButton"
-          onClick={(e: any) => userContext?.logout()}
-        >
-          <LogoutIcon />
-        </button>
+        <div>
+          <Link to="#">
+            <MyProfileIcon />
+          </Link>
+          <button
+            className="logoutButton"
+            onClick={(e: any) => userContext?.logout()}
+          >
+            <LogoutIcon />
+          </button>
+        </div>
       )}
 
       <Routes>
@@ -54,7 +60,7 @@ const Root = () => {
 
 const App = () => {
   return (
-    <UserProvider userType={UserType.Deliverer}>
+    <UserProvider userType={UserType.Producer}>
       <Root />
     </UserProvider>
   );

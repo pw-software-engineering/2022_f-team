@@ -53,7 +53,7 @@ namespace CateringBackendUnitTests.Controllers.DelivererControllerTests
             // Arrange
             _mockedMediator
                 .Setup(x => x.Send(It.IsAny<GetDelivererOrdersQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((IEnumerable<OrderDeliveryDetailsDTO>)null);
+                .ReturnsAsync((IEnumerable<DelivererOrdersQueryDTO>)null);
 
             // Act
             var result = await _delivererController.GetOrders();
@@ -67,7 +67,7 @@ namespace CateringBackendUnitTests.Controllers.DelivererControllerTests
         public async void GivenMediatorResultWhichIsNotNull_WhenGetDelivererOrders_ThenReturnsOkResult()
         {
             // Arrange
-            var mockedOrdersDto = new List<OrderDeliveryDetailsDTO>() { new OrderDeliveryDetailsDTO() };
+            var mockedOrdersDto = new List<DelivererOrdersQueryDTO>() { new DelivererOrdersQueryDTO() };
 
             _mockedMediator
                 .Setup(x => x.Send(It.IsAny<GetDelivererOrdersQuery>(), It.IsAny<CancellationToken>()))
