@@ -43,7 +43,13 @@ namespace CateringBackend.CrossTests.Client
             var loginRequest = ClientRequestsProvider.PrepareLoginRequest(registerRequest, isValid);
             var response = await Login(httpClient, loginRequest);
 
-            await CommonActions.SetAuthToken(response, httpClient);
+            var bearer = await response.Content.ReadAsStringAsync();
+            if (bearer.Contains("token"))
+            {
+                bearer = bearer.Substring(10);
+                bearer = bearer.Substring(0, bearer.Length - 2);
+            }
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
             return registerRequest;
         }
 
