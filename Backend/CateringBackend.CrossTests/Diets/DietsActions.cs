@@ -4,6 +4,7 @@ using CateringBackend.CrossTests.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -11,14 +12,22 @@ using System.Threading.Tasks;
 
 namespace CateringBackend.CrossTests.Diets
 {
-    public static class DietsActions
+    public class DietsActions
     {
-        public static async Task<HttpResponseMessage> GetDiets(HttpClient httpClient)
+        private readonly ProducerActions ProducerActions;
+        private readonly MealsActions MealsActions;
+        public DietsActions()
+        {
+            ProducerActions = new ProducerActions();
+            MealsActions = new MealsActions();
+        }
+
+        public async Task<HttpResponseMessage> GetDiets(HttpClient httpClient)
         {
             return await httpClient.GetAsync(DietsUrls.GetDietsUrl());
         }
 
-        public static async Task<IEnumerable<Guid>> GetDietsIds(HttpClient httpClient)
+        public async Task<IEnumerable<Guid>> GetDietsIds(HttpClient httpClient)
         {
             var getResponse = await GetDiets(httpClient);
             var getContent = await getResponse.Content.ReadAsStringAsync();
@@ -26,47 +35,44 @@ namespace CateringBackend.CrossTests.Diets
             return diets.Select(x => x.Id).ToList();
         }
 
-        public static async Task<HttpResponseMessage> PostDietWithMeals(HttpClient httpClient, bool isValid = true)
+        public async Task<(HttpResponseMessage, string)> PostDietWithMeals(HttpClient httpClient, bool isValid = true)
         {
             await ProducerActions.Authorize(httpClient);
-            var mealIds = await MealsActions.PostAndGetMealIds(httpClient);
-            return await PostDiet(httpClient, mealIds.ToArray());
+            var mealId = await MealsActions.PostAndGetMealId(httpClient);
+            return await PostDiet(httpClient, new object[] { mealId });
         }
 
-        public static async Task<HttpResponseMessage> PostDiet(HttpClient httpClient, object[] mealIds, bool isValid = true)
+        public async Task<(HttpResponseMessage, string)> PostDiet(HttpClient httpClient, object[] mealIds, bool isValid = true)
         {
             var postRequest = DietsRequestsProvider.PreparePostDietRequest(mealIds, isValid);
             var body = JsonConvert.SerializeObject(postRequest).ToStringContent();
-            return await httpClient.PostAsync(DietsUrls.GetDietsUrl(), body);
+            return (await httpClient.PostAsync(DietsUrls.GetDietsUrl(), body), postRequest.Name);
         }
 
-        public static async Task<HttpResponseMessage> GetDiet(HttpClient httpClient, object dietId)
+        public async Task<HttpResponseMessage> GetDietById(HttpClient httpClient, object dietId)
         {
             return await httpClient.GetAsync(DietsUrls.GetDietUrl(dietId));
         }
 
-        public static async Task<HttpResponseMessage> PutDiet(HttpClient httpClient, bool isValid = true, bool addMeals = true)
+        public async Task<HttpResponseMessage> GetDietByName(HttpClient httpClient, string dietName)
         {
-            object[] mealIds = null;
-            if (addMeals)
-                mealIds = (await MealsActions.PostAndGetMealIds(httpClient)).ToArray();
-            var postRequest = DietsRequestsProvider.PreparePostDietRequest(mealIds, isValid);
-            var body = JsonConvert.SerializeObject(postRequest).ToStringContent();
-            var postResponse = await httpClient.PostAsync(DietsUrls.GetDietsUrl(), body);
-            var getResponse = await httpClient.GetAsync(DietsUrls.GetDietsUrl(postRequest.Name));
-            var getContent = await getResponse.Content.ReadAsStringAsync();
-            var diets = JsonConvert.DeserializeObject<IEnumerable<Diet>>(getContent);
-            var putRequest = DietsRequestsProvider.PreparePostDietRequest(new object[] { mealIds.First() });
-            var putBody = JsonConvert.SerializeObject(putRequest).ToStringContent();
-            var putResponse = await httpClient.PutAsync(DietsUrls.GetDietUrl(diets.First().Id), putBody);
-            return putResponse;
+            return await httpClient.GetAsync(DietsUrls.GetDietsUrl(dietName));
         }
 
-        public static async Task<HttpResponseMessage> DeleteDiet(HttpClient httpClient, object dietId)
+        public async Task<Guid> PostDietAndReturnId(HttpClient httpClient)
+        {
+            var (_, dietName) = await PostDietWithMeals(httpClient);
+            var getResponse = await GetDietByName(httpClient, dietName);
+
+            var getContent = await getResponse.Content.ReadAsStringAsync();
+            var diet = JsonConvert.DeserializeObject<IEnumerable<Diet>>(getContent).First();
+
+            return diet.Id;
+        }
+
+        public async Task<HttpResponseMessage> DeleteDiet(HttpClient httpClient, object dietId)
         {
             return await httpClient.DeleteAsync(DietsUrls.GetDietUrl(dietId));
         }
-
-
     }
 }

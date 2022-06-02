@@ -16,7 +16,7 @@ namespace CateringBackend.CrossTests.Utilities
             var configurationBuilder = new ConfigurationBuilder();
             
             var config = configurationBuilder.AddJsonFile("appsettings.crossTeamTests.json")
-                .AddEnvironmentVariables()
+                //.AddEnvironmentVariables()
                 .Build();
 
             return config["CateringUrl"];

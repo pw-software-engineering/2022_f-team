@@ -12,10 +12,12 @@ namespace CateringBackend.CrossTests.Deliverer.Tests
     public class LoginTests
     {
         private readonly HttpClient _httpClient;
+        private readonly DelivererActions DelivererActions;
 
         public LoginTests()
         {
             _httpClient = new HttpClient();
+            DelivererActions = new DelivererActions();
         }
 
         [Fact]

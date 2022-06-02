@@ -18,24 +18,37 @@ namespace CateringBackend.CrossTests.Meals.Tests
     public class PutMealTests
     {
         private readonly HttpClient _httpClient;
+        private readonly ClientActions ClientActions;
+        private readonly DelivererActions DelivererActions;
+        private readonly MealsActions MealsActions;
+        private readonly ProducerActions ProducerActions;  
 
         public PutMealTests()
         {
             _httpClient = new HttpClient();
+            ClientActions = new ClientActions();
+            MealsActions = new MealsActions();
+            DelivererActions = new DelivererActions();
+            ProducerActions = new ProducerActions();
         }
 
         [Fact]
         public async Task PutMeal_NotLoggedIn_ReturnsUnauthorized()
         {
-            var response = await MealsActions.PutMeal(_httpClient);
+            var mealId = await MealsActions.PostAndGetMealId(_httpClient);
+
+            _httpClient.RemoveAuthorization();
+            var (response, _) = await MealsActions.PutMeal(_httpClient, mealId);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [Fact]
         public async Task PutMeal_DelivererLoggedIn_ReturnsForbidden()
         {
+            var mealId = await MealsActions.PostAndGetMealId(_httpClient);
+
             await DelivererActions.Authorize(_httpClient);
-            var response = await MealsActions.PutMeal(_httpClient);
+            var (response, _) = await MealsActions.PutMeal(_httpClient, mealId);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -43,29 +56,40 @@ namespace CateringBackend.CrossTests.Meals.Tests
         public async Task PutMeal_ProducerLoggedIn_ReturnsOk()
         {
             await ProducerActions.Authorize(_httpClient);
-            var response = await MealsActions.PutMeal(_httpClient);
+            var (_, meal) = await MealsActions.PostMeal(_httpClient);
+
+            var getResponse = await MealsActions.GetMealByName(_httpClient, meal.Name);
+            var getContent = await getResponse.Content.ReadAsStringAsync();
+            var mealDb = JsonConvert.DeserializeObject<IEnumerable<Meal>>(getContent).First();
+
+            var (response, newMeal) = await MealsActions.PutMeal(_httpClient, new Guid(mealDb.MealId));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            getResponse = await MealsActions.GetMealByName(_httpClient, newMeal.Name);
+            getContent = await getResponse.Content.ReadAsStringAsync();
+            mealDb = JsonConvert.DeserializeObject<IEnumerable<Meal>>(getContent).First();
+
+            newMeal.ToExpectedObject().Matches(mealDb);
+            meal.ToExpectedObject().DoesNotMatch(mealDb);
         }
 
         [Fact]
         public async Task PutMeal_ClientLoggedIn_ReturnsForbidden()
         {
+            var mealId = await MealsActions.PostAndGetMealId(_httpClient);
+
             await ClientActions.RegisterAndLogin(_httpClient);
-            var response = await MealsActions.PutMeal(_httpClient);
+            var (response, _) = await MealsActions.PutMeal(_httpClient, mealId);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
         [Fact]
         public async Task PutMeal_InvalidId_ReturnsNotFound()
         {
-            await ProducerActions.Authorize(_httpClient);
-            var putRequest = MealsRequestsProvider.PrepareMeals(1).First();
-            putRequest.MealId = (string)new Guid().ToString();
-            var putBody = JsonConvert.SerializeObject(putRequest).ToStringContent();
-            var response = await _httpClient.PutAsync(MealsUrls.GetMealUrl(new Guid().ToString()), putBody);
+            var mealId = await MealsActions.PostAndGetMealId(_httpClient);
+
+            var (response, _) = await MealsActions.PutMeal(_httpClient, new Guid());
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
-
-        
     }
 }

@@ -9,16 +9,15 @@ using System.Threading.Tasks;
 
 namespace CateringBackend.CrossTests.Deliverer
 {
-    public static class DelivererActions
+    public class DelivererActions
     {
-        public static async Task Authorize(HttpClient httpClient, bool isValid = true)
+        public  async Task Authorize(HttpClient httpClient, bool isValid = true)
         {
             var response = await Login(httpClient, isValid);
-            var bearer = await response.Content.ReadAsStringAsync();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
+            await CommonActions.SetAuthToken(response, httpClient);
         }
 
-        public static async Task<HttpResponseMessage> Login(HttpClient httpClient, bool isValid = true)
+        public async Task<HttpResponseMessage> Login(HttpClient httpClient, bool isValid = true)
         {
             var loginRequest = DelivererRequestsProvider.PrepareLoginRequest(isValid);
             var body = JsonConvert.SerializeObject(loginRequest).ToStringContent();

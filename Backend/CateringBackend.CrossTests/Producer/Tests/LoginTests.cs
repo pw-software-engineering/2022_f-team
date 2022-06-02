@@ -12,10 +12,13 @@ namespace CateringBackend.CrossTests.Producer.Tests
     public class LoginTests
     {
         private readonly HttpClient _httpClient;
+        private readonly ProducerActions ProducerActions;
 
         public LoginTests()
         {
             _httpClient = new HttpClient();
+            ProducerActions = new ProducerActions();
+
         }
 
         [Fact]

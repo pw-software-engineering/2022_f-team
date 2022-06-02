@@ -13,87 +13,83 @@ using System.Threading.Tasks;
 
 namespace CateringBackend.CrossTests.Client
 {
-    public static class ClientActions
+    public class ClientActions
     {
-        public static async Task<HttpResponseMessage> Register(HttpClient httpClient, RegisterRequest registerRequest)
+        private readonly DietsActions DietsActions;
+        private readonly ProducerActions ProducerActions;
+        public ClientActions()
+        {
+            ProducerActions = new ProducerActions();
+            DietsActions = new DietsActions();
+        }
+
+        public async Task<HttpResponseMessage> Register(HttpClient httpClient, RegisterRequest registerRequest)
         {
             var body = JsonConvert.SerializeObject(registerRequest).ToStringContent();
             return await httpClient.PostAsync(ClientUrls.GetRegisterUrl(), body);
         }
 
-        public static async Task<HttpResponseMessage> Login(HttpClient httpClient, LoginRequest request)
+        public async Task<HttpResponseMessage> Login(HttpClient httpClient, LoginRequest request)
         {
             var body = JsonConvert.SerializeObject(request).ToStringContent();
             return await httpClient.PostAsync(ClientUrls.GetLoginUrl(), body);
         }
 
-        public static async Task<RegisterRequest> RegisterAndLogin(HttpClient httpClient, bool isValid = true)
+        public async Task<RegisterRequest> RegisterAndLogin(HttpClient httpClient, bool isValid = true)
         {
             var registerRequest = ClientRequestsProvider.PrepareRegisterRequest();
             await Register(httpClient, registerRequest);
+
             var loginRequest = ClientRequestsProvider.PrepareLoginRequest(registerRequest, isValid);
             var response = await Login(httpClient, loginRequest);
-            var bearer = await response.Content.ReadAsStringAsync();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
+
+            await CommonActions.SetAuthToken(response, httpClient);
             return registerRequest;
         }
 
-        public static async Task<HttpResponseMessage> GetOrders(HttpClient httpClient, bool authorize = true, string status = null)
+        public async Task<HttpResponseMessage> GetOrders(HttpClient httpClient)
         {
-            if (authorize)
-                await RegisterAndLogin(httpClient);
-            return await httpClient.GetAsync(ClientUrls.GetOrdersUrl(status));
+            return await httpClient.GetAsync(ClientUrls.GetOrdersUrl());
         }
 
-        public static async Task<HttpResponseMessage> CreateOrders(HttpClient httpClient, bool isValid = true)
+        public async Task<(HttpResponseMessage, Guid[] dietIds)> CreateOrder(HttpClient httpClient, bool isValid = true)
         {
-            await ProducerActions.Authorize(httpClient);
-            var meals = await MealsActions.PostAndGetMealIds(httpClient);
-            var diets = await DietsActions.PostDiet(httpClient, meals.ToArray());
-            var dietIds = await DietsActions.GetDietsIds(httpClient);
-            var request = ClientRequestsProvider.PrepareOrdersRequest(dietIds.ToArray(), isValid);
+            var dietId = await DietsActions.PostDietAndReturnId(httpClient);
+
+            var request = ClientRequestsProvider.PrepareOrdersRequest(new Guid[] { dietId }, isValid);
             var body = JsonConvert.SerializeObject(request).ToStringContent();
             await RegisterAndLogin(httpClient);
-            return await httpClient.PostAsync(ClientUrls.GetOrdersUrl(), body);
+            return (await httpClient.PostAsync(ClientUrls.GetOrdersUrl(), body), new Guid[] { dietId });
         }
 
-        public static async Task<IEnumerable<Guid>> CreateOrderAndReturnId(HttpClient httpClient, string status = null)
+        public async Task<Guid> CreateOrderAndReturnId(HttpClient httpClient)
         {
-            var postResponse = await CreateOrders(httpClient);
-            var ordersResponse = await GetOrders(httpClient, false, status);
+            await ProducerActions.Authorize(httpClient);
+
+            var (postResponse, dietIds) = await CreateOrder(httpClient);
+            var ordersResponse = await GetOrders(httpClient);
             var ordersContent = await ordersResponse.Content.ReadAsStringAsync();
             var orderIds = JsonConvert.DeserializeObject<IEnumerable<Order>>(ordersContent);
-            return orderIds.Select(x => x.Id);
+            return orderIds.SingleOrDefault(x => x.Diets.Select(x => x.DietId).SequenceEqual(dietIds)).Id;
         }
 
-        public static async Task<HttpResponseMessage> SendComplain(HttpClient httpClient, object orderId)
+        public async Task<HttpResponseMessage> SendComplain(HttpClient httpClient, object orderId)
         {
             var request = ClientRequestsProvider.PrepareComplainRequest();
             var body = JsonConvert.SerializeObject(request).ToStringContent();
             return await httpClient.PostAsync(ClientUrls.GetOrdersComplainUrl(orderId), body);
         }
 
-        public static async Task<HttpResponseMessage> PayOrder(HttpClient httpClient, object orderId)
+        public async Task<HttpResponseMessage> PayOrder(HttpClient httpClient, object orderId)
         {
             return await httpClient.PostAsync(ClientUrls.GetOrdersPayUrl(orderId), null);
         }
 
-        public static async Task<Guid> CreatePaidOrder(HttpClient httpClient)
+        public async Task<Guid> CreatePaidOrder(HttpClient httpClient)
         {
-            await ProducerActions.Authorize(httpClient);
-            var meals = await MealsActions.PostAndGetMealIds(httpClient);
-            var diets = await DietsActions.PostDiet(httpClient, meals.ToArray());
-            var dietIds = await DietsActions.GetDietsIds(httpClient);
-            var request = ClientRequestsProvider.PrepareOrdersRequest(dietIds.ToArray());
-            var body = JsonConvert.SerializeObject(request).ToStringContent();
-            await RegisterAndLogin(httpClient);
-            await httpClient.PostAsync(ClientUrls.GetOrdersUrl(), body);
-            var ordersResponse = await httpClient.GetAsync(ClientUrls.GetOrdersUrl());
-            var ordersContent = await ordersResponse.Content.ReadAsStringAsync();
-            var orders = JsonConvert.DeserializeObject<IEnumerable<Order>>(ordersContent);
-            var order = orders.FirstOrDefault(x => x.Diets.Select(x => x.DietId).Intersect(dietIds).Count() == dietIds.Count());
-            var payResponse = await PayOrder(httpClient, order.Id);
-            return order.Id;
+            var orderId = await CreateOrderAndReturnId(httpClient);
+            await PayOrder(httpClient, orderId);
+            return orderId;
         }
     }
 }
