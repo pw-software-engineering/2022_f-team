@@ -10,7 +10,7 @@ services:
   backend:
     depends_on:
       - sql
-    image: powoeuwcrossteamacr.azurecr.io/f_catering-api:1.0
+    image: powoeuwcrossteamacr.azurecr.io/f_catering-api:106
     ports:
       - "5012:80"
     environment:
