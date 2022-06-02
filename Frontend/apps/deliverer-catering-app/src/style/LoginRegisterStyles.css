@@ -5,11 +5,17 @@
     font-family: 'Lato';
 }
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 .page-wrapper{
     background-color: #eff8f8;
     min-height: 100vh;
     min-width: 100vw;
     padding-top: 10vh;
+    padding-bottom: 10vh;
     box-sizing: border-box;
     -webkit-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
     -moz-box-shadow: inset 0px 0px 49px -13px rgba(146, 146, 146, 1);
@@ -18,7 +24,6 @@
 
 form{
     border: solid 3px #539091;
-    border-radius: 5px;
     border-radius: 15px;
     width: 50%;
     background-color: white;
@@ -36,7 +41,6 @@ form button{
     padding: 1vh 2vw;
     font-size: 2.5vh;
     border: solid 3px #539091;
-    border-radius: 5px;
     border-radius: 15px;
     background-color: #539091;
     color: white;
@@ -70,33 +74,63 @@ form .address-div h3{
     background-color: white;
     width:min-content;
 } 
+
 .address-input-wrapper{
     display: inline-block;
     width: 18vw;
     padding-right: 1vw;
 }
+
 .address-input-wrapper label{
     width: 7vw;
     grid-column: 1;
 }
+
 .requiredInput{
     color:red;
     display: inline;
 }
+
 .formInputWrapper{
     display: grid;
     padding: 1vh 0;
     grid-template-columns: 1fr,1fr;
 }
+
 .normal-input-wrapper label{
     grid-column: 1;
     width: 20vw;
 }
+
 .formInputWrapper input{
     grid-column: 2;
 }
+
 .validationMessage{
     color: red;
     font-size: 1.3vh;
     margin-bottom: -1.6vh;
+}
+
+.afterRegisterDiv{
+    margin: 10vh auto;
+    width: 40%;
+    text-align: center;
+}
+
+.afterRegisterDiv p{
+    font-size: 1.8vw;
+    letter-spacing: 0.1vw;
+}
+
+.afterRegisterDiv button{
+    padding: 1vh 2vw;
+    font-size: 2.5vh;
+    border: solid 3px #539091;
+    border-radius: 15px;
+    background-color: #539091;
+    color: white;
+    font-weight: 600;
+    margin-top: 2vh;
+    cursor: pointer;
 }

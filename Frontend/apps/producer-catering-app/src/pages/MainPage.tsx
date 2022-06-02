@@ -1,6 +1,8 @@
 import "../style/Pagination.css";
 import "../style/NavbarStyle.css";
 import "../style/MyOrdersStyles.css";
+import "../style/DietComponentStyle.css";
+import "../style/Filter.css";
 import { APIservice } from "../Services/APIservice";
 import { useContext, useEffect, useState } from "react";
 import {
