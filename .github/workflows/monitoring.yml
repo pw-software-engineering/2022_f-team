@@ -5,6 +5,8 @@ on:
 
 env:
   NAMESPACE: "f"
+  CATERING_API_POD_NAME: "catering-api-5c85cbb6c9-vszbt"
+  CLIENT_APP_POD_NAME: "catering-client-app-7bcd87dbc5-7xrhw"
 
 jobs:
   monitor:
@@ -33,6 +35,8 @@ jobs:
       - name: Get all svcs
         run: kubectl get svc -A
       - name: describe api
-        run: kubectl logs catering-api-5c85cbb6c9-vszbt -n ${NAMESPACE}
+        run: kubectl logs ${CATERING_API_POD_NAME} -n ${NAMESPACE}
+      - name: list env variables for API
+        run: docker exec ${CATERING_API_POD_NAME} env
       - name: describe app
-        run: kubectl logs catering-client-app-7bcd87dbc5-7xrhw -n ${NAMESPACE}
+        run: kubectl logs ${CLIENT_APP_POD_NAME} -n ${NAMESPACE}
