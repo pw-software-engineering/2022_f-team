@@ -32,3 +32,7 @@ jobs:
         run: kubectl get ingress -A
       - name: Get all svcs
         run: kubectl get svc -A
+      - name: describe api
+        run: kubectl logs catering-api-c86cdf87b-zxw9w -n ${NAMESPACE}
+      - name: describe app
+        run: kubectl logs catering-client-app-7bcd87dbc5-7xrhw -n ${NAMESPACE}
