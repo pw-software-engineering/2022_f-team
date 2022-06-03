@@ -37,6 +37,6 @@ jobs:
       - name: describe api
         run: kubectl logs ${CATERING_API_POD_NAME} -n ${NAMESPACE}
       - name: list env variables for API
-        run: docker exec ${CATERING_API_POD_NAME} env
+        run: docker exec catering-api env
       - name: describe app
         run: kubectl logs ${CLIENT_APP_POD_NAME} -n ${NAMESPACE}
