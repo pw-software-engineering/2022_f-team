@@ -8,11 +8,14 @@ import {
   UserType,
   UserContext,
   LogoutIcon,
+  IngredientIcon,
 } from "common-components";
 import "./style/NavbarStyle.css";
 import { useContext } from "react";
 import { PrivateRoute } from "./Routes/PrivateRoute";
 import { PublicRoute } from "./Routes/PublicRoute";
+import ProducerDietsList from "./pages/DietsList";
+import IngredientsPage from "./pages/IngredientsPage";
 
 const Root = () => {
   const userContext = useContext(UserContext);
@@ -24,8 +27,11 @@ const Root = () => {
       </Link>
       {userContext?.isAuthenticated! && (
         <div>
-          <Link to="#">
+          <Link to="/diets">
             <MyProfileIcon />
+          </Link>
+          <Link to="/ingredients">
+            <IngredientIcon />
           </Link>
           <button
             className="logoutButton"
@@ -42,6 +48,22 @@ const Root = () => {
           element={
             <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
               <MainPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/diets"
+          element={
+            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
+              <ProducerDietsList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/ingredients"
+          element={
+            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
+              <IngredientsPage />
             </PrivateRoute>
           }
         />

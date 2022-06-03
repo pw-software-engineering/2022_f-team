@@ -15,3 +15,8 @@ export const putDietDetailsURL = (dietId: string): string =>
 
 export const putMealDetailsURL = (mealId: string): string =>
   apiUrl + "/Meals/" + mealId;
+
+export const getProducerOrdersURL = (): string => apiUrl + "/Producer/orders";
+
+export const postCompleteOrderURL = (orderId: string) =>
+  apiUrl + "/Producer/orders/" + orderId + "/complete";

@@ -18,6 +18,7 @@ export { default as CartIcon } from './Atoms/CartIcon'
 export { default as MyProfileIcon } from './Atoms/MyProfileIcon'
 
 export { default as LogoutIcon } from './Atoms/LogoutIcon'
+export { default as IngredientIcon } from './Atoms/IngredientIcon'
 
 export { default as Logo } from './Atoms/Logo'
 
@@ -50,6 +51,8 @@ export { default as DietList } from './Organisms/DietList'
 
 export { default as EditDietDialog } from './Organisms/EditDietDialog'
 
+export { default as IngredientsList } from './Organisms/IngredientsList'
+
 export { putDietDetailsConfig } from './Services/configCreator'
 
 export {
@@ -57,7 +60,16 @@ export {
   AddressModel
 } from './models/DeliveryDetailsModel'
 
-export { OrderModel, OrderQuery } from './models/OrderModel'
+export {
+  OrderModel,
+  OrderQuery,
+  OrderProducerModel,
+  OrderDelivererModel,
+  OrderProducerQuery
+} from './models/OrderModel'
 
 export { default as OrderComponent } from './Molecules/OrderComponent'
 
+export { default as OrderProducerComponent } from './Molecules/OrderProducerComponent'
+
+export { default as OrderDelivererComponent } from './Molecules/OrderDelivererComponent'

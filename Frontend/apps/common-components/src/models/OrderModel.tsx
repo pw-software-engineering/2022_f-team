@@ -23,3 +23,27 @@ export interface OrderQuery {
   Sort: string
   Status: number | undefined
 }
+
+export interface OrderProducerQuery {
+  StartDate: string | undefined
+  EndDate: string | undefined
+  Offset: number
+  Limit: number | undefined
+  Sort: string
+}
+
+export interface OrderProducerModel {
+  id: string
+  diets: DietFullModel[]
+  deliveryDetails: DeliveryDetailsModel
+  startDate: string
+  endDate: string
+  price: number
+  status: string
+  complaint: any
+}
+
+export interface OrderDelivererModel {
+  orderId: string;
+  deliveryDetails: DeliveryDetailsModel;
+}

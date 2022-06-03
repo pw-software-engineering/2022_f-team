@@ -6,7 +6,9 @@ import {
   getLoginClientURL,
   getMealDetailsURL,
   getMealsURL,
+  getProducerOrdersURL,
   getRegisterClientURL,
+  postCompleteOrderURL,
   putDietDetailsURL,
   putMealDetailsURL,
 } from "./URLcreator";
@@ -72,4 +74,19 @@ export const putClientProfileDataConfig = (key: string) =>
   method: "put",
   header: { Authorization: "Bearer " + key },
   url: getClientProfileURL(),
+} as ApiConfig);
+
+export const getProducerOrdersConfig = (key: string, parameters: string) =>
+({
+  method: "get",
+  header: { Authorization: "Bearer " + key },
+  url:
+    getProducerOrdersURL() + (parameters.length > 0 ? "?" + parameters : ""),
+} as ApiConfig);
+
+export const postOrderCompleteConfig = (key: string, orderId: string) =>
+({
+  method: "post",
+  header: { Authorization: "Bearer " + key },
+  url: postCompleteOrderURL(orderId),
 } as ApiConfig);
