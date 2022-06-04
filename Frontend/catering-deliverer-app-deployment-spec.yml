@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catering-deliverer-app
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catering-deliverer-app
+  template:
+    metadata:
+      labels:
+        app: catering-deliverer-app
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+        - name: catering-deliverer-app
+          image: ${IMAGE_ID}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catering-deliverer-app
+  namespace: ${NAMESPACE}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector:
+    app: catering-deliverer-app
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: catering-deliverer-app
+  namespace: ${NAMESPACE}
+  labels:
+    name: catering-deliverer-app
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+    - host: deliverer-${NAMESPACE}.${DOMAIN}
+      http:
+        paths:
+          - backend:
+              serviceName: catering-deliverer-app
+              servicePort: 80
+            path: /
