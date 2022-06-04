@@ -10,7 +10,7 @@ using System;
 namespace CateringBackend.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("[controller]")]
     public class ClientController : ControllerBase
     {
         private readonly IMediator _mediator;

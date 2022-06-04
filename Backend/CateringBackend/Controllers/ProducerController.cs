@@ -9,7 +9,7 @@ using CateringBackend.Users.Producer.Commands;
 namespace CateringBackend.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("[controller]")]
     public class ProducerController : ControllerBase
     {
         private readonly IMediator _mediator;
