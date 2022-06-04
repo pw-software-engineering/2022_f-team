@@ -7,6 +7,5 @@ namespace CateringBackend.CrossTests.Diets
     public class Diet
     {
         public Guid Id { get; set; }
-
     }
 }

@@ -10,23 +10,28 @@ using System.Threading.Tasks;
 
 namespace CateringBackend.CrossTests.Producer
 {
-    public static class ProducerActions
+    public class ProducerActions
     {
-        public static async Task Authorize(HttpClient httpClient, bool isValid = true)
+        public  async Task Authorize(HttpClient httpClient, bool isValid = true)
         {
             var response = await Login(httpClient, isValid);
             var bearer = await response.Content.ReadAsStringAsync();
+            if (bearer.Contains("token"))
+            {
+                bearer = bearer.Substring(10);
+                bearer = bearer.Substring(0, bearer.Length - 2);
+            }
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
         }
 
-        public static async Task<HttpResponseMessage> Login(HttpClient httpClient, bool isValid = true)
+        public async Task<HttpResponseMessage> Login(HttpClient httpClient, bool isValid = true)
         {
             var loginRequest = ProducerRequestsProvider.PrepareLoginRequest(isValid);
             var body = JsonConvert.SerializeObject(loginRequest).ToStringContent();
             return await httpClient.PostAsync(ProducerUrls.GetLoginUrl(), body);
         }
 
-        public static async Task<IEnumerable<Guid>> GetComplaintIds(HttpClient httpClient)
+        public async Task<IEnumerable<Guid>> GetComplaintIds(HttpClient httpClient)
         {
             var response = await httpClient.GetAsync(ProducerUrls.GetComplaintsUrl());
             var content = await response.Content.ReadAsStringAsync();

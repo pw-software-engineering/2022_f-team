@@ -7,10 +7,12 @@ namespace CateringBackend.CrossTests.Client.Tests
     public class LoginTests
     {
         private readonly HttpClient _httpClient;
+        private readonly ClientActions ClientActions;
 
         public LoginTests()
         {
             _httpClient = new HttpClient();
+            ClientActions = new ClientActions();
         }
 
         [Fact]

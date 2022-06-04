@@ -16,16 +16,24 @@ namespace CateringBackend.CrossTests.Diets.Tests
     public class GetDietTests
     {
         private readonly HttpClient _httpClient;
+        private readonly ClientActions ClientActions;
+        private readonly DietsActions DietsActions;
+        private readonly ProducerActions ProducerActions;
+        private readonly DelivererActions DelivererActions;
 
         public GetDietTests()
         {
             _httpClient = new HttpClient();
+            DietsActions = new DietsActions();
+            ClientActions = new ClientActions();
+            ProducerActions = new ProducerActions();
+            DelivererActions = new DelivererActions();
         }
 
         [Fact]
         public async Task GetDiet_NotLoggedIn_ReturnsUnauthorized()
         {
-            var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
+            var response = await DietsActions.GetDietById(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -33,7 +41,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         public async Task GetDiet_DelivererLoggedIn_ReturnsForbidden()
         {
             await DelivererActions.Authorize(_httpClient);
-            var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
+            var response = await DietsActions.GetDietById(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -41,27 +49,25 @@ namespace CateringBackend.CrossTests.Diets.Tests
         public async Task GetDiet_InvalidId_ReturnsNotFound()
         {
             await ProducerActions.Authorize(_httpClient);
-            var response = await DietsActions.GetDiet(_httpClient, new Guid().ToString());
+            var response = await DietsActions.GetDietById(_httpClient, new Guid().ToString());
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
         public async Task GetDiet_ProducerLoggedIn_ReturnsOk()
         {
-            await ProducerActions.Authorize(_httpClient);
-            var diet = await DietsActions.PostDietWithMeals(_httpClient);
-            var dietIds = await DietsActions.GetDietsIds(_httpClient);
-            var response = await DietsActions.GetDiet(_httpClient, dietIds.First());
+            var dietId = await DietsActions.PostDietAndReturnId(_httpClient);
+            var response = await DietsActions.GetDietById(_httpClient, dietId);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
         public async Task GetDiet_ClientLoggedIn_ReturnsOk()
         {
+            var dietId = await DietsActions.PostDietAndReturnId(_httpClient);
+
             await ClientActions.RegisterAndLogin(_httpClient);
-            var diet = await DietsActions.PostDietWithMeals(_httpClient);
-            var dietIds = await DietsActions.GetDietsIds(_httpClient);
-            var response = await DietsActions.GetDiet(_httpClient, dietIds.First());
+            var response = await DietsActions.GetDietById(_httpClient, dietId);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }

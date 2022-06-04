@@ -17,15 +17,22 @@ namespace CateringBackend.CrossTests.Client.Tests
     public class OrdersTests
     {
         private readonly HttpClient _httpClient;
+        private readonly ClientActions ClientActions;
+        private readonly ProducerActions ProducerActions;
+        private readonly DelivererActions DelivererActions;
 
         public OrdersTests()
         {
             _httpClient = new HttpClient();
+            ClientActions = new ClientActions();
+            ProducerActions = new ProducerActions();
+            DelivererActions = new DelivererActions();
         }
 
         [Fact]
         public async Task GetOrders_IsLoggedIn_ReturnsOK()
         {
+            await ClientActions.RegisterAndLogin(_httpClient);
             var getResponse = await ClientActions.GetOrders(_httpClient);
             Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
             var orders = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getResponse.Content.ReadAsStringAsync().Result);
@@ -35,7 +42,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         [Fact]
         public async Task GetOrders_NotLoggedIn_ReturnsUnauthorized()
         {
-            var getResponse = await ClientActions.GetOrders(_httpClient, false);
+            var getResponse = await ClientActions.GetOrders(_httpClient);
             Assert.Equal(HttpStatusCode.Unauthorized, getResponse.StatusCode);
         }
 
@@ -43,7 +50,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         public async Task GetOrders_ProducerLoggedIn_ReturnsForbidden()
         {
             await ProducerActions.Authorize(_httpClient);
-            var getResponse = await ClientActions.GetOrders(_httpClient, false);
+            var getResponse = await ClientActions.GetOrders(_httpClient);
             Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
         }
 
@@ -51,19 +58,19 @@ namespace CateringBackend.CrossTests.Client.Tests
         public async Task GetOrders_DelivererLoggedIn_ReturnsForbidden()
         {
             await DelivererActions.Authorize(_httpClient);
-            var getResponse = await ClientActions.GetOrders(_httpClient, false);
+            var getResponse = await ClientActions.GetOrders(_httpClient);
             Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
         }
 
         [Fact]
         public async Task SendOrders_ProvidedCompleteData_ReturnsOK()
         {
-            var postResponse = await ClientActions.CreateOrders(_httpClient);
+            var (postResponse, dietIds) = await ClientActions.CreateOrder(_httpClient);
             Assert.Equal(HttpStatusCode.Created, postResponse.StatusCode);
 
-            var getResponse = await ClientActions.GetOrders(_httpClient, false);
-            var orders = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getResponse.Content.ReadAsStringAsync().Result);
-            Assert.NotEmpty(orders);
+            var getResponse = await ClientActions.GetOrders(_httpClient);
+            var orders = JsonConvert.DeserializeObject<IEnumerable<Order>>(getResponse.Content.ReadAsStringAsync().Result);
+            Assert.NotEmpty(orders.Where(x => x.Diets.Select(x => x.DietId).SequenceEqual(dietIds)));
         }
 
         [Fact]
@@ -92,9 +99,9 @@ namespace CateringBackend.CrossTests.Client.Tests
         //[Fact]
         //public async Task SendComplain_CorrectData_ReturnsCreated()
         //{
-        //    var orderIds = await ClientActions.CreateOrderAndReturnId(_httpClient);
+        //    var orderId = await ClientActions.CreateOrderAndReturnId(_httpClient);
 
-        //    var response = await ClientActions.SendComplain(_httpClient, orderIds.First());
+        //    var response = await ClientActions.SendComplain(_httpClient, orderId);
         //    Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         //}
 
@@ -133,9 +140,14 @@ namespace CateringBackend.CrossTests.Client.Tests
         [Fact]
         public async Task PayOrder_ValidOrderId_ReturnsCreated()
         {
-            var orderIds = await ClientActions.CreateOrderAndReturnId(_httpClient, "WaitingForPayment");
-            var response = await ClientActions.PayOrder(_httpClient, orderIds.First());
+            var orderId = await ClientActions.CreateOrderAndReturnId(_httpClient);
+            var response = await ClientActions.PayOrder(_httpClient, orderId);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+            var getResponse = await ClientActions.GetOrders(_httpClient);
+            var order = JsonConvert.DeserializeObject<IEnumerable<Order>>(getResponse.Content.ReadAsStringAsync().Result).SingleOrDefault(x => x.Id == orderId);
+            Assert.NotNull(order);
+            Assert.Equal("Paid", order.Status);
         }
 
         [Fact]

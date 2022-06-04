@@ -16,10 +16,16 @@ namespace CateringBackend.CrossTests.Producer.Tests
     public class OrdersTests
     {
         private readonly HttpClient _httpClient;
+        private readonly ClientActions ClientActions;
+        private readonly ProducerActions ProducerActions;
+        private readonly DelivererActions DelivererActions;
 
         public OrdersTests()
         {
             _httpClient = new HttpClient();
+            ClientActions = new ClientActions();
+            ProducerActions = new ProducerActions();
+            DelivererActions = new DelivererActions();
         }
 
         [Fact]
@@ -115,16 +121,15 @@ namespace CateringBackend.CrossTests.Producer.Tests
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
-        //[Fact]
-        //public async Task PostOrderComplete_ProducerLoggedIn_ReturnsOk()
-        //{
-        //    var postResponse = await ClientActions.CreateOrders(_httpClient);
-        //    var getResponse = await ClientActions.GetOrders(_httpClient, false);
-        //    var orders = JsonConvert.DeserializeObject<IEnumerable<dynamic>>(getResponse.Content.ReadAsStringAsync().Result);
-        //    await ProducerActions.Authorize(_httpClient);
-        //    var response = await _httpClient.GetAsync(ProducerUrls.GetOrderCompleteUrl(new Guid()));
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //}
+        [Fact]
+        public async Task PostOrderComplete_OrderNotToRealized_ReturnsNotFound()
+        {
+            var orderId = await ClientActions.CreatePaidOrder(_httpClient);
+
+            await ProducerActions.Authorize(_httpClient);
+            var response = await _httpClient.PostAsync(ProducerUrls.GetOrderCompleteUrl(orderId), null);
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
 
         [Fact]
         public async Task PostComplaintAnswer_NotLoggedIn_ReturnsUnauthorized()

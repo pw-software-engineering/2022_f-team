@@ -18,53 +18,60 @@ namespace CateringBackend.CrossTests.Meals.Tests
     public class DeleteMealTests
     {
         private readonly HttpClient _httpClient;
+        private readonly ClientActions ClientActions;
+        private readonly ProducerActions ProducerActions;
+        private readonly DelivererActions DelivererActions;
+        private readonly MealsActions MealsActions;
 
         public DeleteMealTests()
         {
             _httpClient = new HttpClient();
+            ClientActions = new ClientActions();
+            ProducerActions = new ProducerActions();
+            MealsActions = new MealsActions();
+            DelivererActions = new DelivererActions();
         }
 
         [Fact]
         public async Task DeleteMeal_NotLoggedIn_ReturnsUnauthorized()
         {
-            var mealIds = await MealsActions.PostAndGetMealIds(_httpClient);
-            var response = await MealsActions.DeleteMeal(_httpClient, mealIds?.First() ?? new Guid().ToString());
+            var mealId = await MealsActions.PostAndGetMealId(_httpClient);
+
+            _httpClient.RemoveAuthorization();
+            var response = await MealsActions.DeleteMeal(_httpClient, mealId);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [Fact]
         public async Task DeleteMeal_DelivererLoggedIn_ReturnsForbidden()
         {
+            var mealId = await MealsActions.PostAndGetMealId(_httpClient);
+
             await DelivererActions.Authorize(_httpClient);
-            var mealIds = await MealsActions.PostAndGetMealIds(_httpClient);
-            var response = await MealsActions.DeleteMeal(_httpClient, mealIds?.First() ?? new Guid().ToString());
+            var response = await MealsActions.DeleteMeal(_httpClient, mealId);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
         [Fact]
         public async Task DeleteMeal_ProducerLoggedIn_ReturnsOk()
         {
+            var mealId = await MealsActions.PostAndGetMealId(_httpClient);
             await ProducerActions.Authorize(_httpClient);
-            var postMeal = MealsRequestsProvider.PrepareMeals(1).SingleOrDefault();
-            var postRequest = ObjectPropertiesMapper.ConvertObject<Meal, PostMealRequest>(postMeal);
-            var body = JsonConvert.SerializeObject(postRequest).ToStringContent();
-            var postResponse = await _httpClient.PostAsync(MealsUrls.GetMealsUrl(), body);
-            var getResponse = await MealsActions.GetMeals(_httpClient, postMeal.Name);
-            var getContent = await getResponse.Content.ReadAsStringAsync();
-            var meals = JsonConvert.DeserializeObject<IEnumerable<Meal>>(getContent);
-            var meal = meals.SingleOrDefault(x => x.Name == postMeal.Name);
-            var response = await MealsActions.DeleteMeal(_httpClient, meal?.MealId ?? new Guid().ToString());
+
+            var response = await MealsActions.DeleteMeal(_httpClient, mealId);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
             var mealIdsAfterDelete = await MealsActions.GetMealsIds(_httpClient);
-            Assert.True(!mealIdsAfterDelete.Contains(meal.MealId));
+            Assert.True(!mealIdsAfterDelete.Contains(mealId));
         }
 
         [Fact]
         public async Task DeleteMeal_ClientLoggedIn_ReturnsForbidden()
         {
+            var mealId = await MealsActions.PostAndGetMealId(_httpClient);
+
             await ClientActions.RegisterAndLogin(_httpClient);
-            var mealIds = await MealsActions.GetMealsIds(_httpClient);
-            var response = await MealsActions.DeleteMeal(_httpClient, mealIds?.First() ?? new Guid().ToString());
+            var response = await MealsActions.DeleteMeal(_httpClient, mealId);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 

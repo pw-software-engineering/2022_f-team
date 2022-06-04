@@ -20,7 +20,7 @@ services:
       JWT_SIGNING_KEY: verySecretJwtSigningKey
       JWT_ISSUER: backend:5000
       JWT_AUDIENCE: backend:5000
-      PAYMENT_CRON: "* * * * *"
+      PAYMENT_CRON: "0 0 * * *"
       STATUS_CRON: "0 0 * * *"
     depends_on:
       - sql
