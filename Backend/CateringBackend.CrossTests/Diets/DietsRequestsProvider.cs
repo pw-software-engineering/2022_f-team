@@ -14,7 +14,7 @@ namespace CateringBackend.CrossTests.Diets
         public static PostDietRequest PreparePostDietRequest(object[] mealIds, bool isValid = true)
         {
             var diet = FakerHelper.GetFaker<PostDietRequest>()
-                .RuleFor(x => x.Name, f => f.Lorem.Word())
+                .RuleFor(x => x.Name, f => f.Lorem.Sentence(5))
                 .RuleFor(x => x.Price, f => f.Finance.Amount(1, 1000))
                 .RuleFor(x => x.Description, f => f.Lorem.Word())
                 .Generate();

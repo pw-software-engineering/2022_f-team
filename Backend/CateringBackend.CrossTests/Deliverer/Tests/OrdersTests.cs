@@ -14,10 +14,16 @@ namespace CateringBackend.CrossTests.Deliverer.Tests
     public class OrdersTests
     {
         private readonly HttpClient _httpClient;
+        private readonly ClientActions ClientActions;
+        private readonly ProducerActions ProducerActions;
+        private readonly DelivererActions DelivererActions;
 
         public OrdersTests()
         {
             _httpClient = new HttpClient();
+            ClientActions = new ClientActions();
+            ProducerActions = new ProducerActions();
+            DelivererActions = new DelivererActions();
         }
 
         [Fact]
@@ -75,12 +81,12 @@ namespace CateringBackend.CrossTests.Deliverer.Tests
         }
 
         [Fact]
-        public async void DeliverOrder_OrderNotCompleted_ReturnsNotFound()
+        public async void DeliverOrder_OrderNotCompleted_ReturnsBadRequest()
         {
             var orderId = await ClientActions.CreatePaidOrder(_httpClient);
             await DelivererActions.Authorize(_httpClient);
             var response = await _httpClient.PostAsync(DelivererUrls.GetDeliverOrderUrl(orderId), null);
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
