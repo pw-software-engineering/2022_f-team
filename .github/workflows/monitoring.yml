@@ -34,6 +34,8 @@ jobs:
         run: kubectl get ingress -A
       - name: Get all svcs
         run: kubectl get svc -A
+      - name: describe producer app
+        run: kubectl logs catering-producer-app-5d8fb88448-z76dj -n ${NAMESPACE}
       - name: describe api
         run: kubectl logs ${CATERING_API_POD_NAME} -n ${NAMESPACE}
       - name: list env variables for API
