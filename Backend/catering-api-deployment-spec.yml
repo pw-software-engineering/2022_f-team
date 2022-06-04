@@ -61,7 +61,7 @@ metadata:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-    - host: api-${NAMESPACE}.${DOMAIN}
+    - host: ${NAMESPACE}.${DOMAIN}
       http:
         paths:
           - backend:
