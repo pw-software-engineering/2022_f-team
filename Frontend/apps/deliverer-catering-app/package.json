@@ -10,6 +10,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
+    "axios": "^0.27.2",
     "env-cmd": "^10.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -21,7 +22,8 @@
     "start": "set PORT=3001 && env-cmd -f ./.env.local react-scripts start",
     "build": "set PORT=3001 && env-cmd -f ./.env.local react-scripts build",
     "test": "set PORT=3001 && env-cmd -f ./.env.local react-scripts test",
-    "eject": "set PORT=3001 && env-cmd -f ./.env.local react-scripts eject"
+    "eject": "set PORT=3001 && env-cmd -f ./.env.local react-scripts eject",
+    "build-production": "env-cmd -f ./.env.production react-scripts build"
   },
   "browserslist": {
     "production": [
