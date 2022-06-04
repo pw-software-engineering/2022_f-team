@@ -14,11 +14,11 @@ RUN yarn install
 
 # build cc
 WORKDIR /apps/common-components
-RUN yarn build
+RUN yarn build-production
 
 # build client
 WORKDIR /apps/client-catering-app
-RUN yarn build
+RUN yarn build-production
 
 # configure nginx
 FROM nginx:latest

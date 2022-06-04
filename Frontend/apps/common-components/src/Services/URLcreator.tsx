@@ -1,4 +1,4 @@
-const apiUrl = 'https://localhost:5001/api'
+const apiUrl = process.env.REACT_APP_API_URL
 
 export const getRegisterClientURL = (): string => apiUrl + '/Client/register'
 
@@ -20,9 +20,9 @@ export const getMealDetailsURL = (mealId: string): string =>
 export const putMealDetailsURL = (mealId: string): string =>
   apiUrl + '/Meals/' + mealId
 
-export const getClientProfileURL = (): string => apiUrl + "/Client/account";
+export const getClientProfileURL = (): string => apiUrl + '/Client/account'
 
-export const getProducerOrdersURL = (): string => apiUrl + "/Producer/orders";
+export const getProducerOrdersURL = (): string => apiUrl + '/Producer/orders'
 
 export const postCompleteOrderURL = (orderId: string) =>
-  apiUrl + "/Producer/orders/" + orderId + "/complete";
+  apiUrl + '/Producer/orders/' + orderId + '/complete'
