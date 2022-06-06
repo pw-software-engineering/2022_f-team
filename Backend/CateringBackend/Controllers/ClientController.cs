@@ -93,5 +93,17 @@ namespace CateringBackend.Controllers
             var orders = await _mediator.Send(new GetOrdersQueryWithUserId(getOrdersQuery, userId));
             return orders == default ? BadRequest("Pobranie nie powiodło się") : Ok(orders);
         }
+
+        [HttpPost("orders/{orderId}/complain")]
+        [Authorize(Roles = "client")]
+        public async Task<IActionResult> AddComplaint([FromRoute] Guid orderId, [FromBody] AddComplaintCommand addComplaintCommand)
+        {
+            var userId = _userIdFromTokenProvider.GetUserIdFromContextOrThrow(HttpContext);
+            var result = await _mediator.Send(new AddComplaintCommandWithClientId(addComplaintCommand, userId, orderId));
+
+            if (!result.orderExists) return NotFound("Podane zamównienie nie istnieje");
+            if (!result.complaintAdded) return BadRequest("Zapisanie nie powiodło się");
+            return CreatedAtAction(nameof(AddComplaint), "Zapisano reklamację");
+        }
     }
 }
