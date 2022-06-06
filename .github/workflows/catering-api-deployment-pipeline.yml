@@ -1,4 +1,4 @@
-name: DeployCateringApi
+name: Deploy-Api
 
 on:
   repository_dispatch:
@@ -22,6 +22,7 @@ env:
   PATH_TO_DOCKER_FILE: "Backend/Dockerfile"
   PATH_TO_APP_SRC: "./Backend"
   PATH_TO_TEST_PROJECT: "Backend/CateringBackendUnitTests/CateringBackendUnitTests.csproj"
+  DATABASE_CONNECTION_STRING: ${{ secrets.DATABASE_CONNECTION_STRING }}
 
 jobs:
   build:

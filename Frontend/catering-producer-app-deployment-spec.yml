@@ -6,22 +6,22 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: catering-client-app
+  name: catering-producer-app
   namespace: ${NAMESPACE}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: catering-client-app
+      app: catering-producer-app
   template:
     metadata:
       labels:
-        app: catering-client-app
+        app: catering-producer-app
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-        - name: catering-client-app
+        - name: catering-producer-app
           image: ${IMAGE_ID}
           resources:
             requests:
@@ -36,30 +36,30 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: catering-client-app
+  name: catering-producer-app
   namespace: ${NAMESPACE}
 spec:
   type: ClusterIP
   ports:
     - port: 80
   selector:
-    app: catering-client-app
+    app: catering-producer-app
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: catering-client-app
+  name: catering-producer-app
   namespace: ${NAMESPACE}
   labels:
-    name: catering-client-app
+    name: catering-producer-app
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-    - host: client-${NAMESPACE}.${DOMAIN}
+    - host: producer-${NAMESPACE}.${DOMAIN}
       http:
         paths:
           - backend:
-              serviceName: catering-client-app
+              serviceName: catering-producer-app
               servicePort: 80
             path: /
