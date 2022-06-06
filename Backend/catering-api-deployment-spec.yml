@@ -32,6 +32,11 @@ spec:
               memory: 256Mi
           ports:
             - containerPort: 80
+          env:
+            - name: "ConnectionStrings__CateringDatabase"
+              value: "${DATABASE_CONNECTION_STRING}"
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "Development"
 ---
 apiVersion: v1
 kind: Service

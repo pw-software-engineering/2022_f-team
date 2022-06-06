@@ -5,6 +5,8 @@ on:
 
 env:
   NAMESPACE: "f"
+  CATERING_API_POD_NAME: "catering-api-5c85cbb6c9-vszbt"
+  CLIENT_APP_POD_NAME: "catering-client-app-7bcd87dbc5-7xrhw"
 
 jobs:
   monitor:
@@ -32,3 +34,11 @@ jobs:
         run: kubectl get ingress -A
       - name: Get all svcs
         run: kubectl get svc -A
+      - name: describe producer app
+        run: kubectl logs catering-producer-app-5d8fb88448-z76dj -n ${NAMESPACE}
+      - name: describe api
+        run: kubectl logs ${CATERING_API_POD_NAME} -n ${NAMESPACE}
+      - name: list env variables for API
+        run: kubectl describe pod ${CATERING_API_POD_NAME} -n ${NAMESPACE}
+      - name: describe app
+        run: kubectl logs ${CLIENT_APP_POD_NAME} -n ${NAMESPACE}

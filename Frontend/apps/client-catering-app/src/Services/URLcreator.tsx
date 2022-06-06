@@ -1,4 +1,4 @@
-const apiUrl = "https://localhost:5001";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const getRegisterClientURL = (): string => apiUrl + "/Client/register";
 

@@ -12,8 +12,8 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "build": "env-cmd -f ./.env.local microbundle-crl --no-compress --format modern,cjs",
+    "start": "env-cmd -f ./.env.local microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "run-s build",
     "test": "run-s test:unit ",
     "test:build": "run-s build",
@@ -21,7 +21,8 @@
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "build-production": "env-cmd -f ./.env.production microbundle-crl --no-compress --format modern,cjs"
   },
   "peerDependencies": {
     "react": "^16.0.0"
@@ -63,6 +64,7 @@
   ],
   "dependencies": {
     "@emotion/react": "^11.9.0",
+    "env-cmd": "^10.1.0",
     "react-bootstrap": "^2.2.3",
     "react-pure-loaders": "^3.0.1",
     "react-spinners": "^0.11.0"
