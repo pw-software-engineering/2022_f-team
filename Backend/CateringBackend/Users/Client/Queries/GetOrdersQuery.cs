@@ -91,7 +91,7 @@ namespace CateringBackend.Users.Client.Queries
         public DateTime EndDate { get; set; }
         public int Price { get; set; }
         public string Status { get; set; }
-        public ComplaintDTO Complaint { get; set; }
+        public ComplaintDTO[] Complaint { get; set; }
 
         public OrderDTO() { }
         public OrderDTO(Order order)
@@ -103,6 +103,7 @@ namespace CateringBackend.Users.Client.Queries
             EndDate = order.EndDate;
             Price = (int)order.Price;
             Status = order.Status.ToString();
+            Complaint = order.Complaints.Select(c => new ComplaintDTO(c)).ToArray();
         }
 
         public class DietDTO
