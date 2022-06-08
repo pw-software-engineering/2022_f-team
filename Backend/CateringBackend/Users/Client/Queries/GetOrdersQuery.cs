@@ -166,7 +166,8 @@ namespace CateringBackend.Users.Client.Queries
                 .Include(o => o.Diets)
                 .ThenInclude(d => d.Meals)
                 .Include(o => o.Client)
-                .ThenInclude(c => c.Address);
+                .ThenInclude(c => c.Address)
+                .Include(o => o.Complaints);
 
             var searchResult = await request.GetSearchResult(orders);
 
