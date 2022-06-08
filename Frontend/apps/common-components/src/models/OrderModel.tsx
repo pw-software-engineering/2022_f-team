@@ -9,7 +9,7 @@ export interface OrderModel {
   endDate: string
   price: number
   status: string
-  complaint: any
+  complaint: Complaint[]
 }
 
 export interface OrderQuery {
@@ -40,10 +40,19 @@ export interface OrderProducerModel {
   endDate: string
   price: number
   status: string
-  complaint: any
+  complaint: Complaint[]
 }
 
 export interface OrderDelivererModel {
   orderId: string;
   deliveryDetails: DeliveryDetailsModel;
+}
+
+export interface Complaint{
+  complaintId: string;
+  orderId: string
+  description: string;
+  date: string;
+  status: number;
+  answer: string;
 }

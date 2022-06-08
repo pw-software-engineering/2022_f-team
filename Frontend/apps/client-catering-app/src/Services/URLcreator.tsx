@@ -20,3 +20,6 @@ export const postClientOrderURL = (): string => apiUrl + "/Client/orders";
 
 export const postPayForOrderURL = (orderId: string) =>
   apiUrl + "/Client/orders/" + orderId + "/pay";
+
+export const postComplainURL = (orderId: string) =>
+  apiUrl + "/Client/orders/" + orderId + "/complain";

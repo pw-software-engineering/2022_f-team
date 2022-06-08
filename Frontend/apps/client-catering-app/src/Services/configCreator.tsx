@@ -8,6 +8,7 @@ import {
   getOrdersURL,
   getRegisterClientURL,
   postClientOrderURL,
+  postComplainURL,
   postPayForOrderURL,
 } from "./URLcreator";
 
@@ -71,4 +72,11 @@ export const postPayForOrderConfig = (key: string, orderId: string) =>
     method: "post",
     header: { Authorization: "Bearer " + key },
     url: postPayForOrderURL(orderId),
+  } as ApiConfig);
+
+export const postComplainConfig = (key: string, orderId: string) =>
+  ({
+    method: "post",
+    header: { Authorization: "Bearer " + key },
+    url: postComplainURL(orderId),
   } as ApiConfig);

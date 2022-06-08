@@ -17,6 +17,7 @@ import { PrivateRoute } from "./Routes/PrivateRoute";
 import { PublicRoute } from "./Routes/PublicRoute";
 import OrderPage from "./pages/OrderPage";
 import MyProfilePage from "./pages/MyProfilePage";
+import ComplainPage from "./pages/ComplainPage";
 
 const Root = () => {
   const userContext = useContext(UserContext);
@@ -96,6 +97,14 @@ const Root = () => {
           element={
             <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
               <MyProfilePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/complains/:orderId"
+          element={
+            <PrivateRoute isAuthenticated={userContext?.isAuthenticated!}>
+              <ComplainPage />
             </PrivateRoute>
           }
         />
