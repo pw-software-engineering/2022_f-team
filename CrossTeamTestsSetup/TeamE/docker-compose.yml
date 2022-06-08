@@ -10,7 +10,7 @@ services:
   backend:
     depends_on:
       - sql
-    image: powoeuwcrossteamacr.azurecr.io/e_backend:1.0
+    image: powoeuwcrossteamacr.azurecr.io/e_backend:latest
     ports:
       - "5012:80"
     environment:

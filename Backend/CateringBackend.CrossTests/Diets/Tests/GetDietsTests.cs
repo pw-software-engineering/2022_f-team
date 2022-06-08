@@ -14,10 +14,18 @@ namespace CateringBackend.CrossTests.Diets.Tests
     public class GetDietsTests
     {
         private readonly HttpClient _httpClient;
+        private readonly DietsActions DietsActions;
+        private readonly ClientActions ClientActions;
+        private readonly ProducerActions ProducerActions;
+        private readonly DelivererActions DelivererActions;
 
         public GetDietsTests()
         {
             _httpClient = new HttpClient();
+            DietsActions = new DietsActions();
+            ClientActions = new ClientActions();
+            ProducerActions = new ProducerActions();
+            DelivererActions = new DelivererActions();
         }
 
         [Fact]

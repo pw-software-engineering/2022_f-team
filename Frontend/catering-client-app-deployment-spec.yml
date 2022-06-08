@@ -56,10 +56,10 @@ metadata:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-    - host: ${NAMESPACE}.client.${DOMAIN}
+    - host: client-${NAMESPACE}.${DOMAIN}
       http:
         paths:
-          - client-app:
+          - backend:
               serviceName: catering-client-app
               servicePort: 80
             path: /

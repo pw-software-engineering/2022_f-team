@@ -16,10 +16,16 @@ namespace CateringBackend.CrossTests.Client.Tests
     {
 
         private readonly HttpClient _httpClient;
+        private readonly ClientActions ClientActions;
+        private readonly ProducerActions ProducerActions;
+        private readonly DelivererActions DelivererActions;
 
         public AccountTests()
         {
             _httpClient = new HttpClient();
+            ClientActions = new ClientActions();
+            ProducerActions = new ProducerActions();
+            DelivererActions = new DelivererActions();
         }
 
         [Fact]
