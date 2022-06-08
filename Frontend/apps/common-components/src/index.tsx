@@ -65,7 +65,8 @@ export {
   OrderQuery,
   OrderProducerModel,
   OrderDelivererModel,
-  OrderProducerQuery
+  OrderProducerQuery,
+  Complaint
 } from './models/OrderModel'
 
 export { default as OrderComponent } from './Molecules/OrderComponent'

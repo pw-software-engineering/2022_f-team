@@ -96,3 +96,8 @@ select{
 .payForOrderDiv div{
     margin: 3vw;
 }
+
+.complainDescription{
+    width:100%;
+    min-height: 20vh;
+}
