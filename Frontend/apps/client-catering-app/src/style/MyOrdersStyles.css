@@ -102,3 +102,16 @@
     color: #539091;
     cursor: pointer;
 }
+
+.complainRedirect{
+    display: block;
+    background-color: white;
+    color:#539091;
+    border: #539091 solid 2px;
+    padding: 0.2vw 1vw;
+    box-sizing: border-box;
+    text-decoration: none;
+    margin:auto;
+    margin-top: -2.5vh;
+    cursor: pointer;
+}

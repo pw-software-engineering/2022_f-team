@@ -13,6 +13,7 @@ import { OrderModel, OrderQuery, OrderComponent } from "common-components";
 import { getOrdersConfig } from "../Services/configCreator";
 import "../style/MyOrdersStyles.css";
 import PayForOrder from "./PayForOrder";
+import { Link } from "react-router-dom";
 
 const MyOrdersList = () => {
   const userContext = useContext(UserContext);
@@ -245,12 +246,15 @@ const MyOrdersList = () => {
             service.state == ServiceState.Fetched && (
               <div>
                 {ordersList.map((order: OrderModel) => (
+                  <div>
                   <OrderComponent
                     order={order}
                     handleOnClick={(e: any, value: string) =>
                       payForOrder(value)
                     }
                   />
+                  <Link to={`/complains/${order.id}`} style={{textDecoration:'none'}}><button className="complainRedirect">Complains for the above order</button></Link>
+                  </div>
                 ))}
               </div>
             )}
