@@ -115,3 +115,14 @@
     margin-top: -2.5vh;
     cursor: pointer;
 }
+
+.complainDiv{
+    border: #539091 3px solid;
+    width: 40vw;
+    text-align: left;
+    padding: 1vw 4vw;
+    margin: 2vw auto;
+    border-radius: 10px;
+    background-color: white;
+    word-wrap: break-word;
+}

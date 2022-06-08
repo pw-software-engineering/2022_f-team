@@ -38,11 +38,13 @@ const ComplainPage = () => {
     getOrder();
   }, []);
 
-  const handleComplain = () => {
+  const handleComplain = (e: any) => {
+    e.preventDefault();
     if (complainContent?.length === 0) return;
     service.execute!(postComplainConfig(userContext?.authApiKey!, orderId!), {
       complain_description: complainContent,
     });
+    setComplainContent("");
   };
 
   useEffect(() => {
@@ -69,15 +71,39 @@ const ComplainPage = () => {
       {order !== undefined && (
         <div style={{ textAlign: "center" }}>
           <h1>Complains for order: {order.id}</h1>
-          {order.complaint === null && <h3>No complains yet</h3>}
-          {order.complaint !== null && order.complaint.length === 0 && (
+          {(order.complaint === null || order.complaint.length === 0) && (
+            <h3>No complains yet</h3>
+          )}
+          {order.complaint !== null && order.complaint.length !== 0 && (
             <div>
-              <h3>No complains yet</h3>
               {order.complaint.map((c: Complaint) => (
-                <div>
-                  <p>{c.Description}</p>
-                  <p>{c.Date}</p>
-                  <p>{c.Status}</p>
+                <div className="complainDiv">
+                  <p>
+                    <strong>Complain:</strong> {c.description}
+                  </p>
+                  <p>
+                    <strong>Date:</strong> {c.date.split("T")[0]}
+                  </p>
+                  {c.status === 0 && (
+                    <p>
+                      <strong>Status:</strong> opened
+                    </p>
+                  )}
+                  {c.status === 1 && (
+                    <p>
+                      <strong>Status:</strong> closed
+                    </p>
+                  )}
+                  {c.answer !== null && (
+                    <p>
+                      <strong>Answer:</strong> {c.answer}
+                    </p>
+                  )}
+                  {c.answer === null && (
+                    <p>
+                      <strong>No answear yet</strong>
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -87,6 +113,7 @@ const ComplainPage = () => {
             <textarea
               className="complainDescription"
               onChange={(e) => setComplainContent(e.target.value)}
+              value={complainContent}
             />
             <div className="buttonWrapper">
               <SubmitButton

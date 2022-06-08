@@ -49,8 +49,10 @@ export interface OrderDelivererModel {
 }
 
 export interface Complaint{
-  id: string;
-  Description: string;
-  Date: string;
-  Status: string;
+  complaintId: string;
+  orderId: string
+  description: string;
+  date: string;
+  status: number;
+  answer: string;
 }
