@@ -96,37 +96,37 @@ namespace CateringBackend.CrossTests.Client.Tests
             Assert.Equal(HttpStatusCode.Forbidden, postResponse.StatusCode);
         }
 
-        //[Fact]
-        //public async Task SendComplain_CorrectData_ReturnsCreated()
-        //{
-        //    var orderId = await ClientActions.CreateOrderAndReturnId(_httpClient);
+        [Fact]
+        public async Task SendComplain_CorrectData_ReturnsCreated()
+        {
+            var orderId = await ClientActions.CreateOrderAndReturnId(_httpClient);
 
-        //    var response = await ClientActions.SendComplain(_httpClient, orderId);
-        //    Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        //}
+            var response = await ClientActions.SendComplain(_httpClient, orderId);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task SendComplain_NotLoggedIn_ReturnsUnauthorized()
-        //{
-        //    var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
-        //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        //}
+        [Fact]
+        public async Task SendComplain_NotLoggedIn_ReturnsUnauthorized()
+        {
+            var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task SendComplain_ProducerLoggedIn_ReturnsUnauthorized()
-        //{
-        //    await ProducerActions.Authorize(_httpClient);
-        //    var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
-        //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        //}
+        [Fact]
+        public async Task SendComplain_ProducerLoggedIn_ReturnsForbidden()
+        {
+            await ProducerActions.Authorize(_httpClient);
+            var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
 
-        //[Fact]
-        //public async Task SendComplain_DelivererLoggedIn_ReturnsUnauthorized()
-        //{
-        //    await DelivererActions.Authorize(_httpClient);
-        //    var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
-        //    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        //}
+        [Fact]
+        public async Task SendComplain_DelivererLoggedIn_ReturnsForbidden()
+        {
+            await DelivererActions.Authorize(_httpClient);
+            var response = await ClientActions.SendComplain(_httpClient, new Guid().ToString());
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        }
 
         [Fact]
         public async Task SendComplain_InvalidOrderId_ReturnsNotFound()
