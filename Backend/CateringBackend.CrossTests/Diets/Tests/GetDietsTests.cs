@@ -40,7 +40,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         {
             await DelivererActions.Authorize(_httpClient);
             var response = await DietsActions.GetDiets(_httpClient);
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden);
         }
 
         [Fact]

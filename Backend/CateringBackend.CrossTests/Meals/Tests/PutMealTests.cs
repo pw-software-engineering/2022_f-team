@@ -49,7 +49,7 @@ namespace CateringBackend.CrossTests.Meals.Tests
 
             await DelivererActions.Authorize(_httpClient);
             var (response, _) = await MealsActions.PutMeal(_httpClient, mealId);
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace CateringBackend.CrossTests.Meals.Tests
 
             await ClientActions.RegisterAndLogin(_httpClient);
             var (response, _) = await MealsActions.PutMeal(_httpClient, mealId);
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden);
         }
 
         [Fact]

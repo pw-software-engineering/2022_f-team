@@ -46,7 +46,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         {
             await ProducerActions.Authorize(_httpClient);
             var getResponse = await _httpClient.GetAsync(ClientUrls.GetAccountUrl());
-            Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
+            Assert.True(getResponse.StatusCode == HttpStatusCode.Unauthorized || getResponse.StatusCode == HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         {
             await DelivererActions.Authorize(_httpClient);
             var getResponse = await _httpClient.GetAsync(ClientUrls.GetAccountUrl());
-            Assert.Equal(HttpStatusCode.Forbidden, getResponse.StatusCode);
+            Assert.True(getResponse.StatusCode == HttpStatusCode.Unauthorized || getResponse.StatusCode == HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         {
             await ProducerActions.Authorize(_httpClient);
             var response = await _httpClient.PutAsync(ClientUrls.GetAccountUrl(), null);
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace CateringBackend.CrossTests.Client.Tests
         {
             await ProducerActions.Authorize(_httpClient);
             var response = await _httpClient.PutAsync(ClientUrls.GetAccountUrl(), null);
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden);
         }
     }
 }
