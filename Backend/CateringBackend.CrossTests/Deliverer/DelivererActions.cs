@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,7 +12,7 @@ namespace CateringBackend.CrossTests.Deliverer
 {
     public class DelivererActions
     {
-        public  async Task Authorize(HttpClient httpClient, bool isValid = true)
+        public async Task Authorize(HttpClient httpClient, bool isValid = true)
         {
             var response = await Login(httpClient, isValid);
             var bearer = await response.Content.ReadAsStringAsync();
@@ -20,7 +21,9 @@ namespace CateringBackend.CrossTests.Deliverer
                 bearer = bearer.Substring(10);
                 bearer = bearer.Substring(0, bearer.Length - 2);
             }
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
+            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
+            httpClient.RemoveAuthorization();
+            httpClient.DefaultRequestHeaders.Add("api-key", bearer);
         }
 
         public async Task<HttpResponseMessage> Login(HttpClient httpClient, bool isValid = true)

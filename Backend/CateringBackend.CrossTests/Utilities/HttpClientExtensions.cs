@@ -7,6 +7,7 @@ namespace CateringBackend.CrossTests.Utilities
         public static void RemoveAuthorization(this HttpClient httpClient)
         {
             httpClient.DefaultRequestHeaders.Remove("Authorization");
+            httpClient.DefaultRequestHeaders.Remove("api-key");
         }
     }
 }
