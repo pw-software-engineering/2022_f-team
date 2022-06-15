@@ -62,7 +62,7 @@ namespace CateringBackend
                     new OpenApiSecurityScheme {
                         Reference = new OpenApiReference {
                             Type = ReferenceType.SecurityScheme, Id = "Bearer"}
-                    }, 
+                    },
                     new string[] {}
                 }});
             });
@@ -82,13 +82,27 @@ namespace CateringBackend
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey =
-                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthConstants.JwtSigningKey)),
+                            new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthConstants.JwtSigningKey)),
 
                     ValidateAudience = true,
                     ValidAudience = "audience",
 
                     ValidateIssuer = true,
                     ValidIssuer = "issuer"
+                };
+
+                cfg.Events = new JwtBearerEvents()
+                {
+                    OnMessageReceived = context =>
+                    {
+                        string apiKey = context?.Request?.Headers["api-key"];
+                        if (string.IsNullOrWhiteSpace(apiKey))
+                        {
+                            return System.Threading.Tasks.Task.CompletedTask;
+                        }
+                        context.Request.Headers["Authorization"] = $"Bearer {apiKey}";
+                        return System.Threading.Tasks.Task.CompletedTask;
+                    }
                 };
             });
 

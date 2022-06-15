@@ -17,7 +17,7 @@ namespace CateringBackend.CrossTests.Client
         public DateTime EndDate { get; set; }
         public int Price { get; set; }
         public string Status { get; set; }
-        public Complaint Complaint { get; set; }
+        public Complaint[] Complaint { get; set; }
 
     }
     public class DietDTO

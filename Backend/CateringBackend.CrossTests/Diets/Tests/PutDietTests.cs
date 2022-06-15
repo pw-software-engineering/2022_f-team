@@ -47,7 +47,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         {
             await DelivererActions.Authorize(_httpClient);
             var response = await _httpClient.PutAsync(DietsUrls.GetDietUrl(new Guid()), null);
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden);
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace CateringBackend.CrossTests.Diets.Tests
         {
             await ClientActions.RegisterAndLogin(_httpClient);
             var response = await _httpClient.PutAsync(DietsUrls.GetDietUrl(new Guid()), null);
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.True(response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden);
         }
 
         [Fact]

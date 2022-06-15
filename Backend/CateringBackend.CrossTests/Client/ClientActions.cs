@@ -49,7 +49,10 @@ namespace CateringBackend.CrossTests.Client
                 bearer = bearer.Substring(10);
                 bearer = bearer.Substring(0, bearer.Length - 2);
             }
+            httpClient.RemoveAuthorization();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearer);
+
+            httpClient.DefaultRequestHeaders.Add("api-key", bearer);
             return registerRequest;
         }
 
